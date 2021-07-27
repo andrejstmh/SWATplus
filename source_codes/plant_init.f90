@@ -125,7 +125,10 @@
           iday_sh = 181
 
           ! if days to maturity are not input (0) - assume the plant is potentially active during entire growing season
-          if (pldb(idp)%days_mat < 1.e-6) then
+          ! if days to maturity are negative  - assume the days_mat is defined
+          if (pldb(idp)%days_mat < -1.e-6) THEN
+            pcom(j)%plcur(ipl)%phumat = -pldb(idp)%days_mat
+          else if ((pldb(idp)%days_mat >= -1.e-6) .and. (pldb(idp)%days_mat < 1.e-6)) then
             phutot = 0.
             do iday = 1, 365
               time%day = iday
