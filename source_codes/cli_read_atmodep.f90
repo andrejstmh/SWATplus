@@ -7,7 +7,7 @@
       use maximum_data_module
       
       implicit none
-      
+      character (len=20), PARAMETER :: frmtstr80 = "(a80)"
       character (len=80) :: file      !           |filename
       character (len=80) :: titldum   !           |title of file
       character (len=80) :: header    !           |header of file
@@ -30,9 +30,9 @@
       else
         do
           open (127,file = in_cli%atmo_cli)
-          read (127,*,iostat=eof) titldum
+          read (127,frmtstr80,iostat=eof) titldum
           if (eof < 0) exit
-          read (127,*,iostat=eof) header
+          read (127,frmtstr80,iostat=eof) header
           if (eof < 0) exit
           read (127,*,iostat=eof) atmodep_cont%num_sta, atmodep_cont%timestep, atmodep_cont%mo_init, atmodep_cont%yr_init, &
              atmodep_cont%num
@@ -126,6 +126,5 @@
       end if        ! if file exists
 
       db_mx%atmodep = atmodep_cont%num_sta
-      
       return
       end subroutine cli_read_atmodep
