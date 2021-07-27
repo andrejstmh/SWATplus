@@ -146,7 +146,7 @@
             !convert m3/s -> m3
             recall(i)%hyd_flo(istep,iyrs) = recall(i)%hyd_flo(istep,iyrs) * 86400. / time%step
             recall(i)%hyd_flo(istep,iyrs) = recall(i)%hyd_flo(istep,iyrs) / 35.     !***jga - input test hyd in cfs -> cms
-          else
+          else ! TODO: 	Documentation about recall input file format is not corresponding to the source code
             read (108,*,iostat=eof) jday, mo, day_mo, iyr, ob_typ, ob_name, recall(i)%hd(istep,iyrs)  ! * 86400.  left in m3 for NAM
           end if
           if (eof < 0) exit
@@ -178,6 +178,7 @@
              end if
             
             case (2) !! monthly
+              istep = istep + 1
               if (mo == 12) then
                 iyrs = iyrs + 1
                 istep = 1
