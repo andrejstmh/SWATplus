@@ -49,7 +49,13 @@
       tmpmean = (wgn(iwgn)%tmpmx(time%mo) + wgn(iwgn)%tmpmn(time%mo)) / 2.
 
       !! convert dewpoint to relative humidity
-      rhmo = Ee(wgn(iwgn)%dewpt(time%mo)) / Ee(tmpmean)
+      rhmo = wgn(iwgn)%dewpt(time%mo)
+      if (rhmo>=100) then
+        rhmo = rhmo-100
+      else
+        rhmo = Ee(rhmo) / Ee(tmpmean)
+      end if
+      
 
       yy = 0.9 * wgn_pms(iwgn)%pr_wdays(time%mo)
       rhm = (rhmo - yy) / (1.0 - yy)
