@@ -112,7 +112,7 @@
       if (RHumCount == db_mx%wgnsta*12) then 
          do iwgn = 1, db_mx%wgnsta
             do mo = 1, 12
-                wgn(iwgn)%dewpt(mo)=wgn(iwgn)%dewpt(mo)+100
+                wgn(iwgn)%dewpt(mo)=100*wgn(iwgn)%dewpt(mo)+100
             end do
          end do
       end if

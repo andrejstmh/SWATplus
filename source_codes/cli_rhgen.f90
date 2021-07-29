@@ -51,7 +51,7 @@
       !! convert dewpoint to relative humidity
       rhmo = wgn(iwgn)%dewpt(time%mo)
       if (rhmo>=100) then
-        rhmo = rhmo-100
+        rhmo = 100.0*(rhmo-100.0)
       else
         rhmo = Ee(rhmo) / Ee(tmpmean)
       end if
