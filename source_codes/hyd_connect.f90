@@ -192,7 +192,7 @@
       !read connect file for swat-deg channels
       if (sp_ob%chandeg > 0) then
         call hyd_read_connect(in_con%chandeg_con, "chandeg ", sp_ob1%chandeg, sp_ob%chandeg, hd_tot%chandeg, bsn_prm%day_lag_mx)
-        call overbank_read
+        
       end if
       
       !read connect file for gwflow

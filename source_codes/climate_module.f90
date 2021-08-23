@@ -64,6 +64,7 @@
         real, dimension (:), allocatable :: precip_mce           !!mm            |precip on current day of 30 day list 
         real, dimension (:), allocatable :: pet_mce              !!mm            |pet on current day of 30 day list 
         integer :: ireg = 0                     !!               |annual precip category-1 <= 508 mm; 2 > 508 and <= 1016 mm; 3 > 1016 mm/yr
+        integer :: idewpt = 0                   !!               |0=dewpoint; 1=rel humididty input
       end type wgn_parms
       type (wgn_parms), dimension(:),allocatable :: wgn_pms
           
@@ -122,14 +123,15 @@
 
       type weather_station
         character(len=50) :: name = "Farmer Branch IL"
-        real :: lat                          ! degrees    |latitude
+        real :: lat                         ! degrees    |latitude
         type (weather_codes_station_char) :: wco_c
         type (weather_codes_station) :: wco 
         type (weather_daily) :: weat
-        real, dimension(12) :: rfinc = 0     ! deg C      |monthly precipitation adjustment
-        real, dimension(12) :: tmpinc = 0    ! deg C      |monthly temperature adjustment
-        real, dimension(12) :: radinc = 0    ! MJ/m^2     |monthly solar radiation adjustment
-        real, dimension(12) :: huminc = 0    ! none       |monthly humidity adjustment
+        integer :: pcp_ts = 0               ! 1/day      |precipitation time steps per day (0 or 1 = daily)
+        real, dimension(12) :: rfinc = 0    ! deg C      |monthly precipitation adjustment
+        real, dimension(12) :: tmpinc = 0   ! deg C      |monthly temperature adjustment
+        real, dimension(12) :: radinc = 0   ! MJ/m^2     |monthly solar radiation adjustment
+        real, dimension(12) :: huminc = 0   ! none       |monthly humidity adjustment
       end type weather_station
       type (weather_station), dimension(:),allocatable :: wst
          

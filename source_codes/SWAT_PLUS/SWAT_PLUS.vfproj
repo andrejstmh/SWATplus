@@ -57,6 +57,7 @@
 		<File RelativePath="..\aqu_1d_control.f90"/>
 		<File RelativePath="..\aqu_hyds.f90"/>
 		<File RelativePath="..\aqu_initial.f90"/>
+		<File RelativePath="..\aqu_pest_output_init.f90"/>
 		<File RelativePath="..\aqu_pesticide_module.f90"/>
 		<File RelativePath="..\aqu_pesticide_output.f90"/>
 		<File RelativePath="..\aqu_read.f90"/>
@@ -165,6 +166,7 @@
 		<File RelativePath="..\cli_dstn1.f90"/>
 		<File RelativePath="..\cli_hmeas.f90"/>
 		<File RelativePath="..\cli_initwgn.f90"/>
+		<File RelativePath="..\cli_lapse.f90"/>
 		<File RelativePath="..\cli_pgen.f90"/>
 		<File RelativePath="..\cli_pgenhr.f90"/>
 		<File RelativePath="..\cli_pmeas.f90"/>
@@ -184,8 +186,11 @@
 		<File RelativePath="..\climate_control.f90"/>
 		<File RelativePath="..\climate_module.f90"/>
 		<File RelativePath="..\cn2_init.f90"/>
+		<File RelativePath="..\cn2_init_all.f90"/>
 		<File RelativePath="..\cntbl_read.f90"/>
 		<File RelativePath="..\command.f90"/>
+		<File RelativePath="..\cond_integer.f90"/>
+		<File RelativePath="..\cond_real.f90"/>
 		<File RelativePath="..\conditional_module.f90"/>
 		<File RelativePath="..\conditions.f90"/>
 		<File RelativePath="..\cons_prac_read.f90"/>
@@ -243,6 +248,7 @@
 		<File RelativePath="..\header_channel.f90"/>
 		<File RelativePath="..\header_cs.f90"/>
 		<File RelativePath="..\header_hyd.f90"/>
+		<File RelativePath="..\header_lu_change.f90"/>
 		<File RelativePath="..\header_mgt.f90"/>
 		<File RelativePath="..\header_path.f90"/>
 		<File RelativePath="..\header_pest.f90"/>
@@ -263,6 +269,7 @@
 		<File RelativePath="..\hru_lte_output.f90"/>
 		<File RelativePath="..\hru_lte_read.f90"/>
 		<File RelativePath="..\hru_lum_init.f90"/>
+		<File RelativePath="..\hru_lum_init_all.f90"/>
 		<File RelativePath="..\hru_module.f90"/>
 		<File RelativePath="..\hru_output.f90"/>
 		<File RelativePath="..\hru_output_allo.f90"/>
@@ -418,11 +425,12 @@
 		<File RelativePath="..\qman.f90"/>
 		<File RelativePath="..\ran.f90"/>
 		<File RelativePath="..\ran1.f90"/>
+		<File RelativePath="..\rcurv_interp_dep.f90"/>
+		<File RelativePath="..\rcurv_interp_flo.f90"/>
 		<File RelativePath="..\re_initialize.f90"/>
 		<File RelativePath="..\read_mgtops.f90"/>
 		<File RelativePath="..\readcio_read.f90"/>
 		<File RelativePath="..\readpcom.f90"/>
-		<File RelativePath="..\readtime_read.f90"/>
 		<File RelativePath="..\rec_read_elements.f90"/>
 		<File RelativePath="..\recall_module.f90"/>
 		<File RelativePath="..\recall_output.f90"/>
@@ -468,6 +476,7 @@
 		<File RelativePath="..\scen_read_grwway.f90"/>
 		<File RelativePath="..\sd_chanmorph_output.f90"/>
 		<File RelativePath="..\sd_channel_control.f90"/>
+		<File RelativePath="..\sd_channel_control2.f90"/>
 		<File RelativePath="..\sd_channel_module.f90"/>
 		<File RelativePath="..\sd_channel_nutrients.f90"/>
 		<File RelativePath="..\sd_channel_output.f90"/>
@@ -476,6 +485,7 @@
 		<File RelativePath="..\sd_channel_surf_link.f90"/>
 		<File RelativePath="..\sd_hydsed_init.f90"/>
 		<File RelativePath="..\sd_hydsed_read.f90"/>
+		<File RelativePath="..\sd_rating_curve.f90"/>
 		<File RelativePath="..\sdr_read.f90"/>
 		<File RelativePath="..\search.f90"/>
 		<File RelativePath="..\sep_biozone.f90"/>

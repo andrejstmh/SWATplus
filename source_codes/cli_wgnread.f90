@@ -18,7 +18,7 @@
       logical :: i_exist              !none       |check to determine if file exists  
       integer :: mo                   !none       !counter
       integer :: idir                 !none       !counter
-      integer  :: RHumCount = 0       ! if all 0<=wgn(iwgn)%dewpt(mo)<1 ==> then dewpt=dewpt+100
+
       
       eof = 0
       imax = 0
@@ -89,7 +89,7 @@
         if (eof < 0) exit
         
         call gcycl
-      RHumCount = 0
+        
       do iwgn = 1, db_mx%wgnsta
         read (114,*,iostat=eof) wgn_n(iwgn), wgn(iwgn)%lat, wgn(iwgn)%long, wgn(iwgn)%elev, wgn(iwgn)%rain_yrs
         if (eof < 0) exit
@@ -100,22 +100,12 @@
               wgn(iwgn)%tmpstdmn(mo), wgn(iwgn)%pcpmm(mo), wgn(iwgn)%pcpstd(mo), wgn(iwgn)%pcpskw(mo),          &
               wgn(iwgn)%pr_wd(mo), wgn(iwgn)%pr_ww(mo), wgn(iwgn)%pcpd(mo), wgn(iwgn)%rainhmx(mo),              &
               wgn(iwgn)%solarav(mo), wgn(iwgn)%dewpt(mo), wgn(iwgn)%windav(mo)
-              if ((0>=wgn(iwgn)%dewpt(mo)) .and. (wgn(iwgn)%dewpt(mo)<=1)) then 
-                RHumCount=RHumCount+1
-              end if
         end do
         
         !! initialize weather generator parameters
         call cli_initwgn(iwgn)
         if (eof < 0) exit
-      end do
-      if (RHumCount == db_mx%wgnsta*12) then 
-         do iwgn = 1, db_mx%wgnsta
-            do mo = 1, 12
-                wgn(iwgn)%dewpt(mo)=100*wgn(iwgn)%dewpt(mo)+100
-            end do
-         end do
-      end if
+      end do    
       exit
       enddo
       endif
