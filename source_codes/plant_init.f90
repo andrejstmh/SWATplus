@@ -125,7 +125,9 @@
           iday_sh = 181
 
           ! if days to maturity are not input (0) - assume the plant is potentially active during entire growing season
-          if (pldb(idp)%days_mat < 1.e-6) then
+          if (pldb(idp)%days_mat < -1.e-6) then
+            pcom(j)%plcur(ipl)%phumat = -pldb(idp)%days_mat
+          else if (pldb(idp)%days_mat < 1.e-6) then
             phutot = 0.
             do iday = 1, 365
               call xmon (iday, mo, day_mo)
