@@ -26,11 +26,12 @@
       tday = amin1 (1., tday)
       rt_delt = 1.
       !! use maximum daily flow depth
-      rchdep = 0.
-      do istep = 1, time%step
-        rchdep = Max (rchdep, flo_dep(istep))
-      end do
-
+      if (time%step > 0) then
+          rchdep = 0.
+          do istep = 1, time%step
+            rchdep = Max (rchdep, flo_dep(istep))
+          end do
+      end if
       !! calculate temperature in stream Stefan and Preudhomme. 1993.  Stream temperature estimation 
       !! from air temperature.  Water Res. Bull. p. 27-45 SWAT manual equation 2.3.13
       wtmp = 5.0 + 0.75 * wst(iwst)%weat%tave
@@ -44,6 +45,8 @@
 
       !! ht3 = concentration of incoming nutrients
       if (ht3%flo > 0. .and. rchdep > 0.) then
+        !if (.not. (rchdep > 0.)) rchdep = 1E-3
+        
         disoxin = ht3%dox - rk4_s / ht3%flo
         disoxin = amax1 (0., disoxin)
         dispin = ht3%solp + rs2_s / ht3%flo 
