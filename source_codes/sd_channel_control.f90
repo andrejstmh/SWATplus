@@ -442,7 +442,7 @@
           call ch_watqual4
           !! convert concentration to mass
           call hyd_convert_conc_to_mass (ht2)
-         
+          
           !! compute nutrient losses using 2-stage ditch model
           !call sd_channel_nutrients
         !end if
@@ -456,7 +456,6 @@
         ! call ch_rtpest2
         call ch_rtpath
       end if
-      
       end if    ! peakrate > 0
       
       !! compute water balance - precip, evap and seep
@@ -472,7 +471,7 @@
       
       !! subtract seepage
       if (ht2%flo < 10000. * ch_wat_d(ich)%seep) then
-        ch_wat_d(ich)%seep = ht2%flo * 10000.      !m3 -> ha-m
+        ch_wat_d(ich)%seep = ht2%flo / 10000.      !m3 -> ha-m
         ht2%flo = 0.
       else
         ht2%flo = ht2%flo - 10000. * ch_wat_d(ich)%seep
@@ -480,12 +479,11 @@
       
       !! subtract evaporation
       if (ht2%flo < 10000. * ch_wat_d(ich)%evap) then
-        ch_wat_d(ich)%evap = ht2%flo * 10000.      !m3 -> ha-m
+        ch_wat_d(ich)%evap = ht2%flo / 10000.      !m3 -> ha-m
         ht2%flo = 0.
       else
         ht2%flo = ht2%flo - 10000. * ch_wat_d(ich)%evap
       end if
-
       !! calculate hydrograph leaving reach and storage in channel
       !if (time%step == 0) rt_delt = 1.
       rt_delt = 1.
@@ -512,7 +510,6 @@
         hcs2 = hcs2 + ch_water(ich)
         ch_water(ich) = frac * hcs1
       !end if
-
       !! check decision table for flow control - water allocation
       if (ob(icmd)%ruleset /= "null" .and. ob(icmd)%ruleset /= "0") then
         id = ob(icmd)%flo_dtbl
@@ -520,7 +517,7 @@
         call conditions (ich, id)
         call actions (ich, icmd, id)
       end if
-
+        
       ob(icmd)%hd(1) = ht2
       ob(icmd)%hd(1)%temp = 5. + .75 * wst(iwst)%weat%tave
       ht2%temp = 5. + .75 * wst(iwst)%weat%tave
