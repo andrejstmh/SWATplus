@@ -73,8 +73,8 @@
         obcs(icmd)%hd(5) = hin_csz
       end if
       
-      sumfrac = 0.
-      sumarea = 0.
+      !sumfrac = 0.
+      !sumarea = 0.
       
       do ielem = 1, ru_def(iru)%num_tot
         ise = ru_def(iru)%num(ielem)
@@ -87,8 +87,8 @@
         ht5 = hz
         delrto = hz
         
-        sumfrac = sumfrac + ru_elem(ise)%frac
-        sumarea = sumarea + ob(iob)%area_ha
+        !sumfrac = sumfrac + ru_elem(ise)%frac !sumfrac = fracsurf/sumarea ?
+        !sumarea = sumarea + ob(iob)%area_ha
         
         !define delivery ratio - all variables are hyd_output type
 
