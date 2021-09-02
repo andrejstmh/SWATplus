@@ -134,15 +134,17 @@
             end if
             ht1 = ef * ht1
             ob(icmd)%hd(ihtypno) = ob(icmd)%hd(ihtypno) + ht1
-            ru_d(iru) = ru_d(iru) + ht1
+            !ru_d(iru) = ru_d(iru) + ht1
             !! set constituents
             do ipest = 1, cs_db%num_pests
               obcs(icmd)%hd(ihtypno)%pest(ipest) = obcs(icmd)%hd(ihtypno)%pest(ipest) + hcs1%pest(ipest)
             end do
           end do
-          
+          do ihtypno = 3, ob(iob)%nhyds
+              ru_d(iru) = ru_d(iru) + ob(icmd)%hd(ihtypno)
+          end do
         end if      !ru_elem(ise)%obtyp == "exc"
-  
+        
         !! sum subdaily hydrographs using subdaily precip and green and ampt runoff
         if (time%step > 0 .and. bsn_cc%gampt == 1) then
           select case (ru_elem(ise)%obtyp)
