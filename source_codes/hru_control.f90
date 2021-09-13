@@ -217,7 +217,7 @@
         !end if
 
         !! compute surface runoff processes
-        if (ires > 0) then
+        if (ires == 0) then
           call surface
         else
           !! if wetland - no runoff or sediment yield - all constituents
