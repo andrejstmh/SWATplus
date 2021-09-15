@@ -205,12 +205,12 @@
              Exp(2.374 - .00713 * soil(j)%phys(ly)%d))
           sev = evz - evzp * hru(j)%hyd%esco !(1. - hru(j)%hyd%esco)
           evzp = evz
-          !if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
-          !  xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
-          !   soil(j)%phys(ly)%fc
-          !  sev = sev * expo(xx)
-          !end if
-          !sev = Min(sev, soil(j)%phys(ly)%st * etco)
+          if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
+            xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
+             soil(j)%phys(ly)%fc
+            sev = sev * expo(xx)
+          end if
+          sev = Min(sev, soil(j)%phys(ly)%st * etco)
 
           if (sev < 0.) sev = 0.
           if (sev > esleft) sev = esleft
