@@ -175,7 +175,9 @@
           smix(17) = smix(17) / dtil
           smix(18) = smix(18) / dtil
           smix(19) = smix(19) / dtil
-
+          
+          !TODO:Residue sould mixed into lower layer of soil by tillage operation
+          
           do l = 1, soil(jj)%nly
 			
             ! reconstitute each soil layer 
