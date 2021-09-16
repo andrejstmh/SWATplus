@@ -112,6 +112,7 @@
       aqu_d(iaq)%no3 = aqu_d(iaq)%no3 - ob(icmd)%hd(1)%no3
       aqu_d(iaq)%no3gw = ob(icmd)%hd(1)%no3
       
+      ! todo:revapno3
       !revapno3 = conc * revap -- dont include nitrate uptake by plant
       
       !! compute nitrate seepage out of aquifer
