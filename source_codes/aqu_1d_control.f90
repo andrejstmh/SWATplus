@@ -115,6 +115,8 @@
       ! todo:revapno3
       !revapno3 = conc * revap -- dont include nitrate uptake by plant
       
+      !todo:Half-life of NO3 
+      
       !! compute nitrate seepage out of aquifer
       aqu_d(iaq)%seepno3 = conc_no3 * aqu_d(iaq)%seep
       aqu_d(iaq)%seepno3 = amin1(aqu_d(iaq)%seepno3, aqu_d(iaq)%no3)
