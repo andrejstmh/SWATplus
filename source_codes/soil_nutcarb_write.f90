@@ -45,36 +45,17 @@
       integer :: iob
        
       !! basin output - zero daily basin outputs before summing
-      soil_prof_mn = mineral_nitrogen()
-      soil_prof_mp = mineral_phosphorus()
-      soil_prof_tot = organic_mass()
-      soil_prof_str =organic_mass()
-      soil_prof_lig = organic_mass()
-      soil_prof_meta = organic_mass()
-      soil_prof_man = organic_mass()
-      soil_prof_hs = organic_mass()
-      soil_prof_hp = organic_mass()
-      soil_prof_microb = organic_mass()
-      soil_prof_water = organic_mass()
-      
+      bsn_org_soil = soil_org_z
+      bsn_org_pl = soil_org_z
+      bsn_org_rsd = soil_org_z
+      bsn_mn = 0.
+      bsn_mp = 0.
+        
       !! sum the output for the entire soil profile
       do j = 1, sp_ob%hru
         soil1(j)%tot_org = soil_org_z
-        !soil_prof_mn = soil_mn_z
-        !soil_prof_mp = soil_mp_z
-        
-        soil_prof_mn = mineral_nitrogen()
-        soil_prof_mp = mineral_phosphorus()
-        soil_prof_tot = organic_mass()
-        soil_prof_str =organic_mass()
-        soil_prof_lig = organic_mass()
-        soil_prof_meta = organic_mass()
-        soil_prof_man = organic_mass()
-        soil_prof_hs = organic_mass()
-        soil_prof_hp = organic_mass()
-        soil_prof_microb = organic_mass()
-        soil_prof_water = organic_mass()
-        
+        soil_prof_mn = soil_mn_z
+        soil_prof_mp = soil_mp_z
         do ly = 1, soil(j)%nly
           soil_prof_mn = soil_prof_mn + soil1(j)%mn(ly)
           soil_prof_mp = soil_prof_mp + soil1(j)%mp(ly)

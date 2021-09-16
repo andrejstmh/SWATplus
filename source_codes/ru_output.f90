@@ -10,7 +10,7 @@
       integer :: iob                          !             |
       
       iob = sp_ob1%ru + iru - 1 
-        ru_d(iru)%flo = ru_d(iru)%flo/86400 ! m^3 ==> m^3/s
+   
         !! sum monthly variables
         ru_m(iru) = ru_m(iru) + ru_d(iru)
         

@@ -116,7 +116,7 @@
         character(len=16) :: pathc = ""
         character(len=16) :: saltc = ""
         character(len=16) :: hmetc = ""
-        integer :: nut = 1
+        integer :: nut = 0
         integer :: pest = 1
         integer :: path = 1
         integer :: salt = 1

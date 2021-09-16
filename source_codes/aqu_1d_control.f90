@@ -93,8 +93,8 @@
       aqu_d(iaq)%dep_wt = aqudb(iaqdb)%dep_bot - (aqu_d(iaq)%stor / (1000. * aqu_prm(iaq)%spyld))
       aqu_d(iaq)%dep_wt = amax1 (0., aqu_d(iaq)%dep_wt)
 
-      !! compute nitrate recharge into the aquifer 
-      aqu_d(iaq)%rchrg_n = ob(icmd)%hin%no3 !/ (ob(icmd)%area_ha)
+      !! compute nitrate recharge into the aquifer
+      aqu_d(iaq)%rchrg_n = ob(icmd)%hin%no3 / (10. * ob(icmd)%area_ha)
       if (ob(icmd)%hin%no3 > 1.) then
         ii = 1
       end if
@@ -103,7 +103,7 @@
       
       !! compute nitrate return flow out of aquifer
       if (aqu_d(iaq)%stor > 1.e-6) then
-        conc_no3 = aqu_d(iaq)%no3 / aqu_d(iaq)%stor    ! kg/mm
+        conc_no3 = aqu_d(iaq)%no3 / aqu_d(iaq)%stor
       else
         conc_no3 = 0.
       endif
@@ -123,8 +123,8 @@
       !! compute mineral p flow from aquifer - m^3 * ppm * 1000 kg/m^3 = 1/1000
       aqu_d(iaq)%minp = ob(icmd)%hin%flo * aqudb(iaqdb)%minp / 1000.
       !! set hydrograph soluble p from aquifer- convert kg/ha to m3
-      !ob(icmd)%hd(1)%solp = 10. * aqu_d(iaq)%minp * ob(icmd)%area_ha
-      ob(icmd)%hd(1)%solp = ob(icmd)%hin%flo * aqudb(iaqdb)%minp / 1000. ! aqudb(iaqdb)%minp in ppm or mg/l
+      ob(icmd)%hd(1)%solp = 10. * aqu_d(iaq)%minp * ob(icmd)%area_ha
+      ob(icmd)%hd(1)%solp = ob(icmd)%hin%flo * aqudb(iaqdb)%minp / 1000.
 
       !! compute fraction of flow to each channel in the aquifer
       !! if connected to aquifer - add flow

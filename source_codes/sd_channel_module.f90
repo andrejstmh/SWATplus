@@ -15,27 +15,27 @@
       type swatdeg_hydsed_data
         character(len=16) :: name
         character(len=16) :: order
-        real :: chw             !m          |channel width
-        real :: chd             !m          |channel depth
-        real :: chs             !m/m        |channel slope
-        real :: chl             !km         |channel length
-        real :: chn             !           |channel Manning's n
-        real :: chk             !mm/h       |channel bottom conductivity
-        real :: cherod          !           |channel erodibility
-        real :: cov             !0-1        |channel cover factor
-        real :: wd_rto          !0.5-100    |width depth ratio
-        real :: chseq           !m/m        |equilibrium channel slope
-        real :: d50             !mm         |channel median sediment size
-        real :: ch_clay         !%          |clay percent of bank and bed
-        real :: carbon          !%          |cabon percent of bank and bed
-        real :: ch_bd           !t/m3       |dry bulk density
-        real :: chss            !           |channel side slope
-        real :: bedldcoef       !           |percent of sediment entering the channel that is bed material
-        real :: fps             !           |flood plain slope
-        real :: fpn             !           |flood plain Manning's n
-        real :: n_conc          !mg/kg      |nitrogen concentration in channel bank
-        real :: p_conc          !mg/kg      |phosphorus concentration in channel bank
-        real :: p_bio           !frac       |fraction of p in bank that is bioavailable
+        real :: chw = 0.        !m          |channel width
+        real :: chd = 0.        !m          |channel depth
+        real :: chs = 0.        !m/m        |channel slope
+        real :: chl = 0.        !km         |channel length
+        real :: chn = 0.        !           |channel Manning's n
+        real :: chk = 0.        !mm/h       |channel bottom conductivity
+        real :: cherod = 0.     !           |channel erodibility
+        real :: cov = 0.        !0-1        |channel cover factor
+        real :: wd_rto = 0.     !0.5-100    |width depth ratio
+        real :: chseq = 0.      !m/m        |equilibrium channel slope
+        real :: d50 = 0.        !mm         |channel median sediment size
+        real :: ch_clay = 0.    !%          |clay percent of bank and bed
+        real :: carbon = 0.     !%          |cabon percent of bank and bed
+        real :: ch_bd = 0.      !t/m3       |dry bulk density
+        real :: chss = 0.       !           |channel side slope
+        real :: bedldcoef = 0.  !           |percent of sediment entering the channel that is bed material
+        real :: fps = 0.        !           |flood plain slope
+        real :: fpn = 0.        !           |flood plain Manning's n
+        real :: n_conc = 0.     !mg/kg      |nitrogen concentration in channel bank
+        real :: p_conc = 0.     !mg/kg      |phosphorus concentration in channel bank
+        real :: p_bio = 0.      !frac       |fraction of p in bank that is bioavailable
       end type swatdeg_hydsed_data
       type (swatdeg_hydsed_data), dimension (:), allocatable :: sd_chd
       

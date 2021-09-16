@@ -72,7 +72,8 @@
         sd_ch(i)%chs = sd_chd(idb)%chs
         sd_ch(i)%chl = sd_chd(idb)%chl
         sd_ch(i)%chn = sd_chd(idb)%chn
-        sd_ch(i)%chk = sd_chd(idb)%chk
+        sd_ch(i)%chk = sd_chd(idb)%chk      
+        sd_ch(i)%cherod = sd_chd(idb)%cherod
         sd_ch(i)%cov = sd_chd(idb)%cov
         sd_ch(i)%wd_rto = sd_chd(idb)%wd_rto
         sd_ch(i)%chseq = sd_chd(idb)%chseq
@@ -86,8 +87,7 @@
         sd_ch(i)%fpn = sd_chd(idb)%fpn
         sd_ch(i)%hc_kh = gully(0)%hc_kh
         sd_ch(i)%hc_hgt = gully(0)%hc_hgt
-        sd_ch(i)%hc_ini = gully(0)%hc_ini      
-        sd_ch(i)%cherod = sd_chd(0)%cherod
+        sd_ch(i)%hc_ini = gully(0)%hc_ini
           
         !! compute headcut parameters
         kh = sd_ch(i)%hc_kh

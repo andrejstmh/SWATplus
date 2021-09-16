@@ -43,15 +43,15 @@
         real :: dep_wt = 0.     !m          |average depth from average surface elevation to water table
         real :: stor = 0.       !mm         |average water storage in aquifer in timestep
         real :: rchrg = 0.      !mm         |recharge entering aquifer from other objects
-        real :: seep = 0.       !mm         |seepage from bottom of aquifer
+        real :: seep = 0.       !kg N/ha    |seepage from bottom of aquifer
         real :: revap = 0.      !mm         |plant water uptake and evaporation
-        real :: no3 = 0.        !kg NO3-N   |average NO3-N flowing into aquifer from another object
+        real :: no3 = 0.        !ppm NO3-N  |average NO3-N flowing into aquifer from another object
         real :: minp = 0.       !kg         |mineral phosphorus transported in return (lateral) flow 
         real :: cbn = 0.        !percent    |organic carbon in aquifer - currently static
-        real :: orgn = 0.       !kg         |organic nitrogen in aquifer - currently static
+        real :: orgn = 0.       !kg/ha      |organic nitrogen in aquifer - currently static
         real :: rchrg_n = 0.    !kg/NO3-N   |nitrate NO3-N flowing into aquifer from another object  
         real :: nloss = 0.      !kg/ha      |nitrate NO3-N loss
-        real :: no3gw           !kg N       |nitrate loading to reach in groundwater
+        real :: no3gw           !kg N/ha    |nitrate loading to reach in groundwater
         real :: seepno3 = 0.    !kg         |seepage of no3 to next object
         real :: flo_cha = 0.    !mm H2O     |surface runoff flowing into channels
         real :: flo_res = 0.    !mm H2O     |surface runoff flowing into reservoirs
@@ -117,9 +117,9 @@
           character(len=15) :: nloss    =      "          nloss"        ! (kg/ha N)
           character(len=15) :: no3gw    =      "          no3gw"        ! (kg N/ha)
           character(len=15) :: seep_no3 =      "        seepno3"        ! (kg)
-          character(len=15) :: flo_cha  =      "        flo_cha"        ! (m^3)
-          character(len=15) :: flo_res  =      "        flo_res"        ! (m^3)
-          character(len=15) :: flo_ls   =      "         flo_ls"        ! (m^3)
+          character(len=15) :: flo_cha  =      "        flo_cha"        ! (mm)
+          character(len=15) :: flo_res  =      "        flo_res"        ! (mm)
+          character(len=15) :: flo_ls   =      "         flo_ls"        ! (mm)
       end type aqu_header
       type (aqu_header) :: aqu_hdr
       
@@ -145,9 +145,9 @@
           character(len=15) :: nloss    =  "        kg/ha_N"          ! (kg/ha N)
           character(len=15) :: no3gw    =  "        kg/ha_N"          ! (kg N/ha)
           character(len=15) :: seep_no3 =  "             kg"          ! (kg)
-          character(len=15) :: flo_cha  =  "            m^3"          ! (m^3)
-          character(len=15) :: flo_res  =  "            m^3"          ! (m^3)
-          character(len=15) :: flo_ls   =  "            m^3"          ! (m^3)
+          character(len=15) :: flo_cha  =  "             mm"          ! (mm)
+          character(len=15) :: flo_res  =  "             mm"          ! (mm)
+          character(len=15) :: flo_ls   =  "             mm"          ! (mm)
       end type aqu_header_units
       type (aqu_header_units) :: aqu_hdr_units
       

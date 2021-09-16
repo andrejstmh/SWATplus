@@ -88,7 +88,7 @@
 !!    added statements for test of real statement above
 	esd = 500.  !soil(j)%zmx
 	etco = 0.80
-	effnup = 0.1
+	effnup = 0.05
 
 !! evaporate canopy storage first
 !! canopy storage is calculated by the model only if the Green & Ampt
@@ -203,14 +203,14 @@
           !! calculate evaporation from soil layer
           evz = eosl * soil(j)%phys(ly)%d / (soil(j)%phys(ly)%d +        &
              Exp(2.374 - .00713 * soil(j)%phys(ly)%d))
-          sev = evz - evzp * hru(j)%hyd%esco !(1. - hru(j)%hyd%esco)
+          sev = evz - evzp * (1. - hru(j)%hyd%esco)
           evzp = evz
-          if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
-            xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
-             soil(j)%phys(ly)%fc
-            sev = sev * expo(xx)
-          end if
-          sev = Min(sev, soil(j)%phys(ly)%st * etco)
+          !if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
+          !  xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
+          !   soil(j)%phys(ly)%fc
+          !  sev = sev * expo(xx)
+          !end if
+          !sev = Min(sev, soil(j)%phys(ly)%st * etco)
 
           if (sev < 0.) sev = 0.
           if (sev > esleft) sev = esleft
@@ -228,7 +228,11 @@
 
         !! compute no3 flux from layer 2 to 1 by soil evaporation
         if (ly == 2) then
-          sev_st = sev / (soil(j)%phys(2)%st + 1.e-6)
+          if (soil(j)%phys(2)%st > 1.e-3) then
+            sev_st = sev / (soil(j)%phys(2)%st)
+          else
+            sev_st = 0.
+          end if
           sev_st = amin1 (1., sev_st)
           no3up = effnup * sev_st * soil1(j)%mn(2)%no3
           no3up = Min(no3up, soil1(j)%mn(2)%no3)
