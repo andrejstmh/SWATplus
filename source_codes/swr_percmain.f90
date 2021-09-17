@@ -46,7 +46,7 @@
       integer :: j1          !none       |counter
       real :: slug           !           | 
       real :: sep_left       !           |
-      real :: por_air        !           |
+      real :: por_air = 0.5  !           |
       real :: d              !           |
       real :: yy             !           |
       real :: xx             !           |
@@ -54,7 +54,8 @@
       real :: sw_del         !           |
       real :: wt_del         !           |
       real :: sumqtile       !           | 
-    
+      real :: dep_imp = 3100.0
+      
       j = ihru
 
       !! initialize water entering first soil layer
@@ -131,11 +132,12 @@
 
       !! compute shallow water table depth and tile flow
       qtile = 0.
-      wt_shall = soil(j)%zmx
+      por_air = 0.5 ! 0.9 !was in swat+ Rev_60_5_3_source_08_12_21
+      dep_imp = 3100.0 !dep_imp =soil(j)%zmx ! was in swat+ Rev_60_5_3_source_08_12_21
+      wt_shall = dep_imp
       !! drainmod tile equations   08/11/2006
       if (soil(j)%phys(2)%tmp > 0.) then   !Daniel 1/29/09
-        por_air = 0.9
-        d = soil(j)%zmx - hru(j)%lumv%sdr_dep   !distance above water table
+        d = dep_imp - hru(j)%lumv%sdr_dep   !distance above water table
         !! drainmod wt_shall equations   10/23/2006
         if (bsn_cc%wtdn == 0) then !compute wt_shall using original eq-Daniel 10/23/06
           if (soil(j)%sw > soil(j)%sumfc) then
@@ -145,9 +147,9 @@
             end if
             xx = (soil(j)%sw - soil(j)%sumfc) / (yy - soil(j)%sumfc)
             if (xx > 1.) xx = 1.
-            wt_shall = xx * soil(j)%zmx
-		    wat = soil(j)%zmx - wt_shall
-			if(wat > soil(j)%zmx) wat = soil(j)%zmx
+            wt_shall = xx * dep_imp
+		    wat = dep_imp - wt_shall
+			if(wat > dep_imp) wat = dep_imp
           end if
         else
           !compute water table depth using Daniel"s modifications
@@ -156,8 +158,8 @@
               sw_del = soil(j)%swpwt - soil(j)%sw
               wt_del = sw_del * soil(j)%ly(j1)%vwt
               soil(j)%wat_tbl = soil(j)%wat_tbl + wt_del
-	          if(soil(j)%wat_tbl > soil(j)%zmx)  soil(j)%wat_tbl = soil(j)%zmx
-	          wt_shall = soil(j)%zmx - soil(j)%wat_tbl
+	          if(soil(j)%wat_tbl > dep_imp)  soil(j)%wat_tbl = dep_imp
+	          wt_shall = dep_imp - soil(j)%wat_tbl
 	          soil(j)%swpwt = soil(j)%sw
 	          exit
 	        end if
