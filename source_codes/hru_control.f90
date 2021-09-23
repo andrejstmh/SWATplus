@@ -246,7 +246,7 @@
 
         !! wetland processes
         if (ires > 0) then
-          call wetland_control
+          !call wetland_control
         else
           ht2%flo = wet(j)%flo * hru(j)%area_ha * 10.
           wet(j)%flo = 0.

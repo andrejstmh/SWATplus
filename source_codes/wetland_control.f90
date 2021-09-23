@@ -53,6 +53,9 @@
       !! initialize variables for wetland daily simulation
       hru(ihru)%water_seep = 0.
 
+      ! bypass not initialized! v.60.5.2==> bypass = 1. - wet_hyd(ihyd)%frac
+      
+      
       !! add precipitation - mm*ha*10.=m3 (used same area for infiltration and soil evap)
       wet_wat_d(ihru)%precip = w%precip * wet_wat_d(ihru)%area_ha * 10.
       wet(ihru)%flo =  wet(ihru)%flo + wet_wat_d(ihru)%precip
