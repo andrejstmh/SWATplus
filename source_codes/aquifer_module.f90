@@ -20,9 +20,10 @@
         real :: hlife_n = 0.        !days       |half-life of nitrogen in groundwater
         real :: flo_min = 0.        !m          |water table depth for return flow to occur
         real :: revap_min = 0.      !m          |water table depth for revap to occur 
+        real :: delay = 0.        !-          |delay time (day)
       end type aquifer_database
-      type (aquifer_database), dimension(:), allocatable :: aqudb 
       
+      type (aquifer_database), dimension(:), allocatable :: aqudb
       type aquifer_data_parameters
         real :: alpha = 0.       !1/days     |lag factor for groundwater recession curve
         real :: bf_max = 0.      !m          |maximum daily baseflow - when all channels are contributing
@@ -35,8 +36,9 @@
         real :: nloss = 0.       !frac       |nloss based on half life
         real :: rchrg_prev = 0.  !m^3        |previous days recharge
         real :: rchrgn_prev = 0. !m^3        |previous days n recharge
+        real :: delay_e = 0.     !-          |exp(-1/delay time (day))
       end type aquifer_data_parameters
-      type (aquifer_data_parameters), dimension(:), allocatable :: aqu_prm 
+      type (aquifer_data_parameters), dimension(:), allocatable :: aqu_prm
 
       type aquifer_dynamic
         real :: flo = 0.        !mm         |lateral flow from aquifer      

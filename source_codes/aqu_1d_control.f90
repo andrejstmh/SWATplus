@@ -53,7 +53,7 @@
       aqu_d(iaq)%rchrg = ob(icmd)%hin%flo / (10. * ob(icmd)%area_ha)
       
       !! lag recharge from bottom of soil to water table ** disabled
-      !aqu_d(iaq)%rchrg = (1. - aqu_prm(iaq)%delay_e) * aqu_d(iaq)%rchrg + aqu_prm(iaq)%delay_e * aqu_st(iaq)%rchrg_prev
+      aqu_d(iaq)%rchrg = (1. - aqu_prm(iaq)%delay_e) * aqu_d(iaq)%rchrg + aqu_prm(iaq)%delay_e * aqu_prm(iaq)%rchrg_prev
       
       aqu_prm(iaq)%rchrg_prev = aqu_d(iaq)%rchrg
       

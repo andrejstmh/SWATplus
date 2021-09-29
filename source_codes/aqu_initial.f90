@@ -64,6 +64,11 @@
         aqu_prm(iaq)%seep = aqudb(iaqdb)%seep
         aqu_prm(iaq)%alpha_e = Exp(-aqudb(iaqdb)%alpha)
         aqu_prm(iaq)%bf_max = aqudb(iaq)%bf_max
+        if (aqudb(iaq)%delay<1E-2) then 
+            aqu_prm(iaq)%delay_e = 0.0
+        else
+            aqu_prm(iaq)%delay_e = Exp(-1.0/aqudb(iaq)%delay)
+        end if
         aqu_prm(iaq)%nloss = Exp(-.693 / (aqudb(iaqdb)%hlife_n + .1))
         aqu_d(iaq)%flo = aqudb(iaqdb)%flo
         aqu_d(iaq)%dep_wt = aqudb(iaqdb)%dep_wt
