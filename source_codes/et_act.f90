@@ -137,13 +137,13 @@
         es_max = Max(es_max, 0.)
 
         !! make sure maximum plant and soil ET doesn't exceed potential ET
-        if (pet_day < es_max + ep_max) then
-          es_max = pet_day - ep_max
+        !if (pet_day < es_max + ep_max) then
+        !  es_max = pet_day - ep_max
           if (pet < es_max + ep_max) then
             es_max = pet * es_max / (es_max + ep_max)
             ep_max = pet * ep_max / (es_max + ep_max)
           end if
-        end if
+        !end if
         
         !! adjust es_max and ep_max for impervous urban cover
         !es_max = 0.5 * es_max
