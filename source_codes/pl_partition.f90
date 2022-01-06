@@ -28,9 +28,9 @@
       j = ihru
       idp = pcom(j)%plcur(ipl)%idplt
       
-      !! update plant mass for daily biomass/c increase and n and p uptake
-      pl_mass(j)%tot(ipl) = pl_mass(j)%tot(ipl) + pl_mass_up
-      pl_mass(j)%tot(ipl)%m = Max(pl_mass(j)%tot(ipl)%m, 0.)
+      !! update plant mass for daily biomass/c increase
+      pl_mass(j)%tot(ipl)%m = pl_mass(j)%tot(ipl)%m + pl_mass_up%m
+      pl_mass(j)%tot(ipl)%c = pl_mass(j)%tot(ipl)%c + pl_mass_up%c
       
       !! partition leaf and stem (stalk) and seed (grain) mass
       if (pldb(idp)%typ == "perennial") then
@@ -50,7 +50,7 @@
         leaf_mass_frac = leaf_mass_frac_veg * ab_gr_frac
         stem_mass_frac = (1. - leaf_mass_frac_veg) * ab_gr_frac
       else
-      !! partition root and above ground biomass for all other annuals (above groound grain)
+      !! partition root and above ground biomass for all other annuals (above ground grain)
         root_frac = pcom(j)%plg(ipl)%root_frac
         ab_gr_frac = 1. - root_frac
         seed_mass_frac = pcom(j)%plg(ipl)%hi_adj

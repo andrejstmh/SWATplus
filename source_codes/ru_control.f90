@@ -73,8 +73,8 @@
         obcs(icmd)%hd(5) = hin_csz
       end if
       
-      !sumfrac = 0.
-      !sumarea = 0.
+      sumfrac = 0.
+      sumarea = 0.
       
       do ielem = 1, ru_def(iru)%num_tot
         ise = ru_def(iru)%num(ielem)
@@ -87,8 +87,8 @@
         ht5 = hz
         delrto = hz
         
-        !sumfrac = sumfrac + ru_elem(ise)%frac !sumfrac = fracsurf/sumarea ?
-        !sumarea = sumarea + ob(iob)%area_ha
+        sumfrac = sumfrac + ru_elem(ise)%frac
+        sumarea = sumarea + ob(iob)%area_ha
         
         !define delivery ratio - all variables are hyd_output type
 
@@ -134,17 +134,15 @@
             end if
             ht1 = ef * ht1
             ob(icmd)%hd(ihtypno) = ob(icmd)%hd(ihtypno) + ht1
-            !ru_d(iru) = ru_d(iru) + ht1
+            ru_d(iru) = ru_d(iru) + ht1
             !! set constituents
             do ipest = 1, cs_db%num_pests
               obcs(icmd)%hd(ihtypno)%pest(ipest) = obcs(icmd)%hd(ihtypno)%pest(ipest) + hcs1%pest(ipest)
             end do
           end do
-          do ihtypno = 3, ob(iob)%nhyds
-              ru_d(iru) = ru_d(iru) + ob(icmd)%hd(ihtypno)
-          end do
+          
         end if      !ru_elem(ise)%obtyp == "exc"
-        
+  
         !! sum subdaily hydrographs using subdaily precip and green and ampt runoff
         if (time%step > 0 .and. bsn_cc%gampt == 1) then
           select case (ru_elem(ise)%obtyp)
@@ -152,10 +150,7 @@
             do ii = 1, time%step
               !! conversion from mm to m3 and apply delivery ratio
               cnv = ru_elem(ise)%frac * ob(icmd)%area_ha * delrto%flo
-              !! assume lateral soil flow and tile flow are uniform throughout day
-              !! save lateral and tile flow for summing incoming total hydrographs
-              ob(icmd)%lat_til_flo = (latq(ihru) + hwb_d(ihru)%qtile)  / time%step
-              ts_flo_mm = cnv * (hhsurfq(ihru,ii) + ob(icmd)%lat_til_flo)
+              ts_flo_mm = cnv * hhsurfq(ihru,ii)
               iday_cur = ob(icmd)%day_cur
               !! hru hyd_flo in m3
               rto = (ru_elem(ise)%frac * ob(icmd)%area_ha) / ob(iob)%area_ha
@@ -171,7 +166,7 @@
             end do
           end select
           
-          !! set precious and next days for adding previous and translating to next
+          !! set previous and next days for adding previous and translating to next
           day_cur = ob(icmd)%day_cur
           day_next = day_cur + 1
           if (day_next > ob(icmd)%day_max) day_next = 1
@@ -197,6 +192,11 @@
             end do
           end if
         end if
+
+        ! rtb gwflow - hydrograph separation --> add volumes from the current HRU
+        ob(icmd)%hdsep%flo_surq = ob(icmd)%hdsep%flo_surq + ob(iob)%hdsep%flo_surq !surface runoff (m3)
+        ob(icmd)%hdsep%flo_latq = ob(icmd)%hdsep%flo_latq + ob(iob)%hdsep%flo_latq !lateral flow (m3)
+        
 
       end do  !element loop
       

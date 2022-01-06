@@ -64,7 +64,6 @@
           sd_ch(ics)%fp%hru_fr(ihru) = hru(ihru)%area_ha / sd_ch(ics)%fp%ha
         end do
             
-            
         return
 
       end subroutine sd_channel_surf_link

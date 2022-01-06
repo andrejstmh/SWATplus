@@ -213,7 +213,7 @@
         bwb_a = hwbz
       end if
       if (time%end_sim == 1 .and. pco%nb_bsn%a == "y") then
-        bnb_a = bnb_a / time%days_prt
+        bnb_a = bnb_a / time%yrs_prt
         write (2063,100) time%day, time%mo, time%day_mo, time%yrc, "       1", "       1", bsn%name, bnb_a
         if (pco%csvout == "y") then 
           write (2067,'(*(G0.3,:","))') time%day, time%mo, time%day_mo, time%yrc, "       1", "       1", bsn%name, bnb_a
@@ -240,7 +240,7 @@
       
       return
 
-100   format (4i6,2a,2x,a16,32f12.3) 
-103   format (4i6,2x,2a,2x,a16,32f12.3,a)
+100   format (4i6,2a,2x,a16,39f12.3) 
+103   format (4i6,2x,2a,2x,a16,39f12.3,a)
        
       end subroutine basin_output

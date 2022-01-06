@@ -26,6 +26,9 @@
          exit
        enddo
        endif
+       
+       if (bsn_cc%pet == 3) open (140,file = 'pet.cli')
+       
           close(107)
        
        return

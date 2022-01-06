@@ -49,6 +49,7 @@
       real :: prob_apply                      !          |
       real :: hru_exp_left                    !          |number of hru's expected to still be applied (uniform or normal distr)
       real :: hru_act_left                    !          |number of hru's actually still to be applied
+      real :: flo_m3
       character(len=1) :: pl_chk
       
       d_tbl%act_hit = "y"
@@ -552,6 +553,15 @@
             d_tbl%hru_ha_cur = 0.
           end if
 
+        !channel flow
+        case ("channel_flo")
+          ob_num = ob_cur   !the dtbl ob_num is the sequential hyd number in the con file
+          if (ob_num == 0) ob_num = ob_cur
+          !ob_num is channel number - need object number
+          iob = sp_ob1%chandeg + ob_num - 1
+          flo_m3 = ob(iob)%hd(1)%flo / 86400. 
+          call cond_real (ic, flo_m3, d_tbl%cond(ic)%lim_const, idtbl)
+                
         !tile flow
         case ("tile_flo")
           ob_num = ob_cur   !the dtbl ob_num is the sequential hyd number in the con file

@@ -31,7 +31,7 @@
         type (water_demand_objects), dimension(:), allocatable :: dmd        !dimension by demand objects
       end type water_allocation
       type (water_allocation), dimension(:), allocatable :: wallo            !dimension by water allocation objects
-      
+
       !source output
       type source_output
         real :: demand = 0.                     !ha-m       !demand

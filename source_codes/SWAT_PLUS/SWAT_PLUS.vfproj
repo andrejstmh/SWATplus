@@ -241,6 +241,7 @@
 		<File RelativePath="..\gcycl.f90"/>
 		<File RelativePath="..\gwflow_module.f90"/>
 		<File RelativePath="..\gwflow_read.f90"/>
+		<File RelativePath="..\gwflow_riv.f90"/>
 		<File RelativePath="..\gwflow_simulate.f90"/>
 		<File RelativePath="..\hcsin_output.f90"/>
 		<File RelativePath="..\hcsout_output.f90"/>
@@ -263,6 +264,7 @@
 		<File RelativePath="..\hru_allo.f90"/>
 		<File RelativePath="..\hru_control.f90"/>
 		<File RelativePath="..\hru_dtbl_actions_init.f90"/>
+		<File RelativePath="..\hru_fr_change.f90"/>
 		<File RelativePath="..\hru_hyds.f90"/>
 		<File RelativePath="..\hru_lte_control.f90"/>
 		<File RelativePath="..\hru_lte_module.f90"/>
@@ -276,7 +278,6 @@
 		<File RelativePath="..\hru_pathogen_output.f90"/>
 		<File RelativePath="..\hru_pesticide_output.f90"/>
 		<File RelativePath="..\hru_read.f90"/>
-		<File RelativePath="..\hru_soiltest_update.f90"/>
 		<File RelativePath="..\hru_sweep.f90"/>
 		<File RelativePath="..\hru_urb_bmp.f90"/>
 		<File RelativePath="..\hru_urban.f90"/>
@@ -331,6 +332,7 @@
 		<File RelativePath="..\nut_nitvol.f90"/>
 		<File RelativePath="..\nut_nlch.f90"/>
 		<File RelativePath="..\nut_nminrl.f90"/>
+		<File RelativePath="..\nut_nminrl2.f90"/>
 		<File RelativePath="..\nut_np_flow.f90"/>
 		<File RelativePath="..\nut_nrain.f90"/>
 		<File RelativePath="..\nut_orgn.f90"/>
@@ -510,8 +512,6 @@
 		<File RelativePath="..\soil_plant_init.f90"/>
 		<File RelativePath="..\soil_text_init.f90"/>
 		<File RelativePath="..\soils_init.f90"/>
-		<File RelativePath="..\soiltest_all_init.f90"/>
-		<File RelativePath="..\soiltest_init.f90"/>
 		<File RelativePath="..\solt_db_read.f90"/>
 		<File RelativePath="..\sq_canopyint.f90"/>
 		<File RelativePath="..\sq_crackflow.f90"/>

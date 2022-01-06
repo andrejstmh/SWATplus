@@ -3,7 +3,7 @@
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine initializes the values for some of the arrays 
 
-      use hru_module, only : brt,bss,canstor,cn2,cumei,   &
+      use hru_module, only : brt,bss,canstor,cn2,cumei, urb_abstinit, rateinf_prev,   &
        cumeira,cumrai,cumrt,dormhr,filterw,grz_days,  &
        hru,igrz, isep,isep_ly,iseptic,itb,        &
        latno3,orgn_con,orgp_con,par,phubase,ranrns_hru,     &
@@ -18,6 +18,10 @@
                                           !                   |fraction of P in crop biomass at emergence
       real :: ranrns                      !mm                 |random roughness of a given tillage operation
 
+      !! Green and Ampt storages for urban runoff
+      urb_abstinit = 0.
+      rateinf_prev = 0.
+      
 !    Drainmod tile equations  01/2006 
       cumeira = 0.
       cumei = 0.

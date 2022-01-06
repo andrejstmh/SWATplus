@@ -70,12 +70,17 @@
         sd_ch(i)%chw = sd_chd(idb)%chw
         sd_ch(i)%chd = sd_chd(idb)%chd
         sd_ch(i)%chs = sd_chd(idb)%chs
+        if (sd_ch(i)%chs < 1.e-9) sd_ch(i)%chs = .000001
         sd_ch(i)%chl = sd_chd(idb)%chl
         sd_ch(i)%chn = sd_chd(idb)%chn
-        sd_ch(i)%chk = sd_chd(idb)%chk
+        if (sd_ch(i)%chn < 1.e-9) sd_ch(i)%chn = .05
+        sd_ch(i)%chk = sd_chd(idb)%chk      
+        sd_ch(i)%cherod = sd_chd(idb)%cherod
         sd_ch(i)%cov = sd_chd(idb)%cov
         sd_ch(i)%wd_rto = sd_chd(idb)%wd_rto
+        if (sd_ch(i)%wd_rto < 1.e-6) sd_ch(i)%wd_rto = 4.
         sd_ch(i)%chseq = sd_chd(idb)%chseq
+        if (sd_ch(i)%chseq < 1.e-9) sd_ch(i)%chseq = .000001
         sd_ch(i)%d50 = sd_chd(idb)%d50
         sd_ch(i)%ch_clay = sd_chd(idb)%ch_clay
         sd_ch(i)%carbon = sd_chd(idb)%carbon
@@ -83,11 +88,11 @@
         sd_ch(i)%chss = sd_chd(idb)%chss
         sd_ch(i)%bedldcoef = sd_chd(idb)%bedldcoef
         sd_ch(i)%fps = sd_chd(idb)%fps
+        if (sd_ch(i)%fps > sd_ch(i)%chs) sd_ch(i)%fps = sd_ch(i)%chs
         sd_ch(i)%fpn = sd_chd(idb)%fpn
         sd_ch(i)%hc_kh = gully(0)%hc_kh
         sd_ch(i)%hc_hgt = gully(0)%hc_hgt
-        sd_ch(i)%hc_ini = gully(0)%hc_ini      
-        sd_ch(i)%cherod = sd_chd(0)%cherod
+        sd_ch(i)%hc_ini = gully(0)%hc_ini
           
         !! compute headcut parameters
         kh = sd_ch(i)%hc_kh

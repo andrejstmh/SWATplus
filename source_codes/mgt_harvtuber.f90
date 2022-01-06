@@ -50,7 +50,7 @@
       
       !! add remaining tuber (seed) mass to slow humus pool of soil - to preserve balances
       harveff1 = 1. - harveff
-      soil1(j)%hs(1) = harveff1 * pl_mass(j)%seed(ipl) + soil1(j)%hs(1)
+      soil1(j)%hact(1) = harveff1 * pl_mass(j)%seed(ipl) + soil1(j)%hact(1)
       
       !! set other masses
       pl_mass(j)%ab_gr(ipl) = pl_mass(j)%tot(ipl)

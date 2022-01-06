@@ -72,7 +72,7 @@
               end if 
           end if
         end if
-
+         
         !! check end of month
         if (time%end_mo == 1) then
           hwb_y(j) = hwb_y(j) + hwb_m(j)
@@ -240,7 +240,7 @@
          end if
       return
       
-100   format (4i6,2i8,2x,a,32f12.3)
+100   format (4i6,2i8,2x,a,39f12.3)
 101   format (4i6,2i8,2x,a,24f12.3)
 102   format (4i6,2i8,2x,a,24f12.3)
 103   format (4i6,i8,4x,a,5x,4f12.3)

@@ -67,6 +67,11 @@
       allocate (chpst_y(0:sp_ob%chandeg))
       allocate (chpst_a(0:sp_ob%chandeg))
       
+      !rtb hydrograph separation
+      allocate (ch_stor_hdsep(sp_ob%chandeg))
+      allocate (hyd_sep_array(sp_ob%chandeg,7))
+      hyd_sep_array = 0.
+      
       if (cs_db%num_pests > 0) then
         allocate (chpst%pest(cs_db%num_pests))
         allocate (chpstz%pest(cs_db%num_pests))

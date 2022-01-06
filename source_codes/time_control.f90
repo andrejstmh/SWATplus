@@ -82,6 +82,8 @@
       integer :: mo                    !           |
       integer :: day_mo                !           |
 
+      integer :: day_index !rtb gwflow
+      
       time%yrc = time%yrc_start
       
       !! generate precip for the first day - %precip_next
@@ -164,8 +166,10 @@
           !! Uncomment next three lines for DEBUG version only            
           
           call DATE_AND_TIME (b(1), b(2), b(3), date_time)
-          write (*,1234) cal_sim, time%mo, time%day_mo, time%yrc, time%yrs, time%yrc_tot,  &
+          write (*,1234) cal_sim, time%mo, time%day_mo, time%yrc, time%yrs, time%yrc_tot,    &                             
                    date_time(5), date_time(6), date_time(7)
+          write (9003,1234) cal_sim, time%mo, time%day_mo, time%yrc, time%yrs, time%yrc_tot, &                             
+                   date_time(5), date_time(6), date_time(7) 
          
           !! check for end of month, year and simulation
           time%end_mo = 0
@@ -223,17 +227,25 @@
           do iupd = 1, db_mx%cond_up
             id = upd_cond(iupd)%cond_num
             d_tbl => dtbl_scen(id)
-            if (upd_cond(iupd)%num_hits < upd_cond(iupd)%max_hits) then
-              upd_cond(iupd)%num_hits = upd_cond(iupd)%num_hits + 1
-              do j = 1, sp_ob%hru
+            !if (upd_cond(iupd)%num_hits < upd_cond(iupd)%max_hits) then
+            !  upd_cond(iupd)%num_hits = upd_cond(iupd)%num_hits + 1
+              !! all hru fractions are set at once
+              if (upd_cond(iupd)%typ == "hru_fr_change") then
                 call conditions (j, id)
                 call actions (j, iob, id)
-              end do
-            end if            
+              end if
+              !! have to check every hru for land use change
+              if (upd_cond(iupd)%typ == "lu_change") then
+                do j = 1, sp_ob%hru
+                  call conditions (j, id)
+                  call actions (j, iob, id)
+                end do
+              end if
+            !end if            
           end do
 
           !! allocate water for water rights objects
-          if (db_mx%wallo_db > 0) call water_allocation     !***jga
+          if (db_mx%wallo_db > 0) call water_allocation
 
 
           !rtb floodplain
@@ -310,8 +322,8 @@
         
         do j = 1, sp_ob%hru
           !! zero yearly balances after using them in soft data calibration (was in hru_output)
-          sw_init = hwb_y(j)%sw_init
-          sno_init = hwb_y(j)%sno_init
+          sw_init = hwb_y(j)%sw_final
+          sno_init = hwb_y(j)%sno_final
           hwb_y(j) = hwbz
           hwb_y(j)%sw_init = sw_init
           hwb_y(j)%sno_init = sno_init
@@ -368,4 +380,5 @@
 
       return
  1234 format (1x, a, 2i4, 2x,i4,' Yr ', i4,' of ', i4, " Time",2x,i2,":",i2,":",i2)
+      
       end subroutine time_control

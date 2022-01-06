@@ -24,12 +24,12 @@
       imax = 0
       
       !! read water allocation inputs
-      inquire (file=in_watrts%water_rights, exist=i_exist)
-      if (.not. i_exist .or. in_watrts%water_rights == "null") then
+      inquire (file=in_watrts%transfer_wro, exist=i_exist)
+      if (.not. i_exist .or. in_watrts%transfer_wro == "null") then
         allocate (wallo(0:0))
       else
       do 
-        open (107,file=in_watrts%water_rights)
+        open (107,file=in_watrts%transfer_wro)
         read (107,*,iostat=eof) titldum
         if (eof < 0) exit
         read (107,*,iostat=eof) imax
@@ -40,8 +40,8 @@
         do iwro = 1, imax
           read (107,*,iostat=eof) header
           if (eof < 0) exit
-          read (107,*,iostat=eof) wallo(iwro)%name, wallo(iwro)%rule_typ, wallo(iwro)%res_lim,         &
-            wallo(iwro)%comp, wallo(iwro)%dmd_obs
+          read (107,*,iostat=eof) wallo(iwro)%name, wallo(iwro)%rule_typ, wallo(iwro)%res_lim, &
+                                                         wallo(iwro)%comp, wallo(iwro)%dmd_obs
           if (eof < 0) exit
           read (107,*,iostat=eof) header
           if (eof < 0) exit
@@ -52,7 +52,6 @@
           allocate (wallom_out(num_objs))
           allocate (walloy_out(num_objs))
           allocate (walloa_out(num_objs))
-          
           
           do idmd = 1, num_objs
             read (107,*,iostat=eof) i
@@ -85,8 +84,8 @@
         end do
 
         exit
-      enddo
-      endif
+      end do
+      end if
       close(107)
 
       return
