@@ -138,13 +138,13 @@
         es_max = Max(es_max, 0.)
 
         !! make sure maximum plant and soil ET doesn't exceed potential ET
-        if (pet_day < es_max + ep_max) then
-          es_max = pet_day - ep_max
+        !if (pet_day < es_max + ep_max) then
+        !  es_max = pet_day - ep_max
           if (pet < es_max + ep_max) then
             es_max = pet * es_max / (es_max + ep_max)
             ep_max = pet * ep_max / (es_max + ep_max)
           end if
-        end if
+        !end if
         
         !! adjust es_max and ep_max for impervous urban cover
         !es_max = 0.5 * es_max
@@ -203,14 +203,14 @@
           !! calculate evaporation from soil layer
           evz = eosl * soil(j)%phys(ly)%d / (soil(j)%phys(ly)%d +        &
              Exp(2.374 - .00713 * soil(j)%phys(ly)%d))
-          sev = evz - evzp * (1. - hru(j)%hyd%esco)
+          sev = evz - evzp * hyd%esco ! evzp * (1. - hru(j)%hyd%esco)
           evzp = evz
-          !if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
-          !  xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
-          !   soil(j)%phys(ly)%fc
-          !  sev = sev * expo(xx)
-          !end if
-          !sev = Min(sev, soil(j)%phys(ly)%st * etco)
+          if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
+            xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
+             soil(j)%phys(ly)%fc
+            sev = sev * expo(xx)
+          end if
+          sev = Min(sev, soil(j)%phys(ly)%st * etco)
 
           if (sev < 0.) sev = 0.
           if (sev > esleft) sev = esleft
