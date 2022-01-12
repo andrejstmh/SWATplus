@@ -203,7 +203,7 @@
           !! calculate evaporation from soil layer
           evz = eosl * soil(j)%phys(ly)%d / (soil(j)%phys(ly)%d +        &
              Exp(2.374 - .00713 * soil(j)%phys(ly)%d))
-          sev = evz - evzp * hyd%esco ! evzp * (1. - hru(j)%hyd%esco)
+          sev = evz - evzp * hru(j)%hyd%esco ! evzp * (1. - hru(j)%hyd%esco)
           evzp = evz
           if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
             xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
