@@ -88,7 +88,7 @@
           ! the precip time step has to be the same as time%step
           allocate (pcp(i)%tss(time%step,366,pcp(i)%nbyr))
         else
-          allocate (pcp(i)%ts(366,pcp(i)%nbyr))
+         allocate (pcp(i)%ts(366,pcp(i)%nbyr))
         end if
 
         ! read and save start jd and yr

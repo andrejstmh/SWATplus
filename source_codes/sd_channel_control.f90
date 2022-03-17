@@ -604,11 +604,8 @@
       !! set outflow hyd to ht2 before diverting water
       ob(icmd)%hd(1) = ht2
       !! check decision table for flow control - water allocation
-      if (ob(icmd)%ruleset /= "null" .and. ob(icmd)%ruleset /= "0") then
-        id = ob(icmd)%flo_dtbl
-        d_tbl => dtbl_flo(id)
-        call conditions (isdch, id)
-        call actions (isdch, icmd, id)
+      if (sd_ch(isdch)%wallo > 0) then
+        call wallo_control (sd_ch(isdch)%wallo)
       end if
 
       !ht2 = ob(icmd)%hd(1)  !! reset ht2 for printing

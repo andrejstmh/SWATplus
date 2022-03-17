@@ -1,4 +1,4 @@
-      subroutine water_allocation_output (idmd)
+      subroutine water_allocation_output (iwallo)
 
       use time_module
       use hydrograph_module
@@ -6,97 +6,106 @@
       
       implicit none
       
-      integer, intent (in) :: idmd          !             |
-      integer :: iwallo                     !             |
-      real :: const                         !             |
+      integer, intent (in) :: iwallo        !             |
+      integer :: idmd
+      integer :: isrc
 
-      wallom_out(idmd)%src(1) = wallom_out(idmd)%src(1) + wallod_out(idmd)%src(1)
-      wallom_out(idmd)%src(2) = wallom_out(idmd)%src(2) + wallod_out(idmd)%src(2)
-      iwallo = 1
+      !! loop through and print each demand object
+      do idmd = 1, wallo(iwallo)%dmd_obs
+        !! sum output (demand, withdrawals, and unmet) for each source
+        do isrc = 1, wallo(iwallo)%src_obs
+          wallom_out(iwallo)%dmd(idmd)%src(isrc) = wallom_out(iwallo)%dmd(idmd)%src(isrc) +         &
+                                                          wallod_out(iwallo)%dmd(idmd)%src(isrc)
+        end do
       
 !!!!! daily print
        if (pco%day_print == "y" .and. pco%int_day_cur == pco%int_day) then
         if (pco%wb_reg%d == "y") then   !!using region water balance print codes for now
-          write (2510,100) time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ,              &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, wallod_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ, &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, wallod_out(idmd)%src(2)  
+          write (2510,100) time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ,                &
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                        &
+              (wallo(iwallo)%src(isrc), wallod_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs)  
            if (pco%csvout == "y") then
              write (2514,'(*(G0.3,:","))')time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ, &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, wallod_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ,  &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, wallod_out(idmd)%src(2)
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                        &
+              (wallo(iwallo)%src(isrc), wallod_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs) 
            end if
         end if
        end if
-       wallod_out(idmd)%src(1) = walloz
-       wallod_out(idmd)%src(2) = walloz
+       
+       do isrc = 1, wallo(iwallo)%src_obs
+          wallod_out(iwallo)%dmd(idmd)%src(isrc) = walloz
+       end do
 
 !!!!! monthly print
         if (time%end_mo == 1) then
-          walloy_out(idmd)%src(1) = walloy_out(idmd)%src(1) + wallom_out(idmd)%src(1)
-          walloy_out(idmd)%src(2) = walloy_out(idmd)%src(2) + wallom_out(idmd)%src(2)
-          !const = float (ndays(time%mo + 1) - ndays(time%mo))
-          !wallom_out(idmd) = wallom_out(idmd) / const
+          !! sum output (demand, withdrawals, and unmet) for each source
+          do isrc = 1, wallo(iwallo)%src_obs
+            walloy_out(iwallo)%dmd(idmd)%src(isrc) = walloy_out(iwallo)%dmd(idmd)%src(isrc) +         &
+                                                          wallom_out(iwallo)%dmd(idmd)%src(isrc)
+          end do
           
           if (pco%wb_reg%m == "y") then
           write (2511,100) time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ,              &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, wallom_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ,  &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, wallom_out(idmd)%src(2)
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                      &
+              (wallo(iwallo)%src(isrc), wallom_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs) 
           if (pco%csvout == "y") then
             write (2515,'(*(G0.3,:","))')time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ, &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, wallom_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ,  &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, wallom_out(idmd)%src(2)
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                       &
+              (wallo(iwallo)%src(isrc), wallom_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs) 
           end if
         end if
-        wallom_out(idmd)%src(1) = walloz
-        wallom_out(idmd)%src(2) = walloz
+        
+       do isrc = 1, wallo(iwallo)%src_obs
+          wallom_out(iwallo)%dmd(idmd)%src(isrc) = walloz
+       end do
+
         end if
 
 !!!!! yearly print
       if (time%end_yr == 1) then
-        walloa_out(idmd)%src(1) = walloa_out(idmd)%src(1) + walloy_out(idmd)%src(1)
-        walloa_out(idmd)%src(2) = walloa_out(idmd)%src(2) + walloy_out(idmd)%src(2)
-        !const = time%day_end_yr
-        !walloy_out(idmd) = walloy_out(idmd) / const
+        !! sum output (demand, withdrawals, and unmet) for each source
+        do isrc = 1, wallo(iwallo)%src_obs
+          walloa_out(iwallo)%dmd(idmd)%src(isrc) = walloa_out(iwallo)%dmd(idmd)%src(isrc) +         &
+                                                          walloy_out(iwallo)%dmd(idmd)%src(isrc)
+        end do
           
         if (pco%wb_reg%y == "y") then 
           write (2512,100) time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ,              &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, walloy_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ,  &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, walloy_out(idmd)%src(2)
-          if (pco%csvout == "y") then
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                      &
+              (wallo(iwallo)%src(isrc), walloy_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs) 
+              if (pco%csvout == "y") then
            write (2516,'(*(G0.3,:","))')time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ, &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, walloy_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ,  &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, walloy_out(idmd)%src(2)
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                      &
+              (wallo(iwallo)%src(isrc), walloy_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs) 
           end if
         end if
-        walloy_out(idmd)%src(1) = walloz
-        walloy_out(idmd)%src(2) = walloz
+        
+       do isrc = 1, wallo(iwallo)%src_obs
+          walloy_out(iwallo)%dmd(idmd)%src(isrc) = walloz
+       end do
+
       end if
 
 !!!!! average annual print
       if (time%end_sim == 1) then
-        walloa_out(idmd)%src(1) = walloa_out(idmd)%src(1) / time%yrs_prt
-        walloa_out(idmd)%src(2) = walloa_out(idmd)%src(2) / time%yrs_prt
-        !walloa_out(idmd) = walloa_out(idmd) / time%days_prt
+        !! sum output (demand, withdrawals, and unmet) for each source
+        do isrc = 1, wallo(iwallo)%src_obs
+          walloa_out(iwallo)%dmd(idmd)%src(isrc) = walloa_out(iwallo)%dmd(idmd)%src(isrc) / time%yrs_prt
+        end do
         
         if (pco%wb_reg%a == "y") then
-        write (2513,100) time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ,              &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, walloa_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ,  &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, walloa_out(idmd)%src(2)
+        write (2513,100) time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ,                &
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                      &
+              (wallo(iwallo)%src(isrc), walloy_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs) 
         if (pco%csvout == "y") then
-          write (2517,'(*(G0.3,:","))')time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ, &
-              wallo(iwallo)%dmd(idmd)%obtyp_num, wallo(iwallo)%dmd(idmd)%src(1)%ob_typ,                                 &
-              wallo(iwallo)%dmd(idmd)%src(1)%obtyp_num, walloa_out(idmd)%src(1), wallo(iwallo)%dmd(idmd)%src(2)%ob_typ,  &
-              wallo(iwallo)%dmd(idmd)%src(2)%obtyp_num, walloa_out(idmd)%src(2)
+          write (2517,'(*(G0.3,:","))')time%day, time%mo, time%day_mo, time%yrc, idmd, wallo(iwallo)%dmd(idmd)%ob_typ,  &
+              wallo(iwallo)%dmd(idmd)%ob_num, wallo(iwallo)%dmd(idmd)%dmd_src_obs,                                      &
+              (wallo(iwallo)%src(isrc), walloy_out(iwallo)%dmd(idmd)%src(isrc), isrc = 1, wallo(iwallo)%src_obs) 
         end if
        end if
-     end if 
+      end if 
+      
+      end do    ! do idmd = 1, wallo(iwallo)%dmd_obs
       
       return
 

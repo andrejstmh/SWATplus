@@ -10,7 +10,7 @@
       integer :: date_time(8)           !              |
       character*10 b(3)                 !              |
       
-      prog = " SWAT+ JAN 5 2022    MODULAR Rev 2020.60.5.4"
+      prog = " SWAT+ Feb 28 2022    MODULAR Rev 2020.60.5.4"
 
       write (*,1000)
       open (9003,file='simulation.out')
@@ -26,13 +26,13 @@
       call proc_db
       call proc_read
 
+      call hyd_connect
       call exco_db_read
       call dr_db_read
-      call hyd_connect
+      
       call cli_lapse
       call object_read_output
       call water_rights_read
-      call water_allocation_read
 
       call om_water_init
       call pest_cha_res_read
@@ -64,7 +64,11 @@
       call wet_read_hyd
       call wet_read
       if (db_mx%wet_dat > 0) call wet_initial
-
+      if (bsn_cc%i_fpwet == 2) call wet_fp_init
+      
+      ! read water allocation file
+      call water_allocation_read
+      
       call proc_cal
       
       call proc_open

@@ -132,7 +132,7 @@
         real :: c_factor = 0.       !! scaling parameter for cover and management factor for 
                                     !!  overland flow erosion
         real :: ch_d50 = 0.         !! median particle diameter of main channel (mm)
-        real :: sig_g = 0.          !! geometric std dev of part sizes for the main channel
+        real :: co2 = 400.          !! co2 concentration at start of simulation (ppm)
         integer :: day_lag_mx = 0   !! max days to lag hydrographs for hru, ru and channels
                                     !!  non-draining soils
         integer :: igen = 5         !!  random generator code: 

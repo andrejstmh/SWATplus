@@ -17,7 +17,7 @@
       real :: pltpfr                      !kg P/kg biomass    |phosphorus uptake parameter normal
                                           !                   |fraction of P in crop biomass at emergence
       real :: ranrns                      !mm                 |random roughness of a given tillage operation
-
+      
       !! Green and Ampt storages for urban runoff
       urb_abstinit = 0.
       rateinf_prev = 0.
@@ -71,6 +71,6 @@
       solp_con = 0.
       wt_shall = 0.
       yr_skip = 0
-
+    
       return
       end

@@ -245,7 +245,7 @@
 
           case ("irrm")  !! date scheduled irrigation operation
             ipl = 1
-            irrop = mgt%op4                        !irrigation amount (mm) from irr.ops data base
+            irrop = mgt%op1                        !irrigation amount (mm) from irr.ops data base
             irrig(j)%applied = irrop_db(irrop)%amt_mm * irrop_db(irrop)%eff * (1. - irrop_db(irrop)%surq)
             irrig(j)%runoff = irrop_db(irrop)%amt_mm * irrop_db(irrop)%surq
 

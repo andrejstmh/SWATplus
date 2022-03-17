@@ -152,19 +152,22 @@
          
       type climate_measured_data
         character (len=50) :: filename
-        real :: lat                     !! latitude of raingage         
-        real :: long                    !! longitude of raingage
-        real :: elev                    !! elevation of raingage
-        integer :: nbyr                 !! number of years of daily rainfall
-        integer :: tstep                !! timestep of precipitation  
+        real :: lat                         !! latitude of raingage         
+        real :: long                        !! longitude of raingage
+        real :: elev                        !! elevation of raingage
+        integer :: nbyr                     !! number of years of daily rainfall
+        integer :: tstep                    !! timestep of precipitation  
         
-        integer :: days_gen = 0         !! number of missing days - generated 
-        integer :: yrs_start = 1        !! number of years of simulation before record starts
+        integer :: days_gen = 0             !! number of missing days - generated 
+        integer :: yrs_start = 1            !! number of years of simulation before record starts
         
-        integer :: start_day            !! daily precip start julian day
-        integer :: start_yr             !! daily precip start year
-        integer :: end_day              !! daily precip end julian day
-        integer :: end_yr               !! daily precip end year
+        integer :: start_day                !! daily precip start julian day
+        integer :: start_yr                 !! daily precip start year
+        integer :: end_day                  !! daily precip end julian day
+        integer :: end_yr                   !! daily precip end year
+        real, dimension (12) :: mean_mon    !! same as variable unit        |mean monthly measured value
+        real, dimension (12) :: max_mon     !! same as variable unit        |maximum monthly measured value
+        real, dimension (12) :: min_mon     !! same as variable unit        |minimum monthly measured value
         
         real, dimension (:,:), allocatable :: ts
         real, dimension (:,:), allocatable :: ts2

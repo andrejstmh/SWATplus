@@ -31,8 +31,8 @@
         real :: ch_bd = 0.      !t/m3       |dry bulk density
         real :: chss = 0.       !           |channel side slope
         real :: bedldcoef = 0.  !           |percent of sediment entering the channel that is bed material
-        real :: fps = 0.        !m/m        |flood plain slope
-        real :: fpn = 0.        !           |flood plain Manning's n
+        real :: fps = 0.000001  !m/m        |flood plain slope
+        real :: fpn = 0.1       !           |flood plain Manning's n
         real :: n_conc = 0.     !mg/kg      |nitrogen concentration in channel bank
         real :: p_conc = 0.     !mg/kg      |phosphorus concentration in channel bank
         real :: p_bio = 0.      !frac       |fraction of p in bank that is bioavailable
@@ -93,6 +93,7 @@
         character(len=25) :: name = "default"
         integer :: props
         integer :: obj_no
+        integer :: wallo                    !water allocation object number
         integer :: aqu_link = 0             !aquifer the channel is linked to
         integer :: aqu_link_ch = 0          !sequential channel number in the aquifer
         character(len=25) :: region
@@ -122,7 +123,6 @@
         real :: hc_erod = 0.    !           |headcut erodibility
         real :: hc_co = 0.      !m/m        |proportionality coefficient for head cut
         real :: hc_len = 0.     !m          |length of head cut
-        real :: stor = 0.       !m3         |storage at end of previous routing time step 
         real :: in1_vol = 0.    !m3         |inflow during previous time step for Muskingum
         real :: out1_vol = 0.   !m3         |outflow during previous time step for Muskingum
         real :: stor_dis_01bf = 0.      !hr         |storage time constant at 0.1*bankfull

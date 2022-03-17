@@ -300,7 +300,6 @@
 		<File RelativePath="..\landuse_read.f90"/>
 		<File RelativePath="..\layersplit.f90"/>
 		<File RelativePath="..\lcu_read_softcal.f90"/>
-		<File RelativePath="..\ls_link.f90"/>
 		<File RelativePath="..\ls_read_parms_cal.f90"/>
 		<File RelativePath="..\lsreg_output.f90"/>
 		<File RelativePath="..\lsu_output.f90"/>
@@ -332,7 +331,6 @@
 		<File RelativePath="..\nut_nitvol.f90"/>
 		<File RelativePath="..\nut_nlch.f90"/>
 		<File RelativePath="..\nut_nminrl.f90"/>
-		<File RelativePath="..\nut_nminrl2.f90"/>
 		<File RelativePath="..\nut_np_flow.f90"/>
 		<File RelativePath="..\nut_nrain.f90"/>
 		<File RelativePath="..\nut_orgn.f90"/>
@@ -553,12 +551,15 @@
 		<File RelativePath="..\urban_data_module.f90"/>
 		<File RelativePath="..\urban_parm_read.f90"/>
 		<File RelativePath="..\varinit.f90"/>
-		<File RelativePath="..\water_allocation.f90"/>
+		<File RelativePath="..\wallo_control.f90"/>
+		<File RelativePath="..\wallo_demand.f90"/>
+		<File RelativePath="..\wallo_withdraw.f90"/>
 		<File RelativePath="..\water_allocation_module.f90"/>
 		<File RelativePath="..\water_allocation_output.f90"/>
 		<File RelativePath="..\water_allocation_read.f90"/>
 		<File RelativePath="..\water_body_module.f90"/>
 		<File RelativePath="..\water_rights_read.f90"/>
+		<File RelativePath="..\wet_fp_init.f90"/>
 		<File RelativePath="..\wet_initial.f90"/>
 		<File RelativePath="..\wet_read.f90"/>
 		<File RelativePath="..\wet_read_hyd.f90"/>

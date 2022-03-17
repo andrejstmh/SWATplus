@@ -99,8 +99,10 @@
       type (hyd_output), dimension(:),allocatable :: om_init_water
       type (hyd_output), dimension(:),allocatable :: ch_om_water_init
       type (hyd_output), dimension(:),allocatable :: fp_om_water_init
-      type (hyd_output), dimension(:),allocatable :: ch_stor            !channel storage
-      type (hyd_output), dimension(:),allocatable :: fp_stor            !flood plain storage
+      type (hyd_output), dimension(:),allocatable :: ch_stor            !channel storage - max bankfull
+      type (hyd_output), dimension(:),allocatable :: fp_stor            !flood plain storage above wetland emergency
+      type (hyd_output), dimension(:),allocatable :: tot_stor           !total - channel + flood plain storage
+      type (hyd_output), dimension(:),allocatable :: wet_stor           !wetland storage in flood plain
       type (hyd_output), dimension(:),allocatable :: ch_stor_m
       type (hyd_output), dimension(:),allocatable :: ch_stor_y
       type (hyd_output), dimension(:),allocatable :: ch_stor_a
@@ -836,8 +838,8 @@
         character (len=12) :: mo     =  "         mon"
         character (len=12) :: day_mo =  "         day"
         character (len=13) :: yrc    =  "          yr"
-        character (len=12) :: name   =  "type        "
-        character (len=6) :: otype   =  "  name"
+        character (len=12) :: name   =  "  name      "
+        character (len=6) :: otype   =  "  type"
       end type hyd_header_time
        type (hyd_header_time) :: hyd_hdr_time
     

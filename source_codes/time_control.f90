@@ -52,6 +52,7 @@
       use constituent_mass_module
       use output_ls_pesticide_module
       use water_body_module
+      use water_allocation_module
       
       implicit none
       
@@ -81,6 +82,7 @@
       integer :: ilu                 !              |
       integer :: mo                    !           |
       integer :: day_mo                !           |
+      integer :: iwallo
 
       integer :: day_index !rtb gwflow
       
@@ -245,8 +247,13 @@
           end do
 
           !! allocate water for water rights objects
-          if (db_mx%wallo_db > 0) call water_allocation
-
+          if (db_mx%wallo_db > 0) then
+            do iwallo = 1, db_mx%wallo_db
+              !! if a channel is not an object, call at beginning of day
+              j = iwallo    ! to avoid a compiler warning
+              if (wallo(iwallo)%cha_ob == "n") call wallo_control (j)
+            end do
+          end if
 
           !rtb floodplain
           !flood_freq = 0

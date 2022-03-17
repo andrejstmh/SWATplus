@@ -147,16 +147,11 @@
         character(len=25) :: snow = ""
         character(len=25) :: field = ""
       end type hru_databases_char
-        
-      type hru_parms_db
-        real :: co2 = 350.
-      end type hru_parms_db
-      
+
       type hydrologic_response_unit_db
         character(len=13) :: name = "default"
         type (hru_databases) :: dbs
         type (hru_databases_char) :: dbsc
-        type (hru_parms_db) :: parms
       end type hydrologic_response_unit_db
       type (hydrologic_response_unit_db), dimension(:),allocatable :: hru_db
       
@@ -197,7 +192,6 @@
         integer :: surf_stor                    !points to res() for surface storage
         type (hru_databases) :: dbs             !database pointers
         type (hru_databases_char) :: dbsc       !database pointers
-        type (hru_parms_db) :: parms            !calibration parameters
         integer :: land_use_mgt
         character(len=16) :: land_use_mgt_c
         integer :: lum_group

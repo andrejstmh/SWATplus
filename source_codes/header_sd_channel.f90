@@ -20,11 +20,11 @@
           write (2500,*) ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units 
           write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_day.txt"
           
-          open (2509,file="channel_sd_day_new.txt",recl = 1500)
-          write (2509,*) bsn%name, prog
-          write (2509,*) ch_wbod_inouthdr,  hyd_inout_hdr
-          write (2509,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
-          write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_day_new.txt"
+          !open (2509,file="channel_sd_day_new.txt",recl = 1500)
+          !write (2509,*) bsn%name, prog
+          !write (2509,*) ch_wbod_inouthdr,  hyd_inout_hdr
+          !write (2509,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
+          !write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_day_new.txt"
           if (pco%csvout == "y") then
             open (2504,file="channel_sd_day.csv",recl = 1500)
             write (2504,*) bsn%name, prog
@@ -32,11 +32,11 @@
             write (2504,'(*(G0.3,:,","))') ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units 
             write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_day.csv"
             
-            open (2510,file="channel_sd_day_new.csv",recl = 1500)
-            write (2510,*) bsn%name, prog
-            write (2510,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
-            write (2510,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
-            write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_day_new.csv"                  
+            !open (2510,file="channel_sd_day_new.csv",recl = 1500)
+            !write (2510,*) bsn%name, prog
+            !write (2510,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
+            !write (2510,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
+            !write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_day_new.csv"                  
           end if
         endif
       endif
@@ -49,11 +49,11 @@
           write (2501,*) ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units 
           write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_mon.txt"
           
-          open (3511,file="channel_sd_mon_new.txt",recl = 1500)
-          write (3511,*) bsn%name, prog
-          write (3511,*) ch_wbod_inouthdr,  hyd_inout_hdr
-          write (3511,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
-          write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_mon_new.txt"
+          !open (3511,file="channel_sd_mon_new.txt",recl = 1500)
+          !write (3511,*) bsn%name, prog
+          !write (3511,*) ch_wbod_inouthdr,  hyd_inout_hdr
+          !write (3511,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
+          !write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_mon_new.txt"
           
           if (pco%csvout == "y") then
             open (2505,file="channel_sd_mon.csv",recl = 1500)
@@ -62,11 +62,11 @@
             write (2505,'(*(G0.3,:,","))') ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units 
             write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_mon.csv"
             
-           open (3512,file="channel_sd_mon_new.csv",recl = 1500)
-            write (3512,*) bsn%name, prog
-            write (3512,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
-            write (3512,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
-            write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_mon_new.csv"    
+           !open (3512,file="channel_sd_mon_new.csv",recl = 1500)
+            !write (3512,*) bsn%name, prog
+            !write (3512,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
+            !write (3512,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
+            !write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_mon_new.csv"    
           end if
           end if
          end if 
@@ -79,11 +79,11 @@
           write (2502,*) ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units 
           write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_yr.txt"
           
-          open (3513,file="channel_sd_yr_new.txt",recl = 1500)
-          write (3513,*) bsn%name, prog
-          write (3513,*) ch_wbod_inouthdr,  hyd_inout_hdr
-          write (3513,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
-          write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_yr_new.txt"
+          !open (3513,file="channel_sd_yr_new.txt",recl = 1500)
+          !write (3513,*) bsn%name, prog
+          !write (3513,*) ch_wbod_inouthdr,  hyd_inout_hdr
+          !write (3513,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
+          !write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_yr_new.txt"
           
           if (pco%csvout == "y") then
             open (2506,file="channel_sd_yr.csv",recl = 1500)
@@ -92,11 +92,11 @@
             write (2506,'(*(G0.3,:,","))') ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units 
             write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_yr.csv"
             
-          open (3514,file="channel_sd_yr_new.csv",recl = 1500)
-            write (3514,*) bsn%name, prog
-            write (3514,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
-            write (3514,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
-            write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_yr_new.csv"    
+          !open (3514,file="channel_sd_yr_new.csv",recl = 1500)
+          !  write (3514,*) bsn%name, prog
+          !  write (3514,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
+          !  write (3514,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
+          !  write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_yr_new.csv"    
           end if
         endif
       endif
@@ -109,13 +109,12 @@
           write (2503,*) ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units
           write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_aa.txt"
           
-         open (3515,file="channel_sd_aa_new.txt",recl = 1500)
-          write (3515,*) bsn%name, prog
-          write (3515,*) ch_wbod_inouthdr,  hyd_inout_hdr
-          write (3515,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
-          write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_aa_new.txt"
+         !open (3515,file="channel_sd_aa_new.txt",recl = 1500)
+         ! write (3515,*) bsn%name, prog
+         ! write (3515,*) ch_wbod_inouthdr,  hyd_inout_hdr
+         ! write (3515,*) ch_wbod_inouthdr_units,  hydinout_hdr_units1
+         ! write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_aa_new.txt"
     
-
           if (pco%csvout == "y") then
             open (2507,file="channel_sd_aa.csv",recl = 1500)
             write (2507,*) bsn%name, prog
@@ -123,11 +122,11 @@
             write (2507,'(*(G0.3,:,","))') ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1, wtmp_units
             write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_aa.csv"
             
-          open (3516,file="channel_sd_aa_new.csv",recl = 1500)
-            write (3516,*) bsn%name, prog
-            write (3516,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
-            write (3516,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
-            write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_aa_new.csv"
+          !open (3516,file="channel_sd_aa_new.csv",recl = 1500)
+          !  write (3516,*) bsn%name, prog
+          !  write (3516,'(*(G0.3,:,","))') ch_wbod_inouthdr, hyd_inout_hdr
+          !  write (3516,'(*(G0.3,:,","))') ch_wbod_inouthdr_units, hydinout_hdr_units1
+          !  write (9000,*) "SWAT-DEG_CHANNEL          channel_sd_aa_new.csv"
             
           end if
           end if

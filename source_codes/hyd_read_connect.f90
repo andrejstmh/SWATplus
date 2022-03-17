@@ -47,6 +47,7 @@
       eof = 0
       imax = 0
       cmd_prev = 0
+      aqu_found = 0
   
       !! read hru spatial data
       inquire (file=con_file, exist=i_exist)
