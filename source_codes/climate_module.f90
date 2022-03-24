@@ -135,6 +135,21 @@
       end type weather_station
       type (weather_station), dimension(:),allocatable :: wst
          
+      type climate_change_variables
+        character(len=50) :: name = "Increment or Scenario"
+        integer :: ref_yr                   ! none       |reference year to begin incremental adjustments
+        real :: co2inc = 0                  ! ppm        |annual CO2 increment
+        real, dimension(12) :: rfinc = 0    ! deg C      |monthly precipitation annual increment
+        real, dimension(12) :: tmpinc = 0   ! deg C      |monthly temperature annual increment
+        real, dimension(12) :: radinc = 0   ! MJ/m^2     |monthly solar radiation annual increment
+        real, dimension(12) :: huminc = 0   ! none       |monthly humidity annual increment
+        real :: co2scen = 0                 ! ppm        |annual CO2 scenario adjustment
+        real, dimension(12) :: rfscen = 0   ! deg C      |monthly precipitation scenario adjustment
+        real, dimension(12) :: tmpscen = 0  ! deg C      |monthly temperature scenario adjustment
+        real, dimension(12) :: radscen = 0  ! MJ/m^2     |monthly solar radiation scenario adjustment
+        real, dimension(12) :: humscen = 0  ! none       |monthly humidity scenario adjustment
+      end type climate_change_variables
+         
       type climate_measured_data
         character (len=50) :: filename
         real :: lat                     !! latitude of raingage         

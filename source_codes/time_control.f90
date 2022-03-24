@@ -233,7 +233,7 @@
           end do
 
           !! allocate water for water rights objects
-          if (db_mx%wallo_db > 0) call water_allocation     !***jga
+          if (db_mx%wallo_db > 0) call water_allocation
 
 
           !rtb floodplain

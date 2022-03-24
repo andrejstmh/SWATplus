@@ -46,6 +46,8 @@
         type (mineral_nitrogen), dimension(:), allocatable :: mn    !       |mineral n pool dimensioned by layer
         type (mineral_phosphorus), dimension(:), allocatable :: mp  !       |mineral p humus pool dimensioned by layer
         type (organic_mass), dimension(:), allocatable :: tot       !       |total organic pool dimensioned by layer
+        type (organic_mass), dimension(:), allocatable :: hact      !       |active humus for old mineralization model
+        type (organic_mass), dimension(:), allocatable :: hsta      !       |stable humus for old mineralization model
         type (organic_mass), dimension(:), allocatable :: hs        !       |slow humus
         type (organic_mass), dimension(:), allocatable :: hp        !       |passive humus
         type (organic_mass), dimension(:), allocatable :: microb    !       |microbial biomass
@@ -60,7 +62,6 @@
       type (soil_profile_mass1), dimension(:), allocatable, target :: soil1
       type (soil_profile_mass1), dimension(:), allocatable :: soil1_init
       type (soil_profile_mass1), pointer :: s1
-      type (soil_profile_mass1), dimension(:), allocatable :: sol1
       type (organic_mass) :: soil_prof_tot                          !       |total litter pool
       type (organic_mass) :: soil_prof_str                          !       |total litter pool
       type (organic_mass) :: soil_prof_lig                          !       |total litter pool

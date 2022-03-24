@@ -251,7 +251,7 @@
           ht2%flo = wet(j)%flo * hru(j)%area_ha * 10.
           wet(j)%flo = 0.
         end if
-
+ 
         !! compute peak rate similar to swat-deg using SCS triangular unit hydrograph
         !runoff_m3 = 10. * surfq(j) * hru(j)%area_ha
         !bf_m3 = 10. * latq(j) * hru(j)%area_ha
@@ -545,7 +545,7 @@
         hwb_d(j)%precip = wst(iwst)%weat%precip
         hwb_d(j)%snofall = snofall
         hwb_d(j)%snomlt = snomlt
-        hwb_d(j)%surq_gen = surfq(j)
+        hwb_d(j)%surq_gen = qday
         hwb_d(j)%latq = latq(j)
         hwb_d(j)%wateryld = qdr(j)
         hwb_d(j)%perc = sepbtm(j)
@@ -557,7 +557,7 @@
         hwb_d(j)%tloss = tloss
         hwb_d(j)%eplant = ep_day
         hwb_d(j)%esoil = es_day + hru(j)%water_evap 
-        hwb_d(j)%surq_cont = qday
+        hwb_d(j)%surq_cont = surfq(j)
         hwb_d(j)%cn = cnday(j)
         hwb_d(j)%sw = soil(j)%sw
         hwb_d(j)%sw_final = soil(j)%sw

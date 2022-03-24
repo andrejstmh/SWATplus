@@ -367,7 +367,7 @@
     
       !! print all output files
       if (time%yrs > pco%nyskip .and. time%step == 0) then
-        call obj_output   !***jga
+        call obj_output
         
         !! print water allocation output
         do iwro =1, db_mx%wallo_db

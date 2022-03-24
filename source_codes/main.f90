@@ -7,7 +7,7 @@
 
       implicit none
       
-      prog = " SWAT+ Aug 12 2021    MODULAR Rev 2020.60.5.3"
+      prog = " SWAT+ Sep 8 2021    MODULAR Rev 2020.60.5.3"
 
       write (*,1000)
  1000 format(1x,"                  SWAT+               ",/,             &
