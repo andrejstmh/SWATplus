@@ -63,6 +63,14 @@
         soil_prof_hsta = soil_org_z
         soil_prof_mn = soil_mn_z
         soil_prof_mp = soil_mp_z
+        soil_prof_str = organic_mass()
+        soil_prof_lig = organic_mass()
+        soil_prof_meta = organic_mass()
+        soil_prof_man = organic_mass()
+        soil_prof_hs = organic_mass()
+        soil_prof_hp = organic_mass()
+        soil_prof_microb = organic_mass()
+        soil_prof_water = organic_mass()
         do ly = 1, soil(j)%nly
           soil_prof_mn = soil_prof_mn + soil1(j)%mn(ly)
           soil_prof_mp = soil_prof_mp + soil1(j)%mp(ly)

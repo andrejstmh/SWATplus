@@ -20,6 +20,7 @@
         real :: hlife_n = 0.        !days       |half-life of nitrogen in groundwater
         real :: flo_min = 0.        !m          |water table depth for return flow to occur
         real :: revap_min = 0.      !m          |water table depth for revap to occur 
+        real :: delay = 0.          !-          |delay time (day)
       end type aquifer_database
       type (aquifer_database), dimension(:), allocatable :: aqudb 
       
@@ -36,23 +37,24 @@
         real :: nloss = 0.       !frac       |nloss based on half life
         real :: rchrg_prev = 0.  !m^3        |previous days recharge
         real :: rchrgn_prev = 0. !m^3        |previous days n recharge
+        real :: delay_e = 0.     !-          |exp(-1/delay time (day))
       end type aquifer_data_parameters
       type (aquifer_data_parameters), dimension(:), allocatable :: aqu_prm 
-
+      !TODO: no3 dimension should be kg/ha
       type aquifer_dynamic
         real :: flo = 0.        !mm         |lateral flow from aquifer      
         real :: dep_wt = 0.     !m          |average depth from average surface elevation to water table
         real :: stor = 0.       !mm         |average water storage in aquifer in timestep
         real :: rchrg = 0.      !mm         |recharge entering aquifer from other objects
-        real :: seep = 0.       !kg N/ha    |seepage from bottom of aquifer
+        real :: seep = 0.       !mm         |seepage from bottom of aquifer
         real :: revap = 0.      !mm         |plant water uptake and evaporation
-        real :: no3 = 0.        !ppm NO3-N  |average NO3-N flowing into aquifer from another object
+        real :: no3 = 0.        !kg NO3-N   |average NO3-N flowing into aquifer from another object
         real :: minp = 0.       !kg         |mineral phosphorus transported in return (lateral) flow 
         real :: cbn = 0.        !percent    |organic carbon in aquifer - currently static
-        real :: orgn = 0.       !kg/ha      |organic nitrogen in aquifer - currently static
+        real :: orgn = 0.       !kg         |organic nitrogen in aquifer - currently static
         real :: rchrg_n = 0.    !kg/NO3-N   |nitrate NO3-N flowing into aquifer from another object  
         real :: nloss = 0.      !kg/ha      |nitrate NO3-N loss
-        real :: no3gw           !kg N/ha    |nitrate loading to reach in groundwater
+        real :: no3gw           !kg N       |nitrate loading to reach in groundwater
         real :: seepno3 = 0.    !kg         |seepage of no3 to next object
         real :: flo_cha = 0.    !mm H2O     |surface runoff flowing into channels
         real :: flo_res = 0.    !mm H2O     |surface runoff flowing into reservoirs
