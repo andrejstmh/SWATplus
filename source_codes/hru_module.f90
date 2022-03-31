@@ -217,6 +217,7 @@
         real :: snocov1, snocov2
         integer :: cur_op = 1
         real :: sno_mm                          !mm H2O        |amount of water in snow on current day
+        real :: snotmp = 0 ! Temperature of snow pack 
         real :: water_seep
         real :: water_evap
         character(len=1) :: wet_fp = "n"
