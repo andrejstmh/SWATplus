@@ -16,7 +16,7 @@
       open (9003,file='simulation.out')
       write (9003,1000)
  1000 format(1x,"                  SWAT+               ",/,             &
-     &          "             Revision 60.5.4          ",/,             &
+     &          "Revision 60.5.4        PAIC 01.04.2022",/,             &
      &          "      Soil & Water Assessment Tool    ",/,             &
      &          "               PC Version             ",/,             &
      &          "    Program reading . . . executing",/)
