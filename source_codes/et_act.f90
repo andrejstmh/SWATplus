@@ -88,13 +88,14 @@
 !!    added statements for test of real statement above
 	esd = 500.  !soil(j)%zmx
 	etco = 0.80
-	effnup = 0.1
+	effnup = 0.05
 
 !! evaporate canopy storage first
 !! canopy storage is calculated by the model only if the Green & Ampt
 !! method is used to calculate surface runoff. The curve number methods
 !! take canopy effects into account in the equations. For either of the
 !! CN methods, canstor will always equal zero.
+      canev = 0.
       pet = pet - canstor(j)
       if (pet < 0.) then
         canstor(j) = -pet
@@ -137,13 +138,13 @@
         es_max = Max(es_max, 0.)
 
         !! make sure maximum plant and soil ET doesn't exceed potential ET
-        !if (pet_day < es_max + ep_max) then
-        !  es_max = pet_day - ep_max
+        if (pet_day < es_max + ep_max) then
+          es_max = pet_day - ep_max
           if (pet < es_max + ep_max) then
             es_max = pet * es_max / (es_max + ep_max)
             ep_max = pet * ep_max / (es_max + ep_max)
           end if
-        !end if
+        end if
         
         !! adjust es_max and ep_max for impervous urban cover
         !es_max = 0.5 * es_max
@@ -160,7 +161,7 @@
             snoev = snoev + esleft
             esleft = 0.
           else
-            !! take all soil evap from snow cover then start taking from soil
+            !! take all soil evap from snow cover before taking from soil
             esleft = esleft - hru(j)%sno_mm
             snoev = snoev + hru(j)%sno_mm
             hru(j)%sno_mm = 0.
@@ -171,13 +172,12 @@
         wet_wat_d(j)%evap = 0.
         if (wet(j)%flo > 0.) then
           wetvol_mm = wet(j)%flo / (10. *  hru(j)%area_ha)    !mm*ha*10.=m3
+          !! take all soil evap from wetland storage before taking from soil
           if (wetvol_mm >= esleft) then
-            !! take all soil evap from snow cover
             wetvol_mm = wetvol_mm - esleft
             wet_wat_d(j)%evap = esleft * (10. *  hru(j)%area_ha)
             esleft = 0.
           else
-            !! take all soil evap from snow cover then start taking from soil
             esleft = esleft - wetvol_mm
             wet_wat_d(j)%evap = wetvol_mm * (10. *  hru(j)%area_ha)
             wetvol_mm = 0.
@@ -203,14 +203,14 @@
           !! calculate evaporation from soil layer
           evz = eosl * soil(j)%phys(ly)%d / (soil(j)%phys(ly)%d +        &
              Exp(2.374 - .00713 * soil(j)%phys(ly)%d))
-          sev = evz - evzp * hru(j)%hyd%esco !(1. - hru(j)%hyd%esco)
+          sev = evz - evzp * (1. - hru(j)%hyd%esco)
           evzp = evz
-          if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
-            xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
-             soil(j)%phys(ly)%fc
-            sev = sev * expo(xx)
-          end if
-          sev = Min(sev, soil(j)%phys(ly)%st * etco)
+          !if (soil(j)%phys(ly)%st < soil(j)%phys(ly)%fc) then
+          !  xx =  2.5 * (soil(j)%phys(ly)%st - soil(j)%phys(ly)%fc) /    &
+          !   soil(j)%phys(ly)%fc
+          !  sev = sev * expo(xx)
+          !end if
+          !sev = Min(sev, soil(j)%phys(ly)%st * etco)
 
           if (sev < 0.) sev = 0.
           if (sev > esleft) sev = esleft
@@ -228,7 +228,11 @@
 
         !! compute no3 flux from layer 2 to 1 by soil evaporation
         if (ly == 2) then
-          sev_st = sev / (soil(j)%phys(2)%st + 1.e-6)
+          if (soil(j)%phys(2)%st > 1.e-3) then
+            sev_st = sev / (soil(j)%phys(2)%st)
+          else
+            sev_st = 0.
+          end if
           sev_st = amin1 (1., sev_st)
           no3up = effnup * sev_st * soil1(j)%mn(2)%no3
           no3up = Min(no3up, soil1(j)%mn(2)%no3)

@@ -83,26 +83,7 @@
                 end if
               end if
             end do
-            
-          case ("mons")  !! begin and end monsoon initiation period
-            !!begin monsoon initiation period
-            if (int(mgt%op3) == 1) then
-              pcom(j)%mseas = 1
-              do ipl = 1, pcom(j)%npl
-                pcom(j)%plcur(ipl)%monsoon_init = 1
-              end do
-            else
-              pcom(j)%mseas = 0
-             do ipl = 1, pcom(j)%npl
-               if (pcom(j)%plcur(ipl)%monsoon_init == 1) then             
-                  pcom(j)%plcur(ipl)%gro = "y"
-                  pcom(j)%plcur(ipl)%phuacc = 0. 
-                  pcom(j)%plcur(ipl)%idorm = "n"
-                  pcom(j)%plcur(ipl)%monsoon_init = 0
-               endif
-            end do
-            end if
-            
+
           case ("harv")  !! harvest only operation
             iharvop = mgt%op1
 
@@ -245,7 +226,7 @@
 
           case ("irrm")  !! date scheduled irrigation operation
             ipl = 1
-            irrop = mgt%op4                        !irrigation amount (mm) from irr.ops data base
+            irrop = mgt%op1                        !irrigation amount (mm) from irr.ops data base
             irrig(j)%applied = irrop_db(irrop)%amt_mm * irrop_db(irrop)%eff * (1. - irrop_db(irrop)%surq)
             irrig(j)%runoff = irrop_db(irrop)%amt_mm * irrop_db(irrop)%surq
 
@@ -296,14 +277,14 @@
             ndeat(j) = 0
             igrz(j) = 1
             ipl = Max(1, mgt%op2)
-            grz_days(j) = mgt%op3
+            grz_days(j) = Int(mgt%op3)
             graze = grazeop_db(mgt%op1)
 
-            !if (pco%mgtout == "y") then
-            !  write (2612, *) j, time%yrc, time%mo, time%day_mo, "         ", "    GRAZE ",         &
-            !    phubase(j), pcom(j)%plcur(ipl)%phuacc, soil(j)%sw,pl_mass(j)%tot(ipl)%m,        &
-            !    rsd1(j)%tot(ipl)%m, sol_sumno3(j), sol_sumsolp(j), grazeop_db(mgt%op1)%eat, grazeop_db(mgt%op1)%manure
-            !endif
+            if (pco%mgtout == "y") then
+              write (2612, *) j, time%yrc, time%mo, time%day_mo, "         ", "    GRAZE ",         &
+                phubase(j), pcom(j)%plcur(ipl)%phuacc, soil(j)%sw,pl_mass(j)%tot(ipl)%m,        &
+                rsd1(j)%tot(ipl)%m, sol_sumno3(j), sol_sumsolp(j), grazeop_db(mgt%op1)%eat, grazeop_db(mgt%op1)%manure
+            endif
  
           case ("cnup")   !! fertilizer operation
             ipl = 1

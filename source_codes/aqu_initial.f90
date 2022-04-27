@@ -56,6 +56,7 @@
         iaqdb = ob(iob)%props
 
         !! initialize parameters
+        aqu_prm(iaq)%area_ha = ob(iob)%area_ha
         aqu_prm(iaq)%alpha = aqudb(iaqdb)%alpha
         aqu_prm(iaq)%flo_min = aqudb(iaqdb)%flo_min
         aqu_prm(iaq)%revap_co = aqudb(iaqdb)%revap_co
@@ -64,18 +65,13 @@
         aqu_prm(iaq)%seep = aqudb(iaqdb)%seep
         aqu_prm(iaq)%alpha_e = Exp(-aqudb(iaqdb)%alpha)
         aqu_prm(iaq)%bf_max = aqudb(iaq)%bf_max
-        if (aqudb(iaq)%delay<1E-2) then 
-            aqu_prm(iaq)%delay_e = 0.0
-        else
-            aqu_prm(iaq)%delay_e = Exp(-1.0/aqudb(iaq)%delay)
-        end if
         aqu_prm(iaq)%nloss = Exp(-.693 / (aqudb(iaqdb)%hlife_n + .1))
         aqu_d(iaq)%flo = aqudb(iaqdb)%flo
         aqu_d(iaq)%dep_wt = aqudb(iaqdb)%dep_wt
         aqu_d(iaq)%stor = 1000. * (aqudb(iaqdb)%dep_bot - aqu_d(iaqdb)%dep_wt) * aqudb(iaqdb)%spyld
-        aqu_d(iaq)%no3 = aqudb(iaqdb)%no3 * aqu_d(iaq)%stor*ob(iob)%area_ha*10.0 /1E3
-        aqu_d(iaq)%minp = 0.0 !aqudb(iaqdb)%minp * aqu_d(iaq)%stor*ob(iob)%area_ha*10.0
-        aqu_d(iaq)%cbn = aqudb(iaqdb)%cbn * aqu_d(iaq)%stor*ob(iob)%area_ha*10.0 /1E3
+        aqu_d(iaq)%no3 = aqudb(iaqdb)%no3
+        aqu_d(iaq)%minp = aqudb(iaqdb)%minp
+        aqu_d(iaq)%cbn = aqudb(iaqdb)%cbn
         aqu_d(iaq)%rchrg = 0.
         aqu_d(iaq)%seep = 0.
         aqu_d(iaq)%revap = 0.
