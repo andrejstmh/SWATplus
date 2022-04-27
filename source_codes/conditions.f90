@@ -43,7 +43,7 @@
       real :: targ                            !          |
       integer :: pl_sum                       !none      |number of plants growing
       integer :: days_tot                     !none      |
-      integer :: iwgn          !units         |
+      integer :: iwgn                         !units     |
       real :: strs_sum                        !none      |sum of stress (water or n) of all growing plants
       real :: prob_cum                        !          |
       real :: prob_apply                      !          |
@@ -384,7 +384,15 @@
               end if
             end if
           end do
-                                                                                                                
+                                                          
+        !precip/pet ratio
+        case ("p_pet")
+          ob_num = d_tbl%cond(ic)%ob_num
+          if (ob_num == 0) ob_num = ob_cur
+          iwst = ob(ob_num)%wst
+          iwgn = wst(iwst)%wco%wgn
+          call cond_real (ic, wgn_pms(iwgn)%p_pet_rto, d_tbl%cond(ic)%lim_const, idtbl)
+                                                                                                           
         !soil organic carbon of first layer
         case ("soil_carbon")
           ob_num = d_tbl%cond(ic)%ob_num

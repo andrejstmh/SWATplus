@@ -423,6 +423,11 @@
             call hru_pesticide_output (ihru)
             call hru_pathogen_output (ihru)
           end if
+          !sum annual for SWIFT input
+          icmd = hru(ihru)%obj_no
+          do ihyd = 1, 5
+            ob(icmd)%hd_aa(ihyd) = ob(icmd)%hd_aa(ihyd) + ob(icmd)%hd(ihyd)
+          end do
         end do        
         
         do iaq = 1, sp_ob%aqu

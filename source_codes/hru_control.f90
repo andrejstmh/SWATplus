@@ -137,6 +137,15 @@
         ht1 = hz
         ht2 = hz
 
+        !! check irrigation demand decision table for water allocation
+        if (hru(ihru)%irr_dmd_dtbl > 0) then
+          id = hru(ihru)%irr_dmd_dtbl
+          jj = j
+          d_tbl => dtbl_lum(id)
+          call conditions (jj, iauto)
+          call actions (jj, iob, iauto)
+        end if
+        
         !! check auto operations
         if (sched(isched)%num_autos > 0) then
           do iauto = 1, sched(isched)%num_autos
@@ -296,6 +305,25 @@
             ndeat(j) = 0
           end if
         end if
+       
+        !! compute nitrogen and phosphorus mineralization
+        if (bsn_cc%cswat == 0) then
+          call nut_nminrl
+        end if
+
+	    if (bsn_cc%cswat == 2) then
+	      call cbn_zhang2
+	    end if
+
+        call nut_nitvol  
+        call nut_pminrl
+        
+        !! compute biozone processes in septic HRUs
+        !! if 1) current is septic hru and 2) soil temperature is above zero
+        isep = iseptic(j)
+	    if (sep(isep)%opt /= 0. .and. time%yrc >= sep(isep)%yr) then
+	      if (soil(j)%phys(i_sep(j))%tmp > 0.) call sep_biozone     
+        endif
 
         !! compute plant community partitions
         call pl_community
@@ -306,16 +334,7 @@
         end do
         !! compute plant biomass, leaf, root and seed growth
         call pl_grow
-      
-        !! moisture growth perennials - start growth
-        if (pcom(j)%mseas == 1) then
-          call pl_moisture_gro_init
-        end if
-        !! moisture growth perennials - start senescence
-        if (pcom(j)%mseas == 0) then
-          call pl_moisture_senes_init
-        end if
-        
+
         !! compute total parms for all plants in the community
         strsw_av = 0.; strsa_av = 0.; strsn_av = 0.; strsp_av = 0.; strstmp_av = 0.
         npl_gro = 0
@@ -370,31 +389,7 @@
           etremain(j) = pet_day - etday
           etactual(j) = etday
         endif
-        
-
-        !! compute nitrogen and phosphorus mineralization
-        if (bsn_cc%cswat == 0) then
-          call nut_nminrl
-        end if
-
-	    if (bsn_cc%cswat == 2) then
-	      call cbn_zhang2
-	    end if
-
-        call nut_nitvol
-        !if (bsn_cc%sol_P_model == 0) then
-            call nut_pminrl
-        !else
-        !    call nut_pminrl2
-        !end if
-
-        !! compute biozone processes in septic HRUs
-        !! if 1) current is septic hru and 2) soil temperature is above zero
-        isep = iseptic(j)
-	    if (sep(isep)%opt /= 0. .and. time%yrc >= sep(isep)%yr) then
-	      if (soil(j)%phys(i_sep(j))%tmp > 0.) call sep_biozone     
-        endif
-
+ 
         !! compute pesticide washoff   
         if (w%precip >= 2.54) call pest_washp
 

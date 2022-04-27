@@ -93,9 +93,9 @@
         !  pl_mass(j)%tot_com%n, pl_mass(j)%tot_com%p, rsd1(j)%tot_com%c, rsd1(j)%tot_com%n, rsd1(j)%tot_com%p
     
         ! write all carbon, organic n and p, and mineral n and p for the soil profile, plants, and residue
-        write (2610,100) time%day, time%mo, time%day_mo, time%yrc, j, ob(j)%gis_id, ob(j)%name, soil1(j)%tot_mn, &
-          soil_prof_hact%n, soil_prof_hsta%n, pl_mass(j)%tot_com%n, rsd1(j)%tot_com%n, soil1(j)%tot_mp,          &
-          pl_mass(j)%tot_com%p, rsd1(j)%tot_com%p
+        !!write (2610,100) time%day, time%mo, time%day_mo, time%yrc, j, ob(j)%gis_id, ob(j)%name, soil1(j)%tot_mn, &
+        !!  soil_prof_hact%n, soil_prof_hsta%n, pl_mass(j)%tot_com%n, rsd1(j)%tot_com%n, soil1(j)%tot_mp,          &
+        !!  pl_mass(j)%tot_com%p, rsd1(j)%tot_com%p
     
       !! labile p balance - labp gain from rsd = 1/(1+0.2)*rsd_laborg_p
       bal0 = (soilp_prev - soil_prof_mp%lab) + (plantp_prev - pl_mass(j)%tot_com%p) +               &

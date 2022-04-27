@@ -6,6 +6,8 @@
       use maximum_data_module
       use hydrograph_module
       use sd_channel_module
+      use conditional_module
+      use hru_module, only : hru
       
       implicit none 
       
@@ -21,6 +23,8 @@
       integer :: num_objs
       integer :: idmd
       integer :: idb
+      integer :: idb_irr
+      integer :: ihru
       
       eof = 0
       imax = 0
@@ -91,6 +95,25 @@
             allocate (walloy_out(iwro)%dmd(i)%src(num_objs))
             allocate (walloa_out(iwro)%dmd(i)%src(num_objs))
             
+            !! for hru irrigtion, need to xwalk with irrigation demand decision table
+            if (wallo(iwro)%dmd(i)%ob_typ == "hru") then
+              !! xwalk with recall database
+              do idb = 1, db_mx%dtbl_lum
+                if (wallo(iwro)%dmd(i)%withdr == dtbl_lum(idb)%name) then
+                  ihru = wallo(iwro)%dmd(i)%ob_num
+                  hru(ihru)%irr_dmd_dtbl = idb
+                  do idb_irr = 1, db_mx%irrop_db 
+                    if (dtbl_lum(idb)%act(1)%option == irrop_db(idb_irr)%name) then
+                      wallo(iwro)%dmd(idmd)%irr_eff = irrop_db(idb_irr)%eff
+                      wallo(iwro)%dmd(idmd)%surq = irrop_db(idb_irr)%surq
+                      exit
+                    end if
+                  end do
+                end if
+              end do
+            end if
+            
+            !! for municipal and divert demands, can use recall for daily, monthly, or annual withdrawals
             if (wallo(iwro)%dmd(i)%ob_typ == "muni" .or. wallo(iwro)%dmd(i)%ob_typ == "divert") then
               if (wallo(iwro)%dmd(i)%withdr /= "ave_day") then
                 !! xwalk with recall database

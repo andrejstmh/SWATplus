@@ -272,7 +272,8 @@
         type (hyd_output) :: hin_lat                                        !inflow hydrograph for lateral soil flow - sum of all lateral inflow hyds
         type (hyd_output) :: hin_til                                        !inflow hydrograph for tile flow - sum of all tile inflow hyds
         type (hyd_output) :: hin_aqu                                        !inflow hydrograph for aquifer flow - sum of all aquifer inflow hyds
-        type (hyd_output), dimension(:), allocatable :: hd                  !generated hydrograph (ie 1=tot, 2= recharge, 3=surf, etc)
+        type (hyd_output), dimension(:), allocatable :: hd                  !daily hydrograph (ie 1=tot, 2= recharge, 3=surf, etc)
+        type (hyd_output), dimension(:), allocatable :: hd_aa               !ave annual hydrograph for hru for swift (ie 1=tot, 2= recharge, 3=surf, etc)
         type (hyd_output), dimension(:,:), allocatable :: ts                !subdaily hydrographs
         type (inflow_unit_hyds), dimension(:), allocatable :: hin_uh        !inflow unit hydrographs
         real, dimension(:,:), allocatable :: uh                             !subdaily surface runoff unit hydrograph

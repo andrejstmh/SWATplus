@@ -736,7 +736,10 @@
           case ("hru_fr_update")
             !"option" is the updated lsu_unit.ele and "file_pointer" is rout_unit.ele
             call hru_fr_change (d_tbl%act(iac)%option, d_tbl%act(iac)%file_pointer)
-              
+            !! write to new landuse change file
+            write (3612,*) j, time%yrc, time%mo, time%day_mo,  "   HRU_FRACTION_CHANGE ",        &
+                    d_tbl%act(iac)%option, d_tbl%act(iac)%file_pointer, "   0   0"
+                            
           !land use change - total land use and management change
           case ("lu_change")
             j = d_tbl%act(iac)%ob_num
@@ -747,7 +750,7 @@
             hru(j)%land_use_mgt_c = d_tbl%act(iac)%file_pointer
             isol = hru(j)%dbs%soil
             call hru_lum_init (j)
-            call plant_init (1)     ! (1) is to deallocate and reset
+            call plant_init (1,j)     ! (1) is to deallocate and reset
             call cn2_init (j)
             !! reset composite usle value - in hydro_init
             rock = Exp(-.053 * soil(j)%phys(1)%rock)
@@ -964,7 +967,26 @@
             end if
             
             pcom(j)%dtbl(idtbl)%num_actions(iac) = pcom(j)%dtbl(idtbl)%num_actions(iac) + 1
-              
+                          
+          case ("pheno_reset")  !! begin and end monsoon initiation period
+            j = d_tbl%act(iac)%ob_num
+            if (j == 0) j = ob_cur
+            
+            if (pcom(j)%dtbl(idtbl)%num_actions(iac) <= Int(d_tbl%act(iac)%const2)) then
+              do ipl = 1, pcom(j)%npl
+                idp = pcom(j)%plcur(ipl)%idplt
+                if (pldb(idp)%trig == "moisture_gro") then
+                  pcom(j)%plcur(ipl)%phuacc = 0.
+                  pcom(j)%plcur(ipl)%gro = "y" 
+                  pcom(j)%plcur(ipl)%idorm = "n"
+                endif
+              end do
+            end if
+            
+            pcom(j)%dtbl(idtbl)%num_actions(iac) = pcom(j)%dtbl(idtbl)%num_actions(iac) + 1
+            pcom(j)%dtbl(idtbl)%days_act(iac) = 1     !reset days since last action
+            if (iac > 1) pcom(j)%dtbl(idtbl)%days_act(iac-1) =  0     !reset previous action day counter
+
           !herd management - move the herd
           case ("herd")
 

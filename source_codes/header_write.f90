@@ -167,13 +167,13 @@
         write (2103,*) bsn%name, prog
         write (2103,*) ch_wbod_hdr, hyd_stor_hdr, hyd_in_hdr, hyd_out_hdr
         write (2103,*) ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1
-        write (9000,*) "BASIN_RESERVOIR           basin_res_aa.txt"
+        write (9000,*) "BASIN_RESERVOIR        basin_res_aa.txt"
        if (pco%csvout == "y") then 
           open (2107,file="basin_res_aa.csv",recl = 1500)
           write (2107,*) bsn%name, prog
           write (2107,'(*(G0.3,:","))') ch_wbod_hdr, hyd_stor_hdr, hyd_in_hdr, hyd_out_hdr
           write (2107,'(*(G0.3,:","))') ch_wbod_hdr_units, hyd_hdr_units1, hyd_hdr_units1, hyd_hdr_units1
-          write (9000,*) "BASIN_RESERVOIR              basin_res_aa.csv"
+          write (9000,*) "BASIN_RESERVOIR        basin_res_aa.csv"
        end if
       end if
 !! BASIN RESERVOIR OUTPUT

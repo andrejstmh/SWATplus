@@ -23,9 +23,9 @@
         integer :: event = 0     !! event code
         integer :: crk = 0       !! crack flow code 
                                  !!   1 = compute flow in cracks
-        integer :: subwq = 0     !! subbasin water quality code
-                                 !!   0 = do not calc algae/CBOD
-                                 !!   1 = calc algae/CBOD
+        integer :: swift_out = 0 !! write to SWIFT input file
+                                 !!   0 = do not write
+                                 !!   1 = write to swift_hru.inp
         integer :: sed_det = 0   !! max half-hour rainfall frac calc
                                  !!   0 = gen from triangular dist
                                  !!   1 = use monthly mean frac

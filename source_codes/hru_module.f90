@@ -216,9 +216,11 @@
         type (snow_parameters) :: sno
         real :: snocov1, snocov2
         integer :: cur_op = 1
+        integer :: irr_dmd_dtbl = 0
         real :: sno_mm                          !mm H2O        |amount of water in snow on current day
         real :: water_seep
         real :: water_evap
+        real :: precip_aa
         character(len=1) :: wet_fp = "n"
         real :: strsa
       end type hydrologic_response_unit

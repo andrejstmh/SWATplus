@@ -20,7 +20,7 @@
       !water demand objects
       type water_demand_objects
         integer :: num                          !demand object number
-        character (len=25) :: ob_typ            !hru (for irrigation) or muni (municipal) or divert (interbasin diversion)
+        character (len=10) :: ob_typ            !hru (for irrigation) or muni (municipal) or divert (interbasin diversion)
         integer :: ob_num                       !number of the object type
         character (len=25) :: withdr            !withdrawal type - ave_day or recall for muni and divert - irrig for hru
         real :: amount                          !m3 per day for muni and mm for hru
@@ -28,6 +28,9 @@
         integer :: rec_num                      !recall number when using recall for muni or divert demands
         integer :: dmd_src_obs                  !number of source objects available for the demand object
         real :: unmet_m3                        !m3     |unmet demand for the object
+        real :: withdr_tot                      !m3     |total withdrawal of demand object from all souces
+        real :: irr_eff                         !irrigation in-field efficiency
+        real :: surq                            !surface runoff ratio
         type (water_demand_sources), dimension(:), allocatable :: src           !sources for each demand object
       end type water_demand_objects
       
@@ -72,19 +75,26 @@
 		character(len=6) :: day_mo   =	 " day "
 		character(len=6) :: yrc      =	 " yr  "        
 		character(len=8) :: idmd	 =	 " unit   "      
-		character(len=8) :: dmd_typ  =   "dmd_typ "
-		character(len=8) :: dmd_num =	 " dmd_num	"     
-		character(len=10) :: src1_typ =	 " src1_typ	" 
-        character(len=8) :: src1_num =	 "src1_num	"        
-        character(len=15) :: dmd1  =     "	 demand	     "      !! ha-m     |demand - muni or irrigation       
+		character(len=16) :: dmd_typ  =  "dmd_typ         "
+		character(len=16) :: dmd_num =	 "    dmd_num     "        
+        character(len=12) :: src1_obj =  "   src1_obj "
+		character(len=12) :: src1_typ =	 " src1_typ   " 
+        character(len=12)  :: src1_num = " src1_num	  "                                      
+        character(len=15) :: dmd1  =     "	  demand     "      !! ha-m     |demand - muni or irrigation       
         character(len=15) :: s1out  =   "src1_withdraw  "       !! ha-m     |withdrawal from source 1
-        character (len=12) :: s1un =    "  src1_unmet"          !! ha-m     |unmet from source 1        
-	    character(len=10) :: src2_typ =	 "  src2_typ" 
-        character(len=10)  :: src2_num = " src2_num "        
-        character(len=15) :: dmd2  =    " demand        "       !! ha-m     |demand - muni or irrigation        
-        character (len=15) :: s2out =   " src2_withdraw "       !! ha-m     |withdrawal from source 2
-        character (len=15) :: s2un  =   "   src2_unmet  "       !! ha_m     |unmet from source 2
-      end type wallo_header
+        character(len=12) :: s1un =    "  src1_unmet"          !! ha-m     |unmet from source 1 
+		character(len=12) :: src2_typ =	 " src2_typ   " 
+        character(len=12)  :: src2_num = " src2_num	  "                                      
+        character(len=15) :: dmd2  =     "	  demand     "      !! ha-m     |demand - muni or irrigation       
+        character(len=15) :: s2out  =   "src2_withdraw  "       !! ha-m     |withdrawal from source 2
+        character(len=12) :: s2un =    "  src2_unmet"          !! ha-m     |unmet from source 2           
+		character(len=12) :: src3_typ =	 " src3_typ   " 
+        character(len=12)  :: src3_num = " src3_num	  "                                      
+        character(len=15) :: dmd3  =     "	  demand     "      !! ha-m     |demand - muni or irrigation       
+        character(len=15) :: s3out  =   "src3_withdraw  "       !! ha-m     |withdrawal from source 3
+        character(len=12) :: s3un =    "  src3_unmet"          !! ha-m     |unmet from source 3      
+
+        end type wallo_header
       type (wallo_header) :: wallo_hdr
 
       type wallo_header_units         
@@ -92,20 +102,27 @@
 		character (len=8) :: mo       =  "	      "
 		character (len=8) :: day_mo   =  "	      "       
 		character (len=8) :: yrc      =  "	      "       
-		character (len=8) :: idmd	  =  "	      "      
-		character (len=8) :: dmd_typ  =  "	      "
-		character (len=8) :: dmd_num  =	 "	      "        
-		character (len=8) :: src1_typ =  "	      "        
-		character (len=8) :: src1_num =  "        "      
-        character (len=12) :: dmd1 =     " ha_m       "        !! ha-m    |demand - muni or irrigation
-        character (len=12) :: s1out =	 "   ha_m     "        !! ha-m    |withdrawal from source 1       
-        character (len=12) :: s1un =     "        ha_m"        !! ha-m    |unmet from source 1
-        character (len=8) :: src2_typ = "        "       
-		character (len=8) :: src2_num = "        "        
-        character (len=15) :: dmd2 =  "           ha_m "        !! ha-m    |demand - muni or irrigation
-        character (len=15) :: s2out = "           ha_m "        !! ha-m    |withdrawal from source 2
-        character (len=15) :: s2un =  "           ha_m "        !! ha-m    |unmet from source 2
-      end type wallo_header_units
+		character (len=8) :: idmd	  =  "	      "     
+		character (len=16) :: dmd_typ  =  "	               "
+		character (len=16) :: dmd_num  =  "                " 
+        character (len=12) :: src1_obj =  "            "
+		character (len=12) :: src1_typ =  "	           "       
+		character (len=8) ::  src1_num =  "        "     
+        character (len=15) :: dmd1 =      "m^3            "            !! ha-m    |demand - muni or irrigation
+        character (len=15) :: s1out =	  "m^3            "            !! ha-m    |withdrawal from source 1       
+        character (len=9) ::  s1un =      "m^3      "                  !! ha-m    |unmet from source 1 
+		character (len=15) :: src2_typ =  "               "        
+		character (len=15) :: src2_num =  "               "        
+        character (len=15) :: dmd2 =      "m^3            "        !! ha-m    |demand - muni or irrigation
+        character (len=15) :: s2out =	  "m^3            "        !! ha-m    |withdrawal from source 2       
+        character (len=10) :: s2un =      "m^3            "        !! ha-m    |unmet from source 2        
+		character (len=15) :: src3_typ =  "               "        
+		character (len=15) :: src3_num =  "               "        
+        character (len=15) :: dmd3 =      "m^3            "        !! ha-m    |demand - muni or irrigation
+        character (len=15) :: s3out =	  "m^3            "        !! ha-m    |withdrawal from source 3       
+        character (len=10) :: s3un =      "m^3            "        !! ha-m    |unmet from source 3   
+
+        end type wallo_header_units
       type (wallo_header_units) :: wallo_hdr_units 
       
       interface operator (+)

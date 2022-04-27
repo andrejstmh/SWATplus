@@ -63,7 +63,6 @@
       integer :: julian_day          !none          |counter
       integer :: id                  !              |
       integer :: isched              !              |
-      integer :: iwst                !              |
       integer :: ich                 !none          |counter
       integer :: idp                 !              |
       integer :: iplt
@@ -269,15 +268,14 @@
           if (time%day == 181) then
             do ihru = 1, sp_ob%hru
               iob = sp_ob1%hru + ihru - 1
-              iwst = ob(iob)%wst
-              if (wst(iwst)%lat < 0) then
+              if (ob(iob)%lat < 0) then
                 phubase(ihru) = 0.
                 yr_skip(ihru) = 0
-                isched = hru(j)%mgt_ops
+                isched = hru(ihru)%mgt_ops
                 if (isched > 0 .and. sched(isched)%num_ops > 0) then
-                  if (sched(isched)%mgt_ops(hru(j)%cur_op)%op == "skip") hru(j)%cur_op = hru(j)%cur_op + 1
-                  if (hru(j)%cur_op > sched(isched)%num_ops) then
-                    hru(j)%cur_op = 1
+                  if (sched(isched)%mgt_ops(hru(ihru)%cur_op)%op == "skip") hru(ihru)%cur_op = hru(ihru)%cur_op + 1
+                  if (hru(ihru)%cur_op > sched(isched)%num_ops) then
+                    hru(ihru)%cur_op = 1
                   end if
                 end if
               end if
@@ -363,8 +361,7 @@
           ! reset base0 heat units and yr_skip at end of year for northern hemisphere
           ! on December 31 (winter solstice is around December 22)
           iob = sp_ob1%hru + j - 1
-          iwst = ob(iob)%wst
-          if (wst(iwst)%lat >= 0) then
+          if (ob(iob)%lat >= 0) then
             phubase(j) = 0.
             yr_skip(j) = 0
             isched = hru(j)%mgt_ops
@@ -380,6 +377,9 @@
       !! update simulation year
       time%yrc = time%yrc + 1
       end do            !!     end annual loop
+     
+      !! write output for SWIFT input
+      !if (bsn_cc%swift_out == 1) call swift_output
       
       !! ave annual calibration output and reset time for next simulation
       call calsoft_ave_output

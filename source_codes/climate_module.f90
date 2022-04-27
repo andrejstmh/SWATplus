@@ -57,6 +57,7 @@
         real :: ppet_an = 0.                    !!               |average annual precip/pet
         real :: precip_sum = 0.                 !!               |30 day sum of PET (mm)
         real :: pet_sum = 0.                    !!               |30 day sum of PRECIP (mm)
+        real :: p_pet_rto = 0.                  !!               |30 day sum of PRECIP/PET ratio
         real, dimension (12) :: pcf = 0.        !!               |normalization factor for precipitation
         real, dimension (12) :: amp_r = 0.      !!               |alpha factor for rain(mo max 0.5h rain)
         real, dimension (12) :: pet             !!               |average monthly PET (mm)

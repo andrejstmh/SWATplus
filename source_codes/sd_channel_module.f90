@@ -209,7 +209,7 @@
           character (len=6) :: yrc        =  "    yr"
           character (len=8) :: isd        =  "   unit "
           character (len=8) :: id         =  " gis_id "           
-          character (len=16) :: name      =  " name          "        
+          character (len=16) :: name      =  " name          "         
           character(len=16) :: flo_in     =  "         flo_in"        ! (m^3/s)
           character(len=16) :: aqu_in     =  "         geo_bf"        ! (m^3/s)
           character(len=16) :: flo        =  "        flo_out"        ! (m^3/s)
@@ -231,6 +231,7 @@
           character(len=16) :: flo_in_mm  =  "      flo_in_mm"        ! (mm)
           character(len=16) :: aqu_in_mm  =  "      aqu_in_mm"        ! (mm)
           character(len=16) :: flo_mm     =  "     flo_out_mm"        ! (mm)
+          character(len=16) :: sed_stor   =  "       sed_stor"        ! (tons)
       end type sdch_header
       type (sdch_header) :: sdch_hdr
       
@@ -263,6 +264,7 @@
           character(len=16) :: flo_in_mm  =  "             mm"        ! (mm)
           character(len=16) :: aqu_in_mm  =  "             mm"        ! (mm)      
           character(len=16) :: flo_mm     =  "             mm"        ! (mm) 
+          character(len=16) :: sed_stor   =  "           tons"        ! (tons)
       end type sdch_header_units
       type (sdch_header_units) :: sdch_hdr_units
      

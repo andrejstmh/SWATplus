@@ -32,7 +32,7 @@
       integer :: ob1                  !none       |beginning of loop
       integer :: ob2                  !none       |ending of loop
       integer :: iobj_tot             !           |
-      real ::mexco_sp                 !           |
+      real :: mexco_sp                !           |
       integer :: i                    !none       |counter
       integer :: ii                   !none       |counter
       integer :: ielem                !none       |counter 

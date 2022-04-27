@@ -67,6 +67,10 @@
               ob(i)%typ = obtyp
               ob(i)%nhyds = nhyds
               allocate (ob(i)%hd(nhyds))
+              if (obtyp == "hru") then
+                allocate (ob(i)%hd_aa(nhyds))
+                ob(i)%hd_aa(:) = hz
+              end if
               if (cs_db%num_tot > 0) then
                 allocate (obcs(i)%hd(nhyds))
                 npests = cs_db%num_pests

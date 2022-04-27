@@ -111,6 +111,7 @@
       do ihyd = 3, 5
         ob(icmd)%hd(1) = ob(icmd)%hd(1) + ob(icmd)%hd(ihyd)
       end do
+      
       !set constituents
       do ipest = 1, cs_db%num_pests
         obcs(icmd)%hd(1)%pest(ipest) = obcs(icmd)%hd(3)%pest(ipest) + obcs(icmd)%hd(4)%pest(ipest) +    &
