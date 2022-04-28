@@ -218,6 +218,7 @@
         integer :: cur_op = 1
         integer :: irr_dmd_dtbl = 0
         real :: sno_mm                          !mm H2O        |amount of water in snow on current day
+        real :: snotmp = 0 ! Temperature of snow pack 
         real :: water_seep
         real :: water_evap
         real :: precip_aa

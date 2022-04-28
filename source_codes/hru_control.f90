@@ -255,7 +255,7 @@
       
         !! wetland processes
         if (ires > 0) then
-          call wetland_control
+          !call wetland_control
         else
           ht2%flo = wet(j)%flo * hru(j)%area_ha * 10.
           wet(j)%flo = 0.
@@ -571,7 +571,7 @@
         hwb_d(j)%precip = w%precip
         hwb_d(j)%snofall = snofall
         hwb_d(j)%snomlt = snomlt
-        hwb_d(j)%surq_gen = qday
+        hwb_d(j)%surq_gen = surfq(j)
         hwb_d(j)%latq = latq(j)
         hwb_d(j)%wateryld = qdr(j)
         hwb_d(j)%perc = sepbtm(j)
@@ -583,7 +583,7 @@
         hwb_d(j)%ecanopy = canev
         hwb_d(j)%eplant = ep_day
         hwb_d(j)%esoil = es_day + hru(j)%water_evap 
-        hwb_d(j)%surq_cont = surfq(j)
+        hwb_d(j)%surq_cont = qday
         hwb_d(j)%cn = cnday(j)
         hwb_d(j)%sw = soil(j)%sw
         hwb_d(j)%sw_final = soil(j)%sw

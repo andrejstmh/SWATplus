@@ -142,6 +142,9 @@
      !! all pesticide outputs
         read (107,*,iostat=eof) name, pco%pest
         if (eof < 0) exit  
+     !! all wetland outputs
+        read (107,*,iostat=eof) name, pco%wetland
+        if (eof < 0) exit
         exit
       end do
       end if

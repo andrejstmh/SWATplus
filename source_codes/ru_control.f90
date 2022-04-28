@@ -23,8 +23,8 @@
       character (len=3) :: ihtyp         !            |
       integer :: iday                    !            |
       integer :: ihdmx                   !            |
-      real :: sumfrac                    !            |
-      real :: sumarea                    !            |
+      !real :: sumfrac                    !            |
+      !real :: sumarea                    !            |
       integer :: ielem                   !none        |counter
       integer :: ise                     !none        |counter
       integer :: iob                     !            |
@@ -73,8 +73,8 @@
         obcs(icmd)%hd(5) = hin_csz
       end if
       
-      sumfrac = 0.
-      sumarea = 0.
+      !sumfrac = 0.
+      !sumarea = 0.
       
       do ielem = 1, ru_def(iru)%num_tot
         ise = ru_def(iru)%num(ielem)
@@ -87,8 +87,8 @@
         ht5 = hz
         delrto = hz
         
-        sumfrac = sumfrac + ru_elem(ise)%frac
-        sumarea = sumarea + ob(iob)%area_ha
+        !sumfrac = sumfrac + ru_elem(ise)%frac
+        !sumarea = sumarea + ob(iob)%area_ha
         
         !define delivery ratio - all variables are hyd_output type
 
@@ -134,13 +134,15 @@
             end if
             ht1 = ef * ht1
             ob(icmd)%hd(ihtypno) = ob(icmd)%hd(ihtypno) + ht1
-            ru_d(iru) = ru_d(iru) + ht1
+            !ru_d(iru) = ru_d(iru) + ht1
             !! set constituents
             do ipest = 1, cs_db%num_pests
               obcs(icmd)%hd(ihtypno)%pest(ipest) = obcs(icmd)%hd(ihtypno)%pest(ipest) + hcs1%pest(ipest)
             end do
           end do
-          
+          do ihtypno = 3, ob(iob)%nhyds
+              ru_d(iru) = ru_d(iru) + ob(icmd)%hd(ihtypno)
+          end do
         end if      !ru_elem(ise)%obtyp == "exc"
   
         !! sum subdaily hydrographs using subdaily precip and green and ampt runoff

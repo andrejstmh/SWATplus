@@ -190,8 +190,8 @@
                   ob(i)%frac_out(isp), isp = 1, nout)
                 
                   !rtb gwflow
+                  aqu_found = 0
                   if (sp_ob%gwflow > 0) then
-                    aqu_found = 0
                     do k=1,ob(i)%src_tot
                       if(ob(i)%obtyp_out(k).eq.'aqu') then
                         aqu_found = 1  

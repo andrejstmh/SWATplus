@@ -499,7 +499,7 @@
       
       !! subtract seepage
       if (ht2%flo < 10000. * ch_wat_d(ich)%seep) then
-        ch_wat_d(ich)%seep = ht2%flo * 10000.      !m3 -> ha-m
+        ch_wat_d(ich)%seep = ht2%flo / 10000.      !m3 -> ha-m
         ht2%flo = 0.
       else
         ht2%flo = ht2%flo - 10000. * ch_wat_d(ich)%seep
@@ -507,7 +507,7 @@
       
       !! subtract evaporation
       if (ht2%flo < 10000. * ch_wat_d(ich)%evap) then
-        ch_wat_d(ich)%evap = ht2%flo * 10000.      !m3 -> ha-m
+        ch_wat_d(ich)%evap = ht2%flo / 10000.      !m3 -> ha-m
         ht2%flo = 0.
       else
         ht2%flo = ht2%flo - 10000. * ch_wat_d(ich)%evap

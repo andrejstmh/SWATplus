@@ -54,10 +54,10 @@
 
 
         !! try setting for tile
-        if (hru(ihru)%tiledrain > 0) then
-          hru(ihru)%hyd%cn3_swf = 0.95
-          hru(ihru)%hyd%perco = 0.1
-        end if
+        !if (hru(ihru)%tiledrain > 0) then
+        !  hru(ihru)%hyd%cn3_swf = 0.95
+        !  hru(ihru)%hyd%perco = 0.1
+        !end if
 
         if (hru(ihru)%hyd%perco > 1.e-9) then
           perc_ln_func = 1.0052 * log(-log(hru(ihru)%hyd%perco - 1.e-6)) + 5.6862
