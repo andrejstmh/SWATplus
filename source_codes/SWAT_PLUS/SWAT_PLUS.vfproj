@@ -15,7 +15,7 @@
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Debug|x64">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" BufferedIO="true" IgnoreStandardIncludePath="true" Diagnostics="diagnosticsDisableAll" WarnInterfaces="true" FloatingPointExceptionHandling="fpe0" Traceback="true" RuntimeChecks="rtChecksAll" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebug"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" BufferedIO="true" IgnoreStandardIncludePath="true" Diagnostics="diagnosticsShowAll" WarnInterfaces="true" FloatingPointExceptionHandling="fpe0" Traceback="true" RuntimeChecks="rtChecksAll" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebug"/>
 				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" GenerateDebugInformation="true" SubSystem="subSystemConsole"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
@@ -324,7 +324,6 @@
 		<File RelativePath="..\mgt_sched.f90"/>
 		<File RelativePath="..\mgt_tillfactor.f90"/>
 		<File RelativePath="..\mgt_transplant.f90"/>
-		<File RelativePath="..\mgt_trop_gro.f90"/>
 		<File RelativePath="..\NCsed_leach.f90"/>
 		<File RelativePath="..\NP_flow.F90"/>
 		<File RelativePath="..\nut_denit.f90"/>
@@ -384,10 +383,6 @@
 		<File RelativePath="..\pl_leaf_drop.f90"/>
 		<File RelativePath="..\pl_leaf_gro.f90"/>
 		<File RelativePath="..\pl_leaf_senes.f90"/>
-		<File RelativePath="..\pl_moisture_gro.f90"/>
-		<File RelativePath="..\pl_moisture_gro_init.f90"/>
-		<File RelativePath="..\pl_moisture_senes.f90"/>
-		<File RelativePath="..\pl_moisture_senes_init.f90"/>
 		<File RelativePath="..\pl_mortality.f90"/>
 		<File RelativePath="..\pl_nfix.f90"/>
 		<File RelativePath="..\pl_nup.f90"/>
