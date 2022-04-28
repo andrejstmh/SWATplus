@@ -53,7 +53,7 @@
       aqu_d(iaq)%rchrg = ob(icmd)%hin%flo / (10. * ob(icmd)%area_ha)
       
       !! lag recharge from bottom of soil to water table ** disabled
-      !aqu_d(iaq)%rchrg = (1. - aqu_prm(iaq)%delay_e) * aqu_d(iaq)%rchrg + aqu_prm(iaq)%delay_e * aqu_st(iaq)%rchrg_prev
+      aqu_d(iaq)%rchrg = (1. - aqu_prm(iaq)%delay_e) * aqu_d(iaq)%rchrg + aqu_prm(iaq)%delay_e * aqu_prm(iaq)%rchrg_prev
       
       aqu_prm(iaq)%rchrg_prev = aqu_d(iaq)%rchrg
       
@@ -94,7 +94,7 @@
       end if
 
       !! compute nitrate recharge into the aquifer
-      aqu_d(iaq)%rchrg_n = ob(icmd)%hin%no3 / (10. * ob(icmd)%area_ha)
+      aqu_d(iaq)%rchrg_n = ob(icmd)%hin%no3 ! kg N
       if (ob(icmd)%hin%no3 > 1.) then
         ii = 1
       end if
@@ -112,7 +112,10 @@
       aqu_d(iaq)%no3 = aqu_d(iaq)%no3 - ob(icmd)%hd(1)%no3
       aqu_d(iaq)%no3gw = ob(icmd)%hd(1)%no3
       
+      ! todo:revapno3
       !revapno3 = conc * revap -- dont include nitrate uptake by plant
+      
+      !todo:Half-life of NO3 
       
       !! compute nitrate seepage out of aquifer
       aqu_d(iaq)%seepno3 = conc_no3 * aqu_d(iaq)%seep
@@ -123,7 +126,7 @@
       !! compute mineral p flow from aquifer - m^3 * ppm * 1000 kg/m^3 = 1/1000
       aqu_d(iaq)%minp = ob(icmd)%hin%flo * aqudb(iaqdb)%minp / 1000.
       !! set hydrograph soluble p from aquifer- convert kg/ha to m3
-      ob(icmd)%hd(1)%solp = 10. * aqu_d(iaq)%minp * ob(icmd)%area_ha
+      !ob(icmd)%hd(1)%solp = 10. * aqu_d(iaq)%minp * ob(icmd)%area_ha
       ob(icmd)%hd(1)%solp = ob(icmd)%hin%flo * aqudb(iaqdb)%minp / 1000.
 
       !! compute fraction of flow to each channel in the aquifer

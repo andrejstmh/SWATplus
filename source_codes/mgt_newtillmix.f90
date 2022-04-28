@@ -31,6 +31,7 @@
       use hru_module, only: tillage_days, tillage_depth, tillage_switch
       use soil_module
       use constituent_mass_module
+      use plant_module, only: pcom
       
       implicit none
 
@@ -59,7 +60,9 @@
       real :: sol_msm(soil(jj)%nly)     !              |sol_mass mixed
       real :: sol_msn(soil(jj)%nly)     !              |sol_mass not mixed 
       real :: frac_dep(soil(jj)%nly)    !              |fraction of soil layer in tillage depth
-
+      type(organic_mass) :: residue_mixed
+      integer :: ipl
+      
       npmx = cs_db%num_pests
 
       frac_mixed = 0.
@@ -176,6 +179,7 @@
           smix(18) = smix(18) / dtil
           smix(19) = smix(19) / dtil
 
+          
           do l = 1, soil(jj)%nly
 			
             ! reconstitute each soil layer 
@@ -222,8 +226,26 @@
             !!by zhang 
             !!==============
 
-	  end do
-	
+          end do
+
+        ! mixing of residue into lower layers
+        !TODO check destination of mixed residue (SWAT had soil_rsd variable for each of the soil layers. SWAT+  - not anymore so)
+        !frac_non_mixed = sol_msn(1) / sol_mass(1)
+        !rsd1(jj)%tot(1) =  frac_non_mixed * rsd1(jj)%tot(1)
+        !residue_mixed = (1 - frac_non_mixed) * rsd1(jj)%tot(1)
+        do ipl = 1, pcom(jj)%npl
+            residue_mixed = rsd1(jj)%tot(ipl)
+            do l = 1, soil(jj)%nly
+                if (l == 1) then
+                    rsd1(jj)%tot(ipl) =  frac_dep(l) * residue_mixed
+                else 
+                    ! mix residue to slow humus (hs)
+                    soil1(jj)%hs(l) = soil1(jj)%hs(l) + frac_dep(l) * residue_mixed
+                endif
+            end do
+        end do
+        
+          
         if (bsn_cc%cswat == 1) then
             call mgt_tillfactor(jj,bmix,emix,dtil)
         end if
