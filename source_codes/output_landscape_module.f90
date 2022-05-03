@@ -528,11 +528,11 @@
       type (output_nutbal_header_units1) :: nb_hdr_units1
       
       type output_losses_header1
-        character (len=5) :: day        =  "  jday"
+        character (len=5) :: day        =  " jday"
         character (len=6) :: mo         =  "   mon"
         character (len=6) :: day_mo     =  "   day"
         character (len=6) :: yrc        =  "    yr"
-        character (len=9) :: isd        =  "   unit "
+        character (len=9) :: isd        =  "    unit"
         character (len=8) :: id         =  " gis_id "        
         character (len=9) :: name      =  " name    "        
         character (len=17) :: sedyld    =  "           sedyld"
