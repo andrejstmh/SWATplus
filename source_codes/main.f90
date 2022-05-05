@@ -15,11 +15,17 @@
       write (*,1000)
       open (9003,file='simulation.out')
       write (9003,1000)
- 1000 format(1x,"                  SWAT+               ",/,             &
+1000  format(1x,"                  SWAT+               ",/,             &
      &          "Revision 60.5.4        PAIC 28.04.2022",/,             &
      &          "      Soil & Water Assessment Tool    ",/,             &
      &          "               PC Version             ",/,             &
      &          "    Program reading . . . executing",/)
+
+#ifdef DEBUG
+    open (7743,file='!debuguot.txt')
+#else
+
+#endif
 
       call proc_bsn   
       call proc_date_time
