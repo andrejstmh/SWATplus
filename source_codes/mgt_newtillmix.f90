@@ -233,17 +233,17 @@
         !frac_non_mixed = sol_msn(1) / sol_mass(1)
         !rsd1(jj)%tot(1) =  frac_non_mixed * rsd1(jj)%tot(1)
         !residue_mixed = (1 - frac_non_mixed) * rsd1(jj)%tot(1)
-        do ipl = 1, pcom(jj)%npl
-            residue_mixed = rsd1(jj)%tot(ipl)
-            do l = 1, soil(jj)%nly
-                if (l == 1) then
-                    rsd1(jj)%tot(ipl) =  frac_dep(l) * residue_mixed
-                else 
-                    ! mix residue to slow humus (hs)
-                    soil1(jj)%hs(l) = soil1(jj)%hs(l) + frac_dep(l) * residue_mixed
-                endif
-            end do
-        end do
+        !do ipl = 1, pcom(jj)%npl
+        !    residue_mixed = rsd1(jj)%tot(ipl)
+        !    do l = 1, soil(jj)%nly
+        !        if (l == 1) then
+        !            rsd1(jj)%tot(ipl) =  frac_dep(l) * residue_mixed
+        !        else 
+        !            ! mix residue to slow humus (hs)
+        !            soil1(jj)%hs(l) = soil1(jj)%hs(l) + frac_dep(l) * residue_mixed
+        !        endif
+        !    end do
+        !end do
         
           
         if (bsn_cc%cswat == 1) then
