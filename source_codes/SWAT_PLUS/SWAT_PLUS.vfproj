@@ -198,7 +198,7 @@
 		<File RelativePath="..\constit_hyd_mult.f90"/>
 		<File RelativePath="..\constituent_mass_module.f90"/>
 		<File RelativePath="..\curno.f90"/>
-		<File RelativePath=".\debugprint.f90"/>
+		<File RelativePath="..\debugprint.f90"/>
 		<File RelativePath="..\define_unit_elements.f90"/>
 		<File RelativePath="..\dr_db_read.f90"/>
 		<File RelativePath="..\dr_module.f90"/>

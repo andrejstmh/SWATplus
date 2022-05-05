@@ -7,8 +7,8 @@
         real, intent (in) :: value
         write(7743, '(I0,"'//achar(9)//'",I0,"'//achar(9)//'",I0,"'//achar(9)//'",A,"'//achar(9)//'",G0)') &
         &time%yrc, time%day, nr, stype, value
-        write(*, '(I0,"'//achar(9)//'",I0,"'//achar(9)//'",I0,"'//achar(9)//'",A,"'//achar(9)//'",G0)') &
-        &time%yrc, time%day, nr, stype, value
+        !write(*, '(I0,"'//achar(9)//'",I0,"'//achar(9)//'",I0,"'//achar(9)//'",A,"'//achar(9)//'",G0)') &
+        !&time%yrc, time%day, nr, stype, value
         return
     end
 #else
