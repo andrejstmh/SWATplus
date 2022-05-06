@@ -143,6 +143,7 @@
           rsd1(j)%tot(ipl)%n = Max(1.e-6, rsd1(j)%tot(ipl)%n)
           rsd1(j)%tot(ipl)%n = rsd1(j)%tot(ipl)%n - rmn1
           soil1(j)%mn(1)%no3 = soil1(j)%mn(1)%no3 + .8 * rmn1
+          call debugprint(1, 'rmn1', .8 * rmn1)
           soil1(j)%hact(1)%n = soil1(j)%hact(1)%n + .2 * rmn1
           
           rsd1(j)%tot(ipl)%p = Max(1.e-6, rsd1(j)%tot(ipl)%p)
@@ -211,6 +212,7 @@
           !! move mineralized nutrients between pools
           soil1(j)%hact(k)%n = Max(1.e-6, soil1(j)%hact(k)%n - hmn)
           soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + hmn
+          call debugprint(k, 'hmn', hmn)
           soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p - hmp
           soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + hmp
           
@@ -276,6 +278,7 @@
 	          wdn = 0.
 	        endif
 	        soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 - wdn
+            call debugprint(k, 'wdn', -wdn)
           end if
           hnb_d(j)%denit = hnb_d(j)%denit + wdn
 

@@ -31,8 +31,9 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use basin_module
+      use time_module
       use organic_mineral_mass_module
-      use hru_module, only : hru, latno3, percn, surqno3, tileno3, surfq, ihru, qtile, gwtrann
+      use hru_module, only : hru, latno3, percn, surqno3, tileno3, surfq, ihru, qtile, gwtrann, sepbtm, latq
       use gwflow_module, only : gw_transfer_flag,gw_transport_flag,hru_ntran
       use soil_module
       
@@ -63,6 +64,7 @@
       if(gw_transfer_flag.eq.1 .and. gw_transport_flag.eq.1) then
         do jj = 1, soil(j)%nly
           soil1(j)%mn(jj)%no3 = soil1(j)%mn(jj)%no3 + hru_ntran(j,jj) !kg/ha
+          call debugprint(jj, 'hrutran', hru_ntran(j,jj))
           gwtrann(j) = gwtrann(j) + hru_ntran(j,jj) !HRU total
         enddo
       endif
@@ -76,6 +78,7 @@
         !! add nitrate leached from layer above
         soil1(j)%mn(jj)%no3 = soil1(j)%mn(jj)%no3 + percnlyr
 	    if (soil1(j)%mn(jj)%no3 < 1.e-6) soil1(j)%mn(jj)%no3 = 0.0
+        call debugprint(jj, 'percnlyr+', percnlyr)
 
         !! determine concentration of nitrate in mobile water
         if (jj == 1) then
@@ -94,6 +97,7 @@
           surqno3(j) = surfq(j) * bsn_prm%nperco * co
           surqno3(j) = Min(surqno3(j), soil1(j)%mn(jj)%no3)
           soil1(j)%mn(jj)%no3 = soil1(j)%mn(jj)%no3 - surqno3(j)
+          call debugprint(jj, 'surqno3', -surqno3(j))
         endif
 
         !! calculate nitrate in tile flow 
@@ -117,6 +121,7 @@
           tileno3_left = tileno3(j)
           do jlo = jj, soil(j)%nly
             soil1(j)%mn(jlo)%no3 = soil1(j)%mn(jlo)%no3 - tileno3_left
+            call debugprint(jlo, 'tileno3', -tileno3_left)
             if (soil1(j)%mn(jlo)%no3 < 0.) then
               tileno3_left = - soil1(j)%mn(jlo)%no3
               soil1(j)%mn(jlo)%no3 = 0.
@@ -136,11 +141,13 @@
         ssfnlyr = Min(ssfnlyr, soil1(j)%mn(jj)%no3)
         latno3(j) = latno3(j) + ssfnlyr
         soil1(j)%mn(jj)%no3 = soil1(j)%mn(jj)%no3 - ssfnlyr
+        call debugprint(jj, 'latno3', -ssfnlyr)
 
         !! calculate nitrate in percolate
         percnlyr = co * soil(j)%ly(jj)%prk
         percnlyr = Min(percnlyr, soil1(j)%mn(jj)%no3)
         soil1(j)%mn(jj)%no3 = soil1(j)%mn(jj)%no3 - percnlyr
+        call debugprint(jj, 'percnlyr-', -percnlyr)
         
         !! last layer leaches from soil profile
         if (jj == soil(j)%nly) then
@@ -152,6 +159,10 @@
       nloss = Max(0.,nloss)
       nloss = Amin1(1.,nloss)
       latno3(j) = (1. - nloss) * latno3(j)
-
+      !write (7743,*) time%day, time%mo, time%day_mo, time%yrc, j,  &
+      !   soil1(j)%mn(1)%no3,soil1(j)%mn(2)%no3,soil1(j)%mn(3)%no3,soil1(j)%mn(4)%no3
+         !surqno3(j), latno3(j), tileno3(j), percn(j), &
+         !surfq(j), latq(j), qtile, sepbtm(j) 
+      
       return
       end subroutine nut_nlch

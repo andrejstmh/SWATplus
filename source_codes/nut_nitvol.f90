@@ -77,6 +77,7 @@
                soil1(j)%mn(k)%nh4 = 0.
              endif
              soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + rnit
+             call debugprint(k, 'nitvol', rnit)
 
              !! calculate ammonia volatilization
              soil1(j)%mn(k)%nh4 = Max(1.e-6, soil1(j)%mn(k)%nh4 - rvol)

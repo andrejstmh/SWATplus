@@ -109,6 +109,7 @@
           l = 1
           if (bsn_cc%cswat == 0) then
             soil1(j)%mn(l)%no3 = soil1(j)%mn(l)%no3 + manure_kg * (1. - fertdb(it)%fnh3n) * fertdb(it)%fminn
+            call debugprint(l, 'manure', manure_kg * (1. - fertdb(it)%fnh3n) * fertdb(it)%fminn)
             soil1(j)%tot(l)%n = soil1(j)%tot(l)%n + manure_kg * fertdb(it)%forgn 
             soil1(j)%mn(l)%nh4 = soil1(j)%mn(l)%nh4 + manure_kg * fertdb(it)%fnh3n * fertdb(it)%fminn
             soil1(j)%mp(l)%lab = soil1(j)%mp(l)%lab + manure_kg * fertdb(it)%fminp
@@ -119,6 +120,8 @@
           if (bsn_cc%cswat == 1) then
           soil1(j)%mn(l)%no3 = soil1(j)%mn(l)%no3 + manure_kg *       &
                   (1. - fertdb(it)%fnh3n) * fertdb(it)%fminn
+          call debugprint(l, 'manure', manure_kg *        &   
+                       (1. - fertdb(it)%fnh3n) * fertdb(it)%fminn)
           soil1(j)%man(l)%n = soil1(j)%man(l)%n + manure_kg *         &
                        fertdb(it)%forgn
           soil1(j)%mn(l)%nh4 = soil1(j)%mn(l)%nh4 + manure_kg *       &
@@ -136,6 +139,8 @@
           if (bsn_cc%cswat == 2) then
           soil1(j)%mn(l)%no3 = soil1(j)%mn(l)%no3 + manure_kg *        &   
                        (1. - fertdb(it)%fnh3n) * fertdb(it)%fminn
+          call debugprint(l, 'manure', manure_kg *        &   
+                       (1. - fertdb(it)%fnh3n) * fertdb(it)%fminn)
           !sol_fon(l,j) = sol_fon(l,j) + manure_kg(j) * forgn(it)
           orgc_f = 0.35  
           X1 = manure_kg

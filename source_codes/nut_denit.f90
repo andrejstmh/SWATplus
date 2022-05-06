@@ -20,6 +20,7 @@
 	  wdn =  soil1(j)%mn(k)%no3 * (1. - Exp(-bsn_prm%cdn * cdg * vof *          &
               soil1(j)%tot(k)%c))
 	  soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 - wdn
+      call debugprint(k, 'ndenit', -wdn)
 
 	  return
 	  end subroutine nut_denit

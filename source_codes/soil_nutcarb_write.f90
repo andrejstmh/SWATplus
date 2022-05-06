@@ -96,9 +96,9 @@
         !  soil_prof_water
         
         ! write all carbon, organic n and p, and mineral n and p for the soil profile, plants, and residue
-        !write (2610,100) time%day, time%mo, time%day_mo, time%yrc, j, ob(j)%gis_id, ob(j)%name,soil1(j)%tot_mn, &
-        !  soil1(j)%tot_mp, soil1(j)%tot_org%c, soil1(j)%tot_org%n, soil1(j)%tot_org%p, pl_mass(j)%tot_com%c,    &
-        !  pl_mass(j)%tot_com%n, pl_mass(j)%tot_com%p, rsd1(j)%tot_com%c, rsd1(j)%tot_com%n, rsd1(j)%tot_com%p
+        write (2610,100) time%day, time%mo, time%day_mo, time%yrc, j, ob(j)%gis_id, ob(j)%name,soil1(j)%tot_mn, &
+          soil1(j)%tot_mp, soil1(j)%tot_org%c, soil1(j)%tot_org%n, soil1(j)%tot_org%p, pl_mass(j)%tot_com%c,    &
+          pl_mass(j)%tot_com%n, pl_mass(j)%tot_com%p, rsd1(j)%tot_com%c, rsd1(j)%tot_com%n, rsd1(j)%tot_com%p
     
         ! write all carbon, organic n and p, and mineral n and p for the soil profile, plants, and residue
         !!write (2610,100) time%day, time%mo, time%day_mo, time%yrc, j, ob(j)%gis_id, ob(j)%name, soil1(j)%tot_mn, &

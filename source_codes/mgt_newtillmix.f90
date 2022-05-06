@@ -185,6 +185,7 @@
             ! reconstitute each soil layer 
             frac_non_mixed = sol_msn(l) / sol_mass(l)
             
+            call debugprint(l, 'newtilmix', soil1(jj)%mn(l)%no3 * (frac_non_mixed - 1.) + smix(1) * frac_dep(l))
             soil1(jj)%mn(l)%no3 = soil1(jj)%mn(l)%no3 * frac_non_mixed + smix(1) * frac_dep(l)
             soil1(jj)%hsta(l)%n = soil1(jj)%hsta(l)%n * frac_non_mixed + smix(2) * frac_dep(l)
             soil1(jj)%mn(l)%nh4 = soil1(jj)%mn(l)%nh4 * frac_non_mixed + smix(3) * frac_dep(l)
@@ -233,17 +234,17 @@
         !frac_non_mixed = sol_msn(1) / sol_mass(1)
         !rsd1(jj)%tot(1) =  frac_non_mixed * rsd1(jj)%tot(1)
         !residue_mixed = (1 - frac_non_mixed) * rsd1(jj)%tot(1)
-        !do ipl = 1, pcom(jj)%npl
-        !    residue_mixed = rsd1(jj)%tot(ipl)
-        !    do l = 1, soil(jj)%nly
-        !        if (l == 1) then
-        !            rsd1(jj)%tot(ipl) =  frac_dep(l) * residue_mixed
-        !        else 
-        !            ! mix residue to slow humus (hs)
-        !            soil1(jj)%hs(l) = soil1(jj)%hs(l) + frac_dep(l) * residue_mixed
-        !        endif
-        !    end do
-        !end do
+        do ipl = 1, pcom(jj)%npl
+            residue_mixed = rsd1(jj)%tot(ipl)
+            do l = 1, soil(jj)%nly
+                if (l == 1) then
+                    rsd1(jj)%tot(ipl) =  frac_dep(l) * residue_mixed
+                else 
+                    ! mix residue to slow humus (hs)
+                    soil1(jj)%hs(l) = soil1(jj)%hs(l) + frac_dep(l) * residue_mixed
+                endif
+            end do
+        end do
         
           
         if (bsn_cc%cswat == 1) then
