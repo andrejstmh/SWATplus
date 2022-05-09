@@ -98,6 +98,13 @@
         type (organic_mass) :: lig                                  !       |
         type (organic_mass) :: bm                                   !       |microbial biomass pool
         type (organic_mass) :: man                                  !       |manure pool
+      !contains
+      !  procedure :: update_tot_com :: pass(residue_mass_rec) => update_total_surface_residue
+      !  property, nopass  :: static   => get_static,set_static ! static property
+      !  property,pass :: instance => get_instance,set_instance ! instance property
+      !  property,pass :: Inx => set_inx0, get_inx0, &          ! indexer
+      !                          get_inx1, set_inx1, &
+      !                          get_inx2, set_inx2
       end type residue_mass1
       !soil profile object - dimensioned to number of hrus, using the hru pointer
       type (residue_mass1), dimension(:), allocatable :: rsd1
@@ -387,6 +394,14 @@
         o_m2%p = o_m1%p / const
       end function om_divide
       
-
+      subroutine update_total_surface_residue(residue_mass_rec)
+         type (residue_mass1), intent (inout) :: residue_mass_rec
+         type (integer) :: i
+         residue_mass_rec%tot_com = orgz
+         do i=1, SIZE(residue_mass_rec%tot)
+            !residue_mass_rec%tot_com = om_add1(residue_mass_rec%tot_com, residue_mass_rec%tot)
+            residue_mass_rec%tot_com = residue_mass_rec%tot_com + residue_mass_rec%tot(i)
+         end do
+      end subroutine
       
       end module organic_mineral_mass_module 

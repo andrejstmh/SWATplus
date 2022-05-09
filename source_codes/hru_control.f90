@@ -375,10 +375,11 @@
         end do
         
         !! compute total surface residue
-        rsd1(j)%tot_com = orgz
-        do ipl = 1, pcom(j)%npl
-          rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
-        end do
+        call update_total_surface_residue(rsd1(j))
+        !rsd1(j)%tot_com = orgz
+        !do ipl = 1, pcom(j)%npl
+        !  rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
+        !end do
         
         !! compute actual ET for day in HRU
         etday = ep_day + es_day + canev
