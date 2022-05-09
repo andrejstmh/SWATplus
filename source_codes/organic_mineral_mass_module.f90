@@ -404,4 +404,29 @@
          end do
       end subroutine
       
+      subroutine update_plant_mass_surface_residue(plantnr, residue_mass_rec, soil_profile_mass_rec, add_org_mass_rec)
+         !fresh residue plants and soil layers
+         type (integer), intent (in) :: plantnr
+         type (residue_mass1), intent (inout) :: residue_mass_rec
+         type (soil_profile_mass1), intent (inout) :: soil_profile_mass_rec
+         type (organic_mass), intent (in) :: add_org_mass_rec
+         residue_mass_rec%tot(plantnr) = residue_mass_rec%tot(plantnr) + add_org_mass_rec
+         residue_mass_rec%tot_com = residue_mass_rec%tot_com + add_org_mass_rec
+         !residue_mass_rec%tot_com = residue_mass_rec%tot_com
+         soil_profile_mass_rec%rsd(1) = soil_profile_mass_rec%rsd(1) + add_org_mass_rec
+      end subroutine
+      
+      subroutine remove_plant_mass_surface_residue(plantnr, residue_mass_rec, soil_profile_mass_rec, rm_org_mass_rec)
+         !fresh residue plants and soil layers
+         type (integer), intent (in) :: plantnr
+         type (residue_mass1), intent (inout) :: residue_mass_rec
+         type (soil_profile_mass1), intent (inout) :: soil_profile_mass_rec
+         type (organic_mass), intent (inout) :: rm_org_mass_rec
+         residue_mass_rec%tot(plantnr) = residue_mass_rec%tot(plantnr) - rm_org_mass_rec
+         !if tot is negative then correct rm_org_mass_rec
+         residue_mass_rec%tot_com = residue_mass_rec%tot_com - rm_org_mass_rec
+         !residue_mass_rec%tot_com = residue_mass_rec%tot_com
+         soil_profile_mass_rec%rsd(1) = soil_profile_mass_rec%rsd(1) - rm_org_mass_rec
+      end subroutine
+      
       end module organic_mineral_mass_module 

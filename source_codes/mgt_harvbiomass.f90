@@ -55,7 +55,8 @@
       !! add clippings (biomass left behind) to slow humus pool of soil
       clip = 1. - harveff
       harv_left = clip * pl_yield
-      rsd1(j)%tot(1) = harv_left + rsd1(j)%tot(1)
+      call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), harv_left)
+      !rsd1(j)%tot(1) = harv_left + rsd1(j)%tot(1)
 
 	  !! calculation for dead roots allocations, resetting phenology, updating other pools
       !! reset leaf area index and fraction of growing season

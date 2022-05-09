@@ -501,10 +501,11 @@
         end if
       
       ! update total residue on surface
-      rsd1(j)%tot_com = orgz
-      do ipl = 1, pcom(j)%npl
-        rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
-      end do
+      call update_total_surface_residue(rsd1(j))
+      !rsd1(j)%tot_com = orgz
+      !do ipl = 1, pcom(j)%npl
+      !  rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
+      !end do
 
       ! compute outflow objects (flow to channels, reservoirs, or landscape)
       ! if flow from hru is directly routed
