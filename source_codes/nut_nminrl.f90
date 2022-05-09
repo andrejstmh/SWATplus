@@ -70,7 +70,7 @@
       real :: sut           !none          |soil water factor
       real :: nactfr        !none          |nitrogen active pool fraction. The fraction
                             !              |of organic nitrogen in the active pool. 
-
+      type(organic_mass) :: fresh_org_rm
       j = ihru
       nactfr = .02
       !zero transformations for summing layers
@@ -251,20 +251,24 @@
             end if
             decr = Max(bsn_prm%decr_min, decr)
             decr = Min(decr, 1.)
-            rmn1 = decr * (soil1(j)%str(k)%n + soil1(j)%lig(k)%n + soil1(j)%meta(k)%n)
-            rmp = decr * (soil1(j)%str(k)%p + soil1(j)%lig(k)%p + soil1(j)%meta(k)%p)
-
+            !rmn1 = decr * soil1(j)%rsd.n (soil1(j)%str(k)%n + soil1(j)%lig(k)%n + soil1(j)%meta(k)%n)
+            !rmp = decr * (soil1(j)%str(k)%p + soil1(j)%lig(k)%p + soil1(j)%meta(k)%p)
+            
+            fresh_org_rm = decr * soil1(j)%rsd(k)
+            
             soil1(j)%str(k)%n = soil1(j)%str(k)%n * (1. - decr)
             soil1(j)%lig(k)%n = soil1(j)%lig(k)%n * (1. - decr)
             soil1(j)%meta(k)%n = soil1(j)%meta(k)%n * (1. - decr)
             soil1(j)%str(k)%p = soil1(j)%str(k)%p * (1. - decr)
             soil1(j)%lig(k)%p = soil1(j)%lig(k)%p * (1. - decr)
             soil1(j)%meta(k)%p = soil1(j)%meta(k)%p * (1. - decr)
-
-         !   soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * rmn1
-         !   soil1(j)%hact(k)%n = soil1(j)%hact(k)%n + .2 * rmn1
-         !   soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + .8 * rmp
-         !   soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p + .2 * rmp
+            
+            soil1(j)%rsd(k) = fresh_org_rm
+            
+            soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * fresh_org_rm.n
+            soil1(j)%hact(k)%n = soil1(j)%hact(k)%n + .2 * fresh_org_rm.n
+            soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + .8 * fresh_org_rm.p
+            soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p + .2 * fresh_org_rm.p
             
          !   hnb_d(j)%rsd_nitorg_n = hnb_d(j)%rsd_nitorg_n + rmn1
          !   hnb_d(j)%rsd_laborg_p = hnb_d(j)%rsd_laborg_p + rmp
