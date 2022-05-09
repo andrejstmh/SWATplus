@@ -139,7 +139,7 @@
           soil1(j)%hact(1)%c = soil1(j)%hact(1)%c + decr * rsd1(j)%tot(ipl)%c
           
           !! mineralization of residue n and p
-          rmn1 = decr * rsd1(j)%tot(ipl)%n 
+          rmn1 = 0.0 * decr * rsd1(j)%tot(ipl)%n 
           rsd1(j)%tot(ipl)%n = Max(1.e-6, rsd1(j)%tot(ipl)%n)
           rsd1(j)%tot(ipl)%n = rsd1(j)%tot(ipl)%n - rmn1
           soil1(j)%mn(1)%no3 = soil1(j)%mn(1)%no3 + .8 * rmn1
@@ -263,9 +263,11 @@
             soil1(j)%lig(k)%p = soil1(j)%lig(k)%p * (1. - decr)
             soil1(j)%meta(k)%p = soil1(j)%meta(k)%p * (1. - decr)
             
-            soil1(j)%rsd(k) = fresh_org_rm
+            soil1(j)%rsd(k) = soil1(j)%rsd(k) - fresh_org_rm
             
             soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * fresh_org_rm.n
+            call debugprint(k, 'rmn1', .8 * fresh_org_rm.n)          
+            
             soil1(j)%hact(k)%n = soil1(j)%hact(k)%n + .2 * fresh_org_rm.n
             soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + .8 * fresh_org_rm.p
             soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p + .2 * fresh_org_rm.p
