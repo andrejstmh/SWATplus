@@ -56,6 +56,7 @@
       clip = 1. - harveff
       harv_left = clip * pl_yield
       call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), harv_left)
+      call debugprint(1, 'rsdn_harv', harv_left%n)          
       !rsd1(j)%tot(1) = harv_left + rsd1(j)%tot(1)
 
 	  !! calculation for dead roots allocations, resetting phenology, updating other pools

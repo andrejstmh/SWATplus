@@ -264,6 +264,7 @@
             soil1(j)%meta(k)%p = soil1(j)%meta(k)%p * (1. - decr)
             
             soil1(j)%rsd(k) = soil1(j)%rsd(k) - fresh_org_rm
+            call debugprint(k, 'rsdn_rmn1', -fresh_org_rm%n)        
             
             soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * fresh_org_rm.n
             call debugprint(k, 'rmn1', .8 * fresh_org_rm.n)          

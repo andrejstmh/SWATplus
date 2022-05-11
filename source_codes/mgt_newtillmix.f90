@@ -151,7 +151,7 @@
           smix(17) = smix(17) + soil(jj)%phys(l)%clay * frac_dep(l)
           smix(18) = smix(18) + soil(jj)%phys(l)%silt * frac_dep(l)
           smix(19) = smix(19) + soil(jj)%phys(l)%sand * frac_dep(l)
-          residue_mixed = residue_mixed + frac_dep(l) * soil1(jj)%rsd(l)
+          residue_mixed = residue_mixed + frac_mixed * soil1(jj)%rsd(l)
             !!by zhang
             !!============== 
             if (bsn_cc%cswat == 2) then         
@@ -206,11 +206,12 @@
             soil(jj)%phys(l)%sand = soil(jj)%phys(l)%sand * frac_non_mixed + smix(19) * frac_dep(l)
             
             ! mixing of fresh residue into lower layers
+            call debugprint(l, 'rsdn_till', soil1(jj)%rsd(l)%n * (frac_non_mixed - 1.) + residue_mixed%n * frac_dep(l))        
             soil1(jj)%rsd(l) = frac_non_mixed*soil1(jj)%rsd(l) + frac_dep(l) * residue_mixed
             ! mixing of fresh residue into lower layers (plants)
             if (l == 1) then
                 rsd1(jj)%tot_com = frac_non_mixed* rsd1(jj)%tot_com ! + residue_mixed * frac_dep(l)
-                soil1(jj)%rsd(l) = rsd1(jj)%tot_com
+                !soil1(jj)%rsd(l) = rsd1(jj)%tot_com
                 do ipl = 1, SIZE(rsd1(jj)%tot)
                     rsd1(jj)%tot(ipl) = frac_non_mixed * rsd1(jj)%tot(ipl) + frac_dep(l) * rsd1(jj)%tot(ipl)
                 end do
