@@ -71,11 +71,12 @@
             (1. - fertdb(ifrt)%fnh3n) * fertdb(ifrt)%fminn)
 
         if (bsn_cc%cswat == 0) then
-        soil1(j)%tot(l)%n = soil1(j)%tot(l)%n + rtof * xx * frt_kg *   &
+        soil1(j)%rsd(l)%n = soil1(j)%rsd(l)%n + rtof * xx * frt_kg *   &
                        fertdb(ifrt)%forgn
+        call debugprint(l, 'rsdn_fert', rtof * xx * frt_kg * fertdb(ifrt)%forgn)        
         soil1(j)%hact(l)%n = soil1(j)%hact(l)%n + (1. - rtof) * xx * &
             frt_kg * fertdb(ifrt)%forgn
-        soil1(j)%tot(l)%p = soil1(j)%tot(l)%p + rtof * xx * frt_kg *   &
+        soil1(j)%rsd(l)%p = soil1(j)%rsd(l)%p + rtof * xx * frt_kg *   &
                        fertdb(ifrt)%forgp
         soil1(j)%hsta(l)%p = soil1(j)%hsta(l)%p + (1. - rtof)*xx*frt_kg *  &
                        fertdb(ifrt)%forgp
