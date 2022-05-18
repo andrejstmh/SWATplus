@@ -144,6 +144,7 @@
           rsd1(j)%tot(ipl)%n = rsd1(j)%tot(ipl)%n - rmn1
           soil1(j)%mn(1)%no3 = soil1(j)%mn(1)%no3 + .8 * rmn1
           call debugprint(1, 'rmn1', .8 * rmn1)
+          call debugprint(1, 'hactn_rmn1', .2 * rmn1)
           soil1(j)%hact(1)%n = soil1(j)%hact(1)%n + .2 * rmn1
           
           rsd1(j)%tot(ipl)%p = Max(1.e-6, rsd1(j)%tot(ipl)%p)
@@ -196,9 +197,12 @@
           endif
           soil1(j)%hsta(k)%n = Max(1.e-6, soil1(j)%hsta(k)%n + rwn)
           soil1(j)%hact(k)%n = Max(1.e-6, soil1(j)%hact(k)%n - rwn)
+          call debugprint(k, 'hactn_rwn', -rwn)
           hnb_d(j)%act_sta_n = hnb_d(j)%act_sta_n + rwn
 
           !! compute humus mineralization on active organic n
+          call debugprint(k, 'soil_aorgn', soil1(j)%hact(k)%n)
+          call debugprint(k, 'soil_orgn', soil1(j)%hsta(k)%n)
           hmn = bsn_prm%cmn * csf * soil1(j)%hact(k)%n
           hmn = Min(hmn, soil1(j)%hact(k)%n)
           !! compute humus mineralization on active organic p
@@ -213,6 +217,7 @@
           soil1(j)%hact(k)%n = Max(1.e-6, soil1(j)%hact(k)%n - hmn)
           soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + hmn
           call debugprint(k, 'hmn', hmn)
+          call debugprint(k, 'hactn_hmn', -hmn)
           soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p - hmp
           soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + hmp
           
@@ -268,6 +273,7 @@
             
             soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * fresh_org_rm.n
             call debugprint(k, 'rmn1', .8 * fresh_org_rm.n)          
+            call debugprint(k, 'hactn_rmn1', .2 * fresh_org_rm.n)          
             
             soil1(j)%hact(k)%n = soil1(j)%hact(k)%n + .2 * fresh_org_rm.n
             soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + .8 * fresh_org_rm.p

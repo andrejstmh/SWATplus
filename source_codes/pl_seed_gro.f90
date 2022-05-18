@@ -29,14 +29,16 @@
                 (100. * pcom(j)%plcur(ipl)%phuacc + Exp(11.1 - 10. * pcom(j)%plcur(ipl)%phuacc))
             
       !! calculate plant ET values when heat units exceed 0.5
-      if (pcom(j)%plcur(ipl)%phuacc > 0.5) then  ! .and. pcom(j)%plcur(ipl)%phuacc < pldb(idp)%dlai) then 
-        pcom(j)%plg(ipl)%plet = pcom(j)%plg(ipl)%plet + ep_day !+ es_day
+      !! modified to correspond to SWAT
+      if (pcom(j)%plcur(ipl)%phuacc > 0.5 .and. pcom(j)%plcur(ipl)%phuacc < pldb(idp)%dlai) then 
+        pcom(j)%plg(ipl)%plet = pcom(j)%plg(ipl)%plet + ep_day + es_day
         pcom(j)%plg(ipl)%plpet = pcom(j)%plg(ipl)%plpet + pet_day
+      end if
       
         !! adjust harvest index for water stress
         if (pcom(j)%plg(ipl)%plpet > 1.e-6) then
           etr = 100. * pcom(j)%plg(ipl)%plet / pcom(j)%plg(ipl)%plpet
-          ajhi_min = ajhi / 2.
+          ajhi_min = pldb(idp)%wsyf !ajhi / 2.
           ajhi = (ajhi - ajhi_min) * (etr / (etr + Exp(6.13 - .0883 * etr))) + ajhi_min
           if (ajhi >  pldb(idp)%hvsti) then
             ajhi = pldb(idp)%hvsti
@@ -71,10 +73,11 @@
         pcom(j)%plg(ipl)%hi_adj = amin1 (pldb(idp)%hvsti, pcom(j)%plg(ipl)%hi_adj)
         pcom(j)%plg(ipl)%hi_adj = amax1 (0., pcom(j)%plg(ipl)%hi_adj)
         pcom(j)%plg(ipl)%hi_prev = ajhi
+        call debugprint(1, 'pl_hvstiadj',pcom(j)%plg(ipl)%hi_adj)
       
-      else
-        pcom(j)%plg(ipl)%hi_prev = 0.
-      end if
+      !else
+      !  pcom(j)%plg(ipl)%hi_prev = 0.
+      !end if
 
       return
       end subroutine pl_seed_gro
