@@ -197,12 +197,11 @@
           endif
           soil1(j)%hsta(k)%n = Max(1.e-6, soil1(j)%hsta(k)%n + rwn)
           soil1(j)%hact(k)%n = Max(1.e-6, soil1(j)%hact(k)%n - rwn)
+          call debugprint(k, 'hstan_rwn', +rwn)
           call debugprint(k, 'hactn_rwn', -rwn)
           hnb_d(j)%act_sta_n = hnb_d(j)%act_sta_n + rwn
 
           !! compute humus mineralization on active organic n
-          call debugprint(k, 'soil_aorgn', soil1(j)%hact(k)%n)
-          call debugprint(k, 'soil_orgn', soil1(j)%hsta(k)%n)
           hmn = bsn_prm%cmn * csf * soil1(j)%hact(k)%n
           hmn = Min(hmn, soil1(j)%hact(k)%n)
           !! compute humus mineralization on active organic p

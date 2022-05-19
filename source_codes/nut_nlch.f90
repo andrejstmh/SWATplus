@@ -163,6 +163,11 @@
       !   soil1(j)%mn(1)%no3,soil1(j)%mn(2)%no3,soil1(j)%mn(3)%no3,soil1(j)%mn(4)%no3
          !surqno3(j), latno3(j), tileno3(j), percn(j), &
          !surfq(j), latq(j), qtile, sepbtm(j) 
+      do jj = 1, soil(j)%nly
+          call debugprint(jj, 'soil_no3', soil1(j)%mn(jj)%no3)
+          call debugprint(jj, 'soil_aorgn', soil1(j)%hact(jj)%n)
+          call debugprint(jj, 'soil_orgn', soil1(j)%hsta(jj)%n)
+      end do
       
       return
       end subroutine nut_nlch

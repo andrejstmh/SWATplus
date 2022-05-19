@@ -86,6 +86,7 @@
         
 		rsd1(j)%str%n = rsd1(j)%str%n * xx1
 		rsd1(j)%meta%n = rsd1(j)%meta%n * xx1
+        call debugprint(1, 'hstan_sedleach', soil1(j)%hsta(1)%n*(1-xx1))
 		soil1(j)%hsta(1)%n = soil1(j)%hsta(1)%n * xx1
         call debugprint(1, 'hactn_sedleach', soil1(j)%hact(1)%n*(1-xx1))
 		soil1(j)%hact(1)%n = soil1(j)%hact(1)%n * xx1

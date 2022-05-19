@@ -48,6 +48,7 @@
 	  !! update soil nitrogen pools only for HRU calculations
       if (xx > 1.e-6) then
        call debugprint(1, 'hactn_surq', -sedorgn(j) * (soil1(j)%hact(1)%n / xx))          
+       call debugprint(1, 'hstan_surq', -sedorgn(j) * (soil1(j)%hsta(1)%n / xx))          
        soil1(j)%hact(1)%n = soil1(j)%hact(1)%n - sedorgn(j) * (soil1(j)%hact(1)%n / xx)
        soil1(j)%hsta(1)%n = soil1(j)%hsta(1)%n - sedorgn(j) * (soil1(j)%hsta(1)%n / xx)
 

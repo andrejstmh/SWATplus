@@ -47,6 +47,7 @@
             end if
         end if
         call debugprint(1, 'pl_m',pl_mass(j)%tot(ipl)%m)
+        call debugprint(1, 'pl_n',pl_mass(j)%tot(ipl)%n)
         
         if (time%end_yr == 1) call pl_mortality
 
