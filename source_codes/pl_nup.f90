@@ -59,29 +59,46 @@
                              !          |upake from the different soil layers sums to 1.0
       real :: xx             !          |  
       integer :: max         !          |
+      integer :: ir
   
       j = ihru
 
       idp = pcom(j)%plcur(ipl)%idplt
       pcom(j)%plstr(ipl)%strsn = 1.
       hnb_d(j)%nuptake = 0.
+      !call debugprint(1, 'pl_uno3', uno3d(ipl))
       if (uno3d(ipl) < 1.e-6) return
       
       !! find depth of soil layer the roots are into
-      root_depth = amax1 (10.1, pcom(j)%plg(ipl)%root_dep)
-      soil_depth = 0.
+      !root_depth = amax1 (10.1, pcom(j)%plg(ipl)%root_dep)
+      !soil_depth = 0.
+      !do l = 1, soil(j)%nly
+      !  soil_depth = soil(j)%phys(l)%d
+      !  if (root_depth < soil_depth) then
+      !    root_depth = soil(j)%phys(l)%d
+      !    exit
+      !  end if
+      !end do
+      root_depth = pcom(j)%plg(ipl)%root_dep
+      !call debugprint(1, 'pl_rootdepth', root_depth)
+      
+      ir = 0 
       do l = 1, soil(j)%nly
-        soil_depth = soil(j)%phys(l)%d
-        if (root_depth < soil_depth) then
-          root_depth = soil(j)%phys(l)%d
-          exit
-        end if
-      end do
+        if (ir > 0) exit
         
-      do l = 1, soil(j)%nly
-        soil_depth = soil(j)%phys(l)%d
-        if (root_depth < soil_depth) exit
+        soil_depth = 0.
+        if (root_depth < soil_depth) then
+            soil_depth = root_depth
+            ir = 1
+        else
+            soil_depth = soil(j)%phys(l)%d
+        end if          
+          
+          
+        !soil_depth = soil(j)%phys(l)%d
+        !if (root_depth < soil_depth) exit
         unmx = uno3d(ipl) * rto_no3 * (1. - Exp(-bsn_prm%n_updis * soil_depth / root_depth)) / uptake%n_norm
+        !call debugprint(l, 'pl_unmx', unmx - nplnt(j))        
         uno3l = Min(unmx - nplnt(j), soil1(j)%mn(l)%no3)
         !uno3l = Min(unmx, soil1(j)%mn(l)%no3)
         nplnt(j) = nplnt(j) + uno3l 
