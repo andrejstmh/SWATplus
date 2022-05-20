@@ -117,8 +117,10 @@
             end if
             
             if (pcom(j)%plg(ipl)%lai > laimax) pcom(j)%plg(ipl)%lai = laimax
-            !! only apply water stress to lai            
-            deltalai = ff * laimax * (1.0 - Exp(5.0 * (pcom(j)%plg(ipl)%lai - laimax))) * Sqrt(pcom(j)%plstr(ipl)%strsw)
+            !! only apply water stress to lai        
+            !! different from SWAT where total stress is applied!!
+            !deltalai = ff * laimax * (1.0 - Exp(5.0 * (pcom(j)%plg(ipl)%lai - laimax))) * Sqrt(pcom(j)%plstr(ipl)%strsw)
+            deltalai = ff * laimax * (1.0 - Exp(5.0 * (pcom(j)%plg(ipl)%lai - laimax))) * Sqrt(pcom(j)%plstr(ipl)%reg)
             !! adjust lai increment for plant competition
             sumlaiht = 0.
             do jpl = 1, pcom(j)%npl
