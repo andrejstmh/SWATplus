@@ -238,8 +238,8 @@
           no3up = Min(no3up, soil1(j)%mn(2)%no3)
           soil1(j)%mn(2)%no3 = soil1(j)%mn(2)%no3 - no3up
           soil1(j)%mn(1)%no3 = soil1(j)%mn(1)%no3 + no3up
-          call debugprint(1, 'etact', no3up)
-          call debugprint(2, 'etact', -no3up)
+          call debugprint(1, 'soilno3_etact', no3up)
+          call debugprint(2, 'soilno3_etact', -no3up)
         endif
 
       end do    !layer loop

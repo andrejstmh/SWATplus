@@ -184,7 +184,7 @@
             ! reconstitute each soil layer 
             frac_non_mixed = sol_msn(l) / sol_mass(l)
             
-            call debugprint(l, 'till', soil1(jj)%mn(l)%no3 * (frac_non_mixed - 1.) + smix(1) * frac_dep(l))
+            call debugprint(l, 'soilno3_till', soil1(jj)%mn(l)%no3 * (frac_non_mixed - 1.) + smix(1) * frac_dep(l))
             call debugprint(l, 'hactn_till', soil1(jj)%hact(l)%n * (frac_non_mixed - 1.) + smix(6) * frac_dep(l))
             call debugprint(l, 'hstan_till', soil1(jj)%hsta(l)%n * (frac_non_mixed - 1.) + smix(2) * frac_dep(l))
             soil1(jj)%mn(l)%no3 = soil1(jj)%mn(l)%no3 * frac_non_mixed + smix(1) * frac_dep(l)

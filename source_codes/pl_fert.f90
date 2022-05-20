@@ -67,7 +67,7 @@
 
         soil1(j)%mn(l)%no3 = soil1(j)%mn(l)%no3 + xx * frt_kg *          &
             (1. - fertdb(ifrt)%fnh3n) * fertdb(ifrt)%fminn
-        call debugprint(l, 'fertn', xx * frt_kg *          &
+        call debugprint(l, 'soilno3_fert', xx * frt_kg *          &
             (1. - fertdb(ifrt)%fnh3n) * fertdb(ifrt)%fminn)
 
         if (bsn_cc%cswat == 0) then
