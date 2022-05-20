@@ -16,7 +16,6 @@
       integer :: lyr                  !none       |counter
       integer :: mlyr                 !           |
       integer :: isol                 !none       |counter
- 
       eof = 0
       imax = 0
 
@@ -26,18 +25,18 @@
         allocate (soildb(0)%ly(0:0))
       else
         do  
-          open (in_sol%soils_sol_fid,file=in_sol%soils_sol)
-          read (in_sol%soils_sol_fid,*,iostat=eof) titldum
+          open (107,file=in_sol%soils_sol)
+          read (107,*,iostat=eof) titldum
           if (eof < 0) exit
-          read (in_sol%soils_sol_fid,*,iostat=eof) header
+          read (107,*,iostat=eof) header
           if (eof < 0) exit
           
           !! determine max number for array (imax) and total number in file
             do while (eof == 0)
-              read (in_sol%soils_sol_fid,*,iostat=eof) titldum, nlyr 
+              read (107,*,iostat=eof) titldum, nlyr 
               if (eof < 0) exit
                 do lyr = 1, nlyr
-                  read (in_sol%soils_sol_fid,*,iostat=eof) titldum
+                  read (107,*,iostat=eof) titldum
                   if (eof < 0) exit
                 end do 
                 imax = imax + 1
@@ -47,28 +46,28 @@
           
           allocate (soildb(0:imax))
           
-        rewind (in_sol%soils_sol_fid)
-        read (in_sol%soils_sol_fid,*,iostat=eof) titldum
+        rewind (107)
+        read (107,*,iostat=eof) titldum
         if (eof < 0) exit
-        read (in_sol%soils_sol_fid,*,iostat=eof) header
+        read (107,*,iostat=eof) header
         if (eof < 0) exit
               
         do isol = 1, db_mx%soil
             
-         read (in_sol%soils_sol_fid,*,iostat=eof) soildb(isol)%s%snam, soildb(isol)%s%nly
+         read (107,*,iostat=eof) soildb(isol)%s%snam, soildb(isol)%s%nly
          if (eof < 0) exit
          mlyr = soildb(isol)%s%nly
       
          allocate (soildb(isol)%ly(mlyr)) 
        
-         backspace in_sol%soils_sol_fid
-         read (in_sol%soils_sol_fid,*,iostat=eof) soildb(isol)%s%snam, soildb(isol)%s%nly,  &
+         backspace 107
+         read (107,*,iostat=eof) soildb(isol)%s%snam, soildb(isol)%s%nly,  &
           soildb(isol)%s%hydgrp, soildb(isol)%s%zmx,                       &           
           soildb(isol)%s%anion_excl, soildb(isol)%s%crk,                   &           
           soildb(isol)%s%texture
          if (eof < 0) exit
        do j = 1, mlyr
-        read (in_sol%soils_sol_fid,*,iostat=eof) soildb(isol)%ly(j)%z, soildb(isol)%ly(j)%bd,             &
+        read (107,*,iostat=eof) soildb(isol)%ly(j)%z, soildb(isol)%ly(j)%bd,             &
             soildb(isol)%ly(j)%awc, soildb(isol)%ly(j)%k, soildb(isol)%ly(j)%cbn,        &           
             soildb(isol)%ly(j)%clay, soildb(isol)%ly(j)%silt, soildb(isol)%ly(j)%sand,   &
             soildb(isol)%ly(j)%rock, soildb(isol)%ly(j)%alb, soildb(isol)%ly(j)%usle_k,  &           
@@ -81,7 +80,7 @@
         enddo
         endif
       
-        close (in_sol%soils_sol_fid)
+        close (107)
         
       return
       end subroutine soil_db_read

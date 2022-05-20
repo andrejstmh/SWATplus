@@ -242,7 +242,6 @@
        character(len=25) :: soils_sol = "soils.sol"
        character(len=25) :: nut_sol = "nutrients.sol"
        character(len=25) :: lte_sol = "soils_lte.sol"
-       integer :: soils_sol_fid = 107
       end type input_soils
       type (input_soils) :: in_sol
 
@@ -251,7 +250,7 @@
        character(len=25) :: dtbl_lum = "lum.dtl"
        character(len=25) :: dtbl_res = "res_rel.dtl"
        character(len=25) :: dtbl_scen = "scen_lu.dtl"
-       character(len=25) :: dtbl_flo = "flo_con.dtl"       
+       character(len=25) :: dtbl_flo = "flo_con.dtl"
       end type input_condition
       type (input_condition) :: in_cond
            
