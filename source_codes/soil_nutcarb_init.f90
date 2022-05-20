@@ -22,6 +22,7 @@
       real :: frac_hum_slow             !0-1        |fraction of humus in slow pool - CENTURY
       real :: frac_hum_passive          !0-1        |fraction of humus in passive pool - CENTURY
       real :: actp, solp, ssp, zdst
+      real :: dg, norg, porg
 
       nly = soil(ihru)%nly
 
@@ -33,8 +34,9 @@
       soil1(ihru)%cbn(1) = amax1(.001, soildb(isol)%ly(1)%cbn)    !! assume 0.001% carbon if zero
       !! calculate percent carbon for lower layers using exponential decrease
       do ly = 2, nly
-        dep_frac = Exp(-solt_db(isolt)%exp_co * soil(ihru)%phys(ly)%d)
-        soil1(ihru)%cbn(ly) = soil1(ihru)%cbn(1) * dep_frac
+        !dep_frac = Exp(-solt_db(isolt)%exp_co * soil(ihru)%phys(ly)%d)
+        !soil1(ihru)%cbn(ly) = soil1(ihru)%cbn(1) * dep_frac        
+        soil1(ihru)%cbn(ly) = amax1(.001, soildb(isol)%ly(ly-1)%cbn)
       end do
 
       !! calculate initial nutrient contents of layers, profile and
@@ -121,13 +123,26 @@
         soil1(ihru)%hact(ly)%c = frac_hum_active * soil1(ihru)%tot(ly)%c
         soil1(ihru)%hact(ly)%n = soil1(ihru)%hact(ly)%c / 10.   !solt_db(isolt)%hum_c_n        !assume 10:1 C:N ratio
         soil1(ihru)%hact(ly)%p = soil1(ihru)%hact(ly)%c / 80.   !solt_db(isolt)%hum_c_p        !assume 80:1 C:P ratio
-            
+        
+        
         !initialize stable humus pool
         soil1(ihru)%hsta(ly)%m = (1. - frac_hum_active) * soil1(ihru)%tot(ly)%m
         soil1(ihru)%hsta(ly)%c = (1. - frac_hum_active) * soil1(ihru)%tot(ly)%c
         soil1(ihru)%hsta(ly)%n = soil1(ihru)%hsta(ly)%c / 10.   !solt_db(isolt)%hum_c_n        !assume 10:1 C:N ratio
         soil1(ihru)%hsta(ly)%p = soil1(ihru)%hsta(ly)%c / 80.   !solt_db(isolt)%hum_c_p        !assume 80:1 C:P ratio
-        
+
+        ! initialization as in soil_chem.f from SWAT
+        if (ly==1) then
+            norg = soildb(isol)%ly(1)%n_org
+        else
+            norg = soildb(isol)%ly(ly-1)%n_org
+        end if
+        if (norg > 0.0001) then
+            wt1 = soil(ihru)%phys(ly)%conv_wt
+            soil1(ihru)%hact(ly)%n = frac_hum_active * norg * wt1
+            soil1(ihru)%hsta(ly)%n = (1.-frac_hum_active) * norg * wt1
+        end if 
+                    
         !set root and incorporated residue pool to zero
         soil1(ihru)%rsd(ly) = orgz
  
