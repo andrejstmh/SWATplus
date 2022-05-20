@@ -40,7 +40,8 @@
           else
             beadj = pldb(idp)%bio_e
           end if
-
+          ! lai sakristu ar ieprieksejo kalibraciju, kur bija co2=330
+          beadj = pldb(idp)%bio_e
           !! adjust radiation-use efficiency for vapor pressure deficit
           !!assumes vapor pressure threshold of 1.0 kPa
           if (vpd > 1.0) then
@@ -57,6 +58,11 @@
           !beadj = beadj * wst(iwst)%weat%daylength / 16.    !Jimmy used 12,
           
           bioday = beadj * par(ipl)
+          call debugprint(1,'pl_beadj',beadj)
+          call debugprint(1,'pl_par',par(ipl))
+          call debugprint(1,'pl_lai',pcom(j)%plg(ipl)%lai)
+          !call debugprint(1,'pl_ra',w%solrad)
+          
           if (bioday < 0.) bioday = 0.
                     
           !! compute temperature stress    
@@ -113,8 +119,9 @@
             pcom(j)%plstr(ipl)%strsn, pcom(j)%plstr(ipl)%strsp, pcom(j)%plstr(ipl)%strsa)
           if (pcom(j)%plstr(ipl)%reg < 0.) pcom(j)%plstr(ipl)%reg = 0.
           if (pcom(j)%plstr(ipl)%reg > 1.) pcom(j)%plstr(ipl)%reg = 1.
-
           pl_mass_up%m = bioday * pcom(j)%plstr(ipl)%reg
+          call debugprint(1,'pl_bioday',bioday)
+          call debugprint(1,'pl_stress',pcom(j)%plstr(ipl)%reg)
           pl_mass_up%c = 0.42 * bioday * pcom(j)%plstr(ipl)%reg
                 
           !! increase in plant c
