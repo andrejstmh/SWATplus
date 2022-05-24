@@ -218,10 +218,12 @@
           !! adjust soil storage, potential evap
           if (soil(j)%phys(ly)%st > sev) then
             esleft = esleft - sev
+            call debugprint(ly,'soilw_et',-sev)            
             soil(j)%phys(ly)%st = Max(1.e-6, soil(j)%phys(ly)%st - sev)
           else
             esleft = esleft - soil(j)%phys(ly)%st
             sev = soil(j)%phys(ly)%st
+            call debugprint(ly,'soilw_et',-sev)
             soil(j)%phys(ly)%st = 0.
           endif
         endif

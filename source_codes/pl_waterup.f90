@@ -134,6 +134,8 @@
           end if
 
           soil(j)%phys(k)%st = Max(1.e-6, soil(j)%phys(k)%st - wuse)
+          call debugprint(k, 'soilw_wup',-wuse)
+
           
         end do      !! soil layer loop
         

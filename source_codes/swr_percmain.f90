@@ -88,6 +88,7 @@
       do j1 = 1, soil(j)%nly
         !! add water moving into soil layer from overlying layer
         soil(j)%phys(j1)%st = soil(j)%phys(j1)%st + sepday
+        call debugprint(j1,'soilw_perc+',sepday)
         
  	  !! septic tank inflow to biozone layer  J.Jeong
 	  ! STE added to the biozone layer if soil temp is above zero. 
@@ -108,6 +109,9 @@
           !! calculate tile flow (lyrtile), lateral flow (latlyr) and
           !! percolation (sepday)
           call swr_percmicro(j1)
+          call debugprint(j1,'soilw_perc-',-sepday)
+          call debugprint(j1,'soilw_lat',-latlyr)
+          call debugprint(j1,'soilw_tile',-lyrtile)
 
           soil(j)%phys(j1)%st = soil(j)%phys(j1)%st - sepday - latlyr - lyrtile
           soil(j)%phys(j1)%st = Max(1.e-6, soil(j)%phys(j1)%st)
@@ -204,9 +208,11 @@
           if (xx > 0.) then
             if (xx > sumqtile) then
               soil(j)%phys(j1)%st = soil(j)%phys(j1)%st - sumqtile
+              call debugprint(j1,'soilw_tile',-sumqtile)              
               sumqtile = 0.
             else
               sumqtile = sumqtile - xx
+              call debugprint(j1,'soilw_tile',-xx)
               soil(j)%phys(j1)%st = soil(j)%phys(j1)%fc
             end if
           end if
@@ -222,7 +228,7 @@
       do j1 = 1, soil(j)%nly
         soil(j)%sw = soil(j)%sw + soil(j)%phys(j1)%st
       end do
-      call debugprint(1,'soilw_qtile',qtile)
+      call debugprint(1,'flow_qtile',qtile)
 
       return
       end subroutine swr_percmain
