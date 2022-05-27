@@ -134,13 +134,19 @@
         ! initialization as in soil_chem.f from SWAT
         if (ly==1) then
             norg = soildb(isol)%ly(1)%n_org
+            porg = soildb(isol)%ly(1)%p_org
         else
             norg = soildb(isol)%ly(ly-1)%n_org
+            porg = soildb(isol)%ly(ly-1)%p_org
         end if
         if (norg > 0.0001) then
-            wt1 = soil(ihru)%phys(ly)%conv_wt
+            wt1 = soil(ihru)%phys(ly)%conv_wt /1.e6
             soil1(ihru)%hact(ly)%n = frac_hum_active * norg * wt1
             soil1(ihru)%hsta(ly)%n = (1.-frac_hum_active) * norg * wt1
+        end if 
+        if (porg > 0.0001) then
+            wt1 = soil(ihru)%phys(ly)%conv_wt /1.e6
+            soil1(ihru)%hsta(ly)%p = porg * wt1
         end if 
                     
         !set root and incorporated residue pool to zero
