@@ -315,8 +315,12 @@
 	      call cbn_zhang2
 	    end if
 
-        call nut_nitvol  
-        call nut_pminrl
+        call nut_nitvol
+        if (bsn_cc%sol_P_model == 1)  then
+            call nut_pminrl
+        else
+            call nut_pminrl2
+        end if
         
         !! compute biozone processes in septic HRUs
         !! if 1) current is septic hru and 2) soil temperature is above zero
@@ -506,6 +510,9 @@
       !do ipl = 1, pcom(j)%npl
       !  rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
       !end do
+      !call debugprint(1,'soil_rsd1n', rsd1(j)%tot(1)%n)
+      !call debugprint(1,'soil_rsdn', soil1(j)%rsd(1)%n)
+      !rsd1(j)%tot(1)=soil1(j)%rsd(1)
 
       ! compute outflow objects (flow to channels, reservoirs, or landscape)
       ! if flow from hru is directly routed
