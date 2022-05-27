@@ -9,17 +9,22 @@
       
       integer :: date_time(8)           !              |
       character*10 b(3)                 !              |
+      character(len=6) :: revision_str = "60.5.4"
+      character(len=21) :: COMPILATION = __DATE__//" "//__TIME__
+      character(len=52) :: main_header(5) =(/ "                  SWAT+               ",&
+          "Revision ",&
+          "      Soil & Water Assessment Tool    ",&
+          "               PC Version             ",&
+          "    Program reading . . . executing" /)
+      prog = " SWAT+ "//COMPILATION//"      MODULAR Rev 2020."//revision_str
       
-      prog = " SWAT+ Apr 28 2022    MODULAR Rev 2020.60.5.4"
-
-      write (*,1000)
+      write (main_header(2),"(A)") "Revision "//revision_str//"    PAIC 6 "//COMPILATION//" "
+      write (*,"(1x,A,/,A,/,A,/,A,/,A,/)") main_header(1),main_header(2),main_header(3),main_header(4),main_header(5)
+      
       open (9003,file='simulation.out')
-      write (9003,1000)
-1000  format(1x,"                  SWAT+               ",/,             &
-     &          "Revision 60.5.4        PAIC 28.04.2022",/,             &
-     &          "      Soil & Water Assessment Tool    ",/,             &
-     &          "               PC Version             ",/,             &
-     &          "    Program reading . . . executing",/)
+      write (9003,"(A)") main_header
+      write (9003,"(1x,A,/,A,/,A,/,A,/,A,/)") main_header(1),main_header(2),main_header(3),main_header(4),main_header(5)
+
 
 #ifdef DEBUG
     open (7743,file='!debuguot.txt')
