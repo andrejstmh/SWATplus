@@ -148,7 +148,7 @@
           soil1(j)%hact(1)%n = soil1(j)%hact(1)%n + .2 * rmn1
           
           rsd1(j)%tot(ipl)%p = Max(1.e-6, rsd1(j)%tot(ipl)%p)
-          rmp = decr * rsd1(j)%tot(ipl)%p
+          rmp = 0.0 * decr * rsd1(j)%tot(ipl)%p
           rsd1(j)%tot(ipl)%p = rsd1(j)%tot(ipl)%p - rmp
           soil1(j)%mp(1)%lab = soil1(j)%mp(1)%lab + .8 * rmp
           soil1(j)%hact(1)%p = soil1(j)%hact(1)%p + .2 * rmp
@@ -219,6 +219,8 @@
           call debugprint(k, 'hactn_hmn', -hmn)
           soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p - hmp
           soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + hmp
+          call debugprint(k, 'solp_hmp', hmp)
+          call debugprint(k, 'hstap_hmp', -hmp)
           
           hnb_d(j)%act_nit_n = hnb_d(j)%act_nit_n + hmn
           hnb_d(j)%org_lab_p = hnb_d(j)%org_lab_p + hmp
@@ -269,14 +271,17 @@
             
             soil1(j)%rsd(k) = soil1(j)%rsd(k) - fresh_org_rm
             call debugprint(k, 'rsdn_rmn1', -fresh_org_rm%n)        
+            call debugprint(k, 'rsdp_rmp', -fresh_org_rm%p) 
             
             soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * fresh_org_rm.n
             call debugprint(k, 'soilno3_rmn1', .8 * fresh_org_rm.n)          
-            call debugprint(k, 'hactn_rmn1', .2 * fresh_org_rm.n)          
             
             soil1(j)%hact(k)%n = soil1(j)%hact(k)%n + .2 * fresh_org_rm.n
+            call debugprint(k, 'hactn_rmn1', .2 * fresh_org_rm.n)          
             soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + .8 * fresh_org_rm.p
+            call debugprint(k, 'solp_rmp', .8 * fresh_org_rm.p)            
             soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p + .2 * fresh_org_rm.p
+            call debugprint(k, 'hstap_rmp', .2 * fresh_org_rm.p)          
             
          !   hnb_d(j)%rsd_nitorg_n = hnb_d(j)%rsd_nitorg_n + rmn1
          !   hnb_d(j)%rsd_laborg_p = hnb_d(j)%rsd_laborg_p + rmp

@@ -49,12 +49,16 @@
 
         soil1(j)%mp(l)%sta = soil1(j)%mp(l)%sta + roc
         if (soil1(j)%mp(l)%sta < 0.) soil1(j)%mp(l)%sta = 0.
+        call debugprint(l, "stap_roc", roc)
 
         soil1(j)%mp(l)%act = soil1(j)%mp(l)%act - roc + rmp1
         if (soil1(j)%mp(l)%act < 0.) soil1(j)%mp(l)%act = 0.
+        call debugprint(l, "actp_roc", -roc)
+        call debugprint(l, "actp_rmp1", rmp1)
 
         soil1(j)%mp(l)%lab = soil1(j)%mp(l)%lab - rmp1
         if (soil1(j)%mp(l)%lab < 0.) soil1(j)%mp(l)%lab = 0.
+        call debugprint(l, "solp_rmp1", -rmp1)
 
         hnb_d(j)%lab_min_p = hnb_d(j)%lab_min_p + rmp1
         hnb_d(j)%act_sta_p = hnb_d(j)%act_sta_p + roc

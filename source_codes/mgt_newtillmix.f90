@@ -187,6 +187,10 @@
             call debugprint(l, 'soilno3_till', soil1(jj)%mn(l)%no3 * (frac_non_mixed - 1.) + smix(1) * frac_dep(l))
             call debugprint(l, 'hactn_till', soil1(jj)%hact(l)%n * (frac_non_mixed - 1.) + smix(6) * frac_dep(l))
             call debugprint(l, 'hstan_till', soil1(jj)%hsta(l)%n * (frac_non_mixed - 1.) + smix(2) * frac_dep(l))
+            call debugprint(l, 'hstap_till', soil1(jj)%hsta(l)%p * (frac_non_mixed - 1.) + smix(5) * frac_dep(l))
+            call debugprint(l, 'solp_till', soil1(jj)%mp(l)%lab * (frac_non_mixed - 1.) + smix(4) * frac_dep(l))
+            call debugprint(l, 'actp_till', soil1(jj)%mp(l)%act * (frac_non_mixed - 1.) + smix(7) * frac_dep(l))
+            call debugprint(l, 'stap_till', soil1(jj)%mp(l)%sta * (frac_non_mixed - 1.) + smix(10) * frac_dep(l))
             soil1(jj)%mn(l)%no3 = soil1(jj)%mn(l)%no3 * frac_non_mixed + smix(1) * frac_dep(l)
             soil1(jj)%hsta(l)%n = soil1(jj)%hsta(l)%n * frac_non_mixed + smix(2) * frac_dep(l)
             soil1(jj)%mn(l)%nh4 = soil1(jj)%mn(l)%nh4 * frac_non_mixed + smix(3) * frac_dep(l)
@@ -209,6 +213,7 @@
             
             ! mixing of fresh residue into lower layers
             call debugprint(l, 'rsdn_till', soil1(jj)%rsd(l)%n * (frac_non_mixed - 1.) + residue_mixed%n * frac_dep(l))        
+            call debugprint(l, 'rsdp_till', soil1(jj)%rsd(l)%p * (frac_non_mixed - 1.) + residue_mixed%p * frac_dep(l))        
             soil1(jj)%rsd(l) = frac_non_mixed*soil1(jj)%rsd(l) + frac_dep(l) * residue_mixed
             ! mixing of fresh residue into lower layers (plants)
             if (l == 1) then

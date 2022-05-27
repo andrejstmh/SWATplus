@@ -169,6 +169,10 @@
           call debugprint(jj, 'soil_no3', soil1(j)%mn(jj)%no3)
           call debugprint(jj, 'soil_aorgn', soil1(j)%hact(jj)%n)
           call debugprint(jj, 'soil_orgn', soil1(j)%hsta(jj)%n)
+          call debugprint(jj, 'soil_orgp', soil1(j)%hsta(jj)%p)
+          call debugprint(jj, 'soil_solp', soil1(j)%mp(jj)%lab)
+          call debugprint(jj, 'soil_actp', soil1(j)%mp(jj)%act)
+          call debugprint(jj, 'soil_stap', soil1(j)%mp(jj)%sta)
       end do
       
       return
