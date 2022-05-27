@@ -43,8 +43,8 @@
       !! average in soil for the entire watershed
 
       do ly = 1, nly
-        soil(ihru)%phys(ly)%conv_wt = soil(ihru)%phys(ly)%bd * soil(ihru)%phys(ly)%thick / 100.    ! mg/kg => kg/ha
-        wt1 = soil(ihru)%phys(ly)%conv_wt
+        wt1 = soil(ihru)%phys(ly)%bd * soil(ihru)%phys(ly)%thick / 100.    ! mg/kg => kg/ha
+        soil(ihru)%phys(ly)%conv_wt = 1.e6 * wt1                           ! kg/kg => kg/ha
         
         !! set initial mineral pools - no3
         dep_frac = Exp(-solt_db(isolt)%exp_co * soil(ihru)%phys(ly)%d)
