@@ -22,7 +22,7 @@
       real :: frac_hum_slow             !0-1        |fraction of humus in slow pool - CENTURY
       real :: frac_hum_passive          !0-1        |fraction of humus in passive pool - CENTURY
       real :: actp, solp, ssp, zdst
-      real :: dg, norg, porg
+      real :: dg, norg, porg, labp, no3
 
       nly = soil(ihru)%nly
 
@@ -45,23 +45,41 @@
       do ly = 1, nly
         wt1 = soil(ihru)%phys(ly)%bd * soil(ihru)%phys(ly)%thick / 100.    ! mg/kg => kg/ha
         soil(ihru)%phys(ly)%conv_wt = 1.e6 * wt1                           ! kg/kg => kg/ha
+
+        if (ly==1) then
+            labp = soildb(isol)%ly(1)%labp
+            no3 = soildb(isol)%ly(1)%no3
+        else
+            labp = soildb(isol)%ly(ly-1)%labp
+            no3 = soildb(isol)%ly(ly-1)%no3
+        end if
+        
+        
         
         !! set initial mineral pools - no3
         dep_frac = Exp(-solt_db(isolt)%exp_co * soil(ihru)%phys(ly)%d)
-        if (solt_db(isolt)%nitrate > 1.e-9) then
-          soil1(ihru)%mn(ly)%no3 = solt_db(isolt)%nitrate * dep_frac
-        else
-          soil1(ihru)%mn(ly)%no3 = 7. * dep_frac
+        if (no3 > 0.0001) then
+            soil1(ihru)%mn(ly)%no3 = no3
+        else 
+            if (solt_db(isolt)%nitrate > 1.e-9) then
+              soil1(ihru)%mn(ly)%no3 = solt_db(isolt)%nitrate * dep_frac
+            else
+              soil1(ihru)%mn(ly)%no3 = 7. * dep_frac
+            end if
         end if
         soil1(ihru)%mn(ly)%no3 =  soil1(ihru)%mn(ly)%no3 * wt1      !! mg/kg => kg/ha
 
         !set initial labile P pool
-        if (solt_db(isolt)%lab_p > 1.e-9) then
-          soil1(ihru)%mp(ly)%lab = solt_db(isolt)%lab_p * dep_frac
+        if (labp > 0.0001) then
+            soil1(ihru)%mp(ly)%lab = labp
         else
-          !! assume initial concentration of 5 mg/kg
-          soil1(ihru)%mp(ly)%lab = 5. * dep_frac
-        end if
+            if (solt_db(isolt)%lab_p > 1.e-9) then
+              soil1(ihru)%mp(ly)%lab = solt_db(isolt)%lab_p * dep_frac
+            else
+              !! assume initial concentration of 5 mg/kg
+              soil1(ihru)%mp(ly)%lab = 5. * dep_frac
+            end if
+        end if 
         soil1(ihru)%mp(ly)%lab = soil1(ihru)%mp(ly)%lab * wt1   !! mg/kg => kg/ha
 
         !! set active mineral P pool based on dynamic PSP MJW
