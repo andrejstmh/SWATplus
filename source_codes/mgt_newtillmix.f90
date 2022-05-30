@@ -174,9 +174,9 @@
         end do
      
           !! sand, silt and clay are % so divide by tillage depth
-          smix(17) = smix(17) / dtil
-          smix(18) = smix(18) / dtil
-          smix(19) = smix(19) / dtil
+          !smix(17) = smix(17) / dtil
+          !smix(18) = smix(18) / dtil
+          !smix(19) = smix(19) / dtil
 
           
           do l = 1, soil(jj)%nly
@@ -207,9 +207,10 @@
             soil1(jj)%man(l)%p = soil1(jj)%man(l)%p * frac_non_mixed + smix(14) * frac_dep(l)
             soil1(jj)%tot(l)%c = soil1(jj)%tot(l)%c * frac_non_mixed + smix(15) * frac_dep(l)
             
-            soil(jj)%phys(l)%clay = soil(jj)%phys(l)%clay * frac_non_mixed + smix(17) * frac_dep(l)
-            soil(jj)%phys(l)%silt = soil(jj)%phys(l)%silt * frac_non_mixed + smix(18) * frac_dep(l)
-            soil(jj)%phys(l)%sand = soil(jj)%phys(l)%sand * frac_non_mixed + smix(19) * frac_dep(l)
+            
+            soil(jj)%phys(l)%clay = soil(jj)%phys(l)%clay * frac_non_mixed + smix(17) * (1-frac_non_mixed)
+            soil(jj)%phys(l)%silt = soil(jj)%phys(l)%silt * frac_non_mixed + smix(18) * (1-frac_non_mixed)
+            soil(jj)%phys(l)%sand = soil(jj)%phys(l)%sand * frac_non_mixed + smix(19) * (1-frac_non_mixed)
             
             ! mixing of fresh residue into lower layers
             call debugprint(l, 'rsdn_till', soil1(jj)%rsd(l)%n * (frac_non_mixed - 1.) + residue_mixed%n * frac_dep(l))        
