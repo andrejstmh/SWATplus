@@ -22,7 +22,6 @@
       write (*,"(1x,A,/,A,/,A,/,A,/,A,/)") main_header(1),main_header(2),main_header(3),main_header(4),main_header(5)
       
       open (9003,file='simulation.out')
-      write (9003,"(A)") main_header
       write (9003,"(1x,A,/,A,/,A,/,A,/,A,/)") main_header(1),main_header(2),main_header(3),main_header(4),main_header(5)
 
 
