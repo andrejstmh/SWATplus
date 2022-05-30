@@ -69,6 +69,8 @@
         uapl = Min(upmx - pplnt(j), soil1(j)%mp(l)%lab)
         pplnt(j) = pplnt(j) + uapl
         soil1(j)%mp(l)%lab = soil1(j)%mp(l)%lab - uapl
+        call debugprint(l, 'solp_pup', -uapl)
+
       end do
       if (pplnt(j) < 0.) pplnt(j) = 0.
 

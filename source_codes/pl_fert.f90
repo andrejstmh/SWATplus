@@ -172,6 +172,7 @@
 
         soil1(j)%mp(l)%lab = soil1(j)%mp(l)%lab + xx * frt_kg *          & 
             fertdb(ifrt)%fminp
+        call debugprint(l, 'solp_fert',  xx * frt_kg * fertdb(ifrt)%fminp)
 
       end do 
 

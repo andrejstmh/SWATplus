@@ -56,6 +56,7 @@
       surqsolp(j) = Max(surqsolp(j), 0.)
       hls_d(j)%surqsolp = surqsolp(j)
       soil1(j)%mp(1)%lab = soil1(j)%mp(1)%lab - surqsolp(j)
+      call debugprint(1, 'solp_surq', -surqsolp(j))
 
       !! compute soluble P leaching
       do ly = 1, soil(j)%nly
@@ -65,12 +66,14 @@
          plch = .001 * soil1(j)%mp(ly)%lab * (1. - Exp(vap))
          plch = Min(plch, soil1(j)%mp(ly)%lab)
 	     soil1(j)%mp(ly)%lab = soil1(j)%mp(ly)%lab - plch
+         call debugprint(ly, 'solp_percnlyr-', -plch)
          if (ly == soil(j)%nly) then
            !! leach p from bottom layer
            hls_d(j)%lchlabp = plch
          else
            !! perc p to next layer
            soil1(j)%mp(ly+1)%lab = soil1(j)%mp(ly+1)%lab + plch
+           call debugprint(ly, 'solp_percnlyr+', plch)
          endif
          !! tile p
          if (ly == hru(j)%lumv%ldrain) then
@@ -79,6 +82,7 @@
            plch = Min(plch, soil1(j)%mp(ly)%lab)
            soil1(j)%mp(ly)%lab = soil1(j)%mp(ly)%lab - plch
            hls_d(j)%tilelabp = plch
+           call debugprint(ly, 'solp_tile', -plch)
          endif
 	   endif
    !rtb gwflow: store phosphorus leaching concentration for gwflow module
