@@ -73,7 +73,7 @@
          else
            !! perc p to next layer
            soil1(j)%mp(ly+1)%lab = soil1(j)%mp(ly+1)%lab + plch
-           call debugprint(ly, 'solp_percnlyr+', plch)
+           call debugprint(ly+1, 'solp_percnlyr+', plch)
          endif
          !! tile p
          if (ly == hru(j)%lumv%ldrain) then
