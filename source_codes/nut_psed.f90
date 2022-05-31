@@ -57,8 +57,8 @@
         sedp_attach = soil1(j)%hsta(1)%p + soil1(j)%man(1)%p + rsd1(j)%man%p + soil1(j)%mp(1)%sta + soil1(j)%mp(1)%act
         if (sedp_attach > 1.e-9) then
           fr_orgp = (soil1(j)%hsta(1)%p + soil1(j)%man(1)%p  + rsd1(j)%man%p) / sedp_attach
-          fr_actmin = soil1(j)%mp(1)%sta / sedp_attach
-          fr_stamin = soil1(j)%mp(1)%act / sedp_attach
+          fr_actmin = soil1(j)%mp(1)%act / sedp_attach
+          fr_stamin = soil1(j)%mp(1)%sta / sedp_attach
         end if
 
         wt1 = soil(j)%phys(1)%bd * soil(j)%phys(1)%d / 100.
