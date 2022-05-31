@@ -116,8 +116,7 @@
           ww = -vv / ((1. - soil(j)%anion_excl) * ul_sum)
           vno3 = no3_sum * (1. - Exp(ww))
           co = Max(vno3 / vv, 0.)     !kg/ha/mm (if * 100 = ppm)
-          !tileno3(j) = co * bsn_prm%nperco_lchtile  * qtile
-          tileno3(j) = co * qtile
+          tileno3(j) = co * bsn_prm%nperco_lchtile  * qtile          
           !! subtract tile no3 from soil layers
           tileno3_left = tileno3(j)
           do jlo = jj, soil(j)%nly
