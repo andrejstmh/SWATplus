@@ -78,5 +78,7 @@
       !! compute erosion with usle (written to output for comparison)
       usle = 1.292 * usle_ei * cklsp(j) / 11.8
 
+      call debugprint(1, 'sedim_ysed', sedyld(j))
+
       return
       end subroutine ero_ysed

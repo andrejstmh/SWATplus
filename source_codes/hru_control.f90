@@ -513,6 +513,14 @@
       !call debugprint(1,'soil_rsd1n', rsd1(j)%tot(1)%n)
       !call debugprint(1,'soil_rsdn', soil1(j)%rsd(1)%n)
       !rsd1(j)%tot(1)=soil1(j)%rsd(1)
+      call debugprint(1,'flow_qtile',qtile)
+      call debugprint(1,'flow_surq',surfq(j))
+      call debugprint(1,'flow_sedyld',sedyld(j))
+      call debugprint(1,'flow_sedorgn',sedorgn(j))
+      call debugprint(1,'flow_sedorgp',sedorgp(j))
+      call debugprint(1,'flow_sedminpa',sedminpa(j))
+      call debugprint(1,'flow_sedminps',sedminps(j))
+      
 
       ! compute outflow objects (flow to channels, reservoirs, or landscape)
       ! if flow from hru is directly routed

@@ -143,8 +143,8 @@
           rsd1(j)%tot(ipl)%n = Max(1.e-6, rsd1(j)%tot(ipl)%n)
           rsd1(j)%tot(ipl)%n = rsd1(j)%tot(ipl)%n - rmn1
           soil1(j)%mn(1)%no3 = soil1(j)%mn(1)%no3 + .8 * rmn1
-          call debugprint(1, 'soilno3_rmn1', .8 * rmn1)
-          call debugprint(1, 'hactn_rmn1', .2 * rmn1)
+          !call debugprint(1, 'soilno3_rmn1', .8 * rmn1)
+          !call debugprint(1, 'hactn_rmn1', .2 * rmn1)
           soil1(j)%hact(1)%n = soil1(j)%hact(1)%n + .2 * rmn1
           
           rsd1(j)%tot(ipl)%p = Max(1.e-6, rsd1(j)%tot(ipl)%p)
