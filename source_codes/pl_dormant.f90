@@ -32,7 +32,11 @@
         if (pldb(idp)%typ == "perennial") then
           pcom(j)%plcur(ipl)%idorm = "y"
           !! add leaf mass to residue pool
-          rsd1(j)%tot(1) = pl_mass(j)%leaf(ipl) + rsd1(j)%tot(1)
+          !rsd1(j)%tot(1) = pl_mass(j)%leaf(ipl) + rsd1(j)%tot(1)
+          call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), pl_mass(j)%leaf(ipl))
+          call debugprint(1, 'rsdn_dormant', pl_mass(j)%leaf(ipl)%n)          
+          pl_mass(j)%leaf(ipl) = orgz
+          pcom(j)%plg(ipl)%lai = pldb(idp)%alai_min
         end if
 
         !! beginning of temperature based perennial dormant period - mortality
@@ -40,6 +44,8 @@
           pcom(j)%plcur(ipl)%idorm = "y"
           !! add stem mass to residue pool
           rsd1(j)%tot(1) = pl_mass(j)%stem(ipl) + rsd1(j)%tot(1)
+          !call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), pl_mass(j)%stem(ipl))
+          !call debugprint(1, 'rsdn_dormant', pl_mass(j)%stem(ipl)%n )          
         end if
 
         !! beginning of cool season annual dormant period
