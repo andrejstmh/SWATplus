@@ -40,12 +40,14 @@
       
       !! lai decline for temperature based perennials - use annual base zero phu's
       if (pldb(idp)%typ == "perennial" .and. pldb(idp)%trig == "temp_gro") then
-        if (wst(iwst)%weat%phubase0 > pldb(idp)%dlai .and. wst(iwst)%weat%phubase0 < 1.) then
+        !if (wst(iwst)%weat%phubase0 > pldb(idp)%dlai .and. wst(iwst)%weat%phubase0 < 1.) then
+        if (pcom(j)%plcur(ipl)%phuacc >= pldb(idp)%dlai .and. pcom(j)%plcur(ipl)%phuacc < 1.) then
           iob = hru(j)%obj_no
           iwst = ob(iob)%wst
           lai_init = pcom(j)%plg(ipl)%lai
           !! logistic decline rate - Strauch and Volk
-          rto = (1. - wst(iwst)%weat%phubase0) / (1. - pldb(idp)%dlai)
+          !rto = (1. - wst(iwst)%weat%phubase0) / (1. - pldb(idp)%dlai)
+          rto = (1. - pcom(j)%plcur(ipl)%phuacc) / (1. - pldb(idp)%dlai)
           pcom(j)%plg(ipl)%lai = (pcom(j)%plg(ipl)%olai - pldb(idp)%alai_min) /   &
                 (1. + Exp((rto - .5) * (-12))) + pldb(idp)%alai_min
           !rto = (1. - pcom(j)%plcur(ipl)%phuacc) / (1. - pcom(j)%plg(ipl)%dphu)
