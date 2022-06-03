@@ -48,7 +48,12 @@
         end if
         call debugprint(1, 'pl_m',pl_mass(j)%tot(ipl)%m)
         call debugprint(1, 'pl_n',pl_mass(j)%tot(ipl)%n)
-        
+        call debugprint(1, 'pl_p',pl_mass(j)%tot(ipl)%p)
+        call debugprint(1, 'pl_phuacc', pcom(j)%plcur(ipl)%phuacc)
+        call debugprint(1, 'pl_mleaf',pl_mass(j)%leaf(ipl)%m)
+        call debugprint(1, 'pl_mstem',pl_mass(j)%stem(ipl)%m)
+        call debugprint(1, 'pl_mseed',pl_mass(j)%seed(ipl)%m)
+        call debugprint(1, 'pl_mroot',pl_mass(j)%root(ipl)%m)
         if (time%end_yr == 1) call pl_mortality
 
       end do    ! loop for number of plants

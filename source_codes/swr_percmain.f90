@@ -228,7 +228,6 @@
       do j1 = 1, soil(j)%nly
         soil(j)%sw = soil(j)%sw + soil(j)%phys(j1)%st
       end do
-      call debugprint(1,'flow_qtile',qtile)
 
       return
       end subroutine swr_percmain
