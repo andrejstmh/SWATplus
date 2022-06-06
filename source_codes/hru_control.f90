@@ -520,6 +520,9 @@
       call debugprint(1,'flow_sedorgp',sedorgp(j))
       call debugprint(1,'flow_sedminpa',sedminpa(j))
       call debugprint(1,'flow_sedminps',sedminps(j))
+      call debugprint(1,'et_es',es_day)
+      call debugprint(1,'et_ep',ep_day)
+      call debugprint(1,'et_canev',canev)
       
 
       ! compute outflow objects (flow to channels, reservoirs, or landscape)
