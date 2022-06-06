@@ -33,7 +33,8 @@
       
       !! partition leaf and stem (stalk) and seed (grain) mass
       if (pldb(idp)%typ == "perennial") then
-        leaf_frac_veg = 0.03    !forest
+        ! JS: [temporarily] use unused parameter bm_dieoff as leaf_frac_veg
+        leaf_frac_veg = pldb(idp)%bm_dieoff  !forest
       else
         leaf_frac_veg = 0.30    !should be plant parm
       end if
@@ -49,12 +50,21 @@
         leaf_mass_frac = leaf_mass_frac_veg * ab_gr_frac
         stem_mass_frac = (1. - leaf_mass_frac_veg) * ab_gr_frac
       else
+          ! JS: added partitioning for forests
+          if (pldb(idp)%typ == "perennial") then
+            root_frac = pcom(j)%plg(ipl)%root_frac
+            ab_gr_frac = 1. - root_frac
+            seed_mass_frac = 0.
+            leaf_mass_frac = leaf_mass_frac_veg 
+            stem_mass_frac = (1. - leaf_mass_frac_veg)
+          else
       !! partition root and above ground biomass for all other annuals (above ground grain)
-        root_frac = pcom(j)%plg(ipl)%root_frac
-        ab_gr_frac = 1. - root_frac
-        seed_mass_frac = pcom(j)%plg(ipl)%hi_adj
-        leaf_mass_frac = leaf_mass_frac_veg * (1. - seed_mass_frac)
-        stem_mass_frac = (1. - leaf_mass_frac_veg) * (1. - seed_mass_frac)
+            root_frac = pcom(j)%plg(ipl)%root_frac
+            ab_gr_frac = 1. - root_frac
+            seed_mass_frac = pcom(j)%plg(ipl)%hi_adj
+            leaf_mass_frac = leaf_mass_frac_veg * (1. - seed_mass_frac)
+            stem_mass_frac = (1. - leaf_mass_frac_veg) * (1. - seed_mass_frac)
+          end if 
       end if
       
       pl_mass(j)%ab_gr(ipl)%m = ab_gr_frac * pl_mass(j)%tot(ipl)%m
