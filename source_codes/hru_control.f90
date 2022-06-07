@@ -272,7 +272,7 @@
         inflpcp = Max(0., inflpcp)
          
         !! perform management operations
-        if (yr_skip(j) == 0) call mgt_operatn   
+        if (yr_skip(j) == 0) call mgt_operatn (0)  
         
         !! add irrigation to subdaily effective precip
         if (time%step > 0) then

@@ -366,6 +366,14 @@
             yr_skip(j) = 0
             isched = hru(j)%mgt_ops
             if (isched > 0 .and. sched(isched)%num_ops > 0) then
+              if  (sched(isched)%mgt_ops(hru(j)%cur_op)%op /= "skip") then
+                  ihru = j
+                  call mgt_operatn(1)
+                  phubase(j) = 0.
+                  yr_skip(j) = 0
+              end if 
+                
+                
               if (sched(isched)%mgt_ops(hru(j)%cur_op)%op == "skip") hru(j)%cur_op = hru(j)%cur_op + 1
               if (hru(j)%cur_op > sched(isched)%num_ops) then
                 hru(j)%cur_op = 1

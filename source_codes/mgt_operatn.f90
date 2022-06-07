@@ -1,4 +1,4 @@
-      subroutine mgt_operatn
+      subroutine mgt_operatn(end_year)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine performs all management operations             
@@ -31,11 +31,14 @@
       use time_module
       
       implicit none
-
+      integer, intent (in) :: end_year
+      integer :: dorm_flag
       integer :: j           !none          |HRU number
       real :: aphu           !heat units    |fraction of total heat units accumulated 
       integer :: isched      !              |
 
+      dorm_flag = end_year
+      
       j = ihru
       isched = hru(j)%mgt_ops
       if (sched(isched)%num_ops < 1) return
@@ -54,7 +57,7 @@
         else
           aphu = pcom(j)%plcur(ipl)%phuacc
         end if 
-        !if (dorm_flag == 1) aphu = 999.
+        if (dorm_flag == 1) aphu = 999.
         do while (mgt%husc > 0. .and. aphu > mgt%husc)
           call mgt_sched (isched)
           if (sched(isched)%num_ops == 1) exit
@@ -64,7 +67,7 @@
           else
             aphu = pcom(j)%plcur(ipl)%phuacc
           end if
-          !if (dorm_flag == 1) aphu = 999.
+          if (dorm_flag == 1) aphu = 999.
           if (mgt%op == "skip") then
 	        call mgt_sched (isched)
           end if
