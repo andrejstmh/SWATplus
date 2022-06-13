@@ -5,6 +5,7 @@
       use reservoir_module
       use hydrograph_module, only : res, resz, ob, ht2, wbody
       use climate_module
+      use water_body_module
       
       implicit none      
       
@@ -47,7 +48,7 @@
       !! Ikenberry wetland eqs modified - not function of area - fraction of difference in concentrations
       iwst = ob(iob)%wst
       !nitrok = (conc_n - res_nut(inut)%conc_nmin) * Theta(nsetlr, res_nut(inut)%theta_n, wst(iwst)%weat%tave)
-      nitrok = nsetlr * res_wat_d(jres)%area_ha * 10000. / (wbody%flo + ht2%flo)      
+      nitrok = nsetlr * res_wat_d(jres)%area_ha * 10000. / (wbody%flo + ht2%flo) 
       nitrok = amin1 (nitrok, 1.)
       nitrok = amax1 (nitrok, 0.)
       !phosk = (conc_p - res_nut(inut)%conc_pmin) * Theta(psetlr, res_nut(inut)%theta_p, wst(iwst)%weat%tave)
