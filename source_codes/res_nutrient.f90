@@ -94,6 +94,13 @@
       ht2%chla = wbody%chla * ht2%flo / (wbody%flo + ht2%flo)
       ht2%nh3 = wbody%nh3 * ht2%flo / (wbody%flo + ht2%flo)
       ht2%no2 = wbody%no2 * ht2%flo / (wbody%flo + ht2%flo)
+      wbody%orgn = wbody%orgn - ht2%orgn
+      wbody%sedp = wbody%sedp - ht2%sedp
+      wbody%no3 = wbody%no3 - ht2%no3
+      wbody%nh3 = wbody%nh3 - ht2%nh3
+      wbody%no2 = wbody%no2 - ht2%no2
+      wbody%solp = wbody%solp - ht2%solp
+      wbody%chla = wbody%chla - ht2%chla
 
       return
       end subroutine res_nutrient
