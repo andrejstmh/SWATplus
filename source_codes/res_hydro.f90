@@ -68,6 +68,7 @@
                   b_lo = evol_m3
               end select
               ht2%flo = (wbody%flo - b_lo) / dtbl_res(id)%act(iac)%const
+              ht2%flo = amin1(amax1(ht2%flo, dtbl_res(id)%act(iac)%const2 * 86400.), amax1(ht2%flo-b_lo,0.))
               
             case ("dyrt")
               !for base volume for drawdown days, use condition associated with action
