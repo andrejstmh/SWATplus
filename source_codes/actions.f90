@@ -737,6 +737,7 @@
             !"option" is the updated lsu_unit.ele and "file_pointer" is rout_unit.ele
             call hru_fr_change (d_tbl%act(iac)%option, d_tbl%act(iac)%file_pointer)
             !! write to new landuse change file
+            j = d_tbl%act(iac)%ob_num
             write (3612,*) j, time%yrc, time%mo, time%day_mo,  "   HRU_FRACTION_CHANGE ",        &
                     d_tbl%act(iac)%option, d_tbl%act(iac)%file_pointer, "   0   0"
                             
