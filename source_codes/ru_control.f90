@@ -140,9 +140,6 @@
               obcs(icmd)%hd(ihtypno)%pest(ipest) = obcs(icmd)%hd(ihtypno)%pest(ipest) + hcs1%pest(ipest)
             end do
           end do
-          do ihtypno = 3, ob(iob)%nhyds
-              ru_d(iru) = ru_d(iru) + ob(icmd)%hd(ihtypno)
-          end do
         end if      !ru_elem(ise)%obtyp == "exc"
   
         !! sum subdaily hydrographs using subdaily precip and green and ampt runoff
@@ -201,6 +198,11 @@
         
 
       end do  !element loop
+      
+        do ihtypno = 3, 5
+            ru_d(iru) = ru_d(iru) + ob(icmd)%hd(ihtypno)
+        end do
+      
       
       !! set subdaily ru hydrographs using daily runoff and ru unit hydrograph
       if (time%step > 0 .and. bsn_cc%gampt == 0) then

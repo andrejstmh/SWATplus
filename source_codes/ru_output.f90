@@ -8,6 +8,7 @@
       
       integer, intent (in) :: iru             !             |
       integer :: iob                          !             |
+      real :: const                         !             |      
       
       iob = sp_ob1%ru + iru - 1 
         ru_d(iru)%flo = ru_d(iru)%flo/86400 ! m^3 ==> m^3/s
@@ -26,7 +27,11 @@
 
         !! monthly print - ROUTING UNIT
         if (time%end_mo == 1) then
+          const = float (ndays(time%mo + 1) - ndays(time%mo))
+            
           ru_y(iru) = ru_y(iru) + ru_m(iru)
+          ru_m(iru)%flo = ru_m(iru)%flo / const
+          
           if (pco%ru%m == "y") then
             write (2601,*) time%day, time%mo, time%day_mo, time%yrc, ob(iob)%name, ob(iob)%typ, ru_m(iru)
             if (pco%csvout == "y") then
@@ -38,6 +43,8 @@
 
         !! yearly print - ROUTING UNIT
         if (time%end_yr == 1) then
+          const = time%day_end_yr
+          ru_y(iru)%flo = ru_y(iru)%flo / const  
           ru_a(iru) = ru_a(iru) + ru_y(iru)
           if (pco%ru%y == "y") then
             write (2602,*) time%day, time%mo, time%day_mo, time%yrc, ob(iob)%name, ob(iob)%typ, ru_y(iru)
