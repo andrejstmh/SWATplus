@@ -497,7 +497,7 @@
         if (pco%ru%d == "y") then
           open (2600,file="ru_day.txt", recl = 1500)
           write (2600,*) bsn%name, prog
-          write (2600,*) hyd_hdr_time, hyd_hdr  
+          write (2600,*) hyd_hdr_time, " unit", hyd_hdr  
           write (2600,*) hyd_hdr_units
           write (9000,*) "ROUTING_UNITS             ru_day.txt"
           if (pco%csvout == "y") then 
@@ -512,7 +512,7 @@
         if (pco%ru%m == "y") then
         open (2601,file="ru_mon.txt",recl = 1500)
         write (2601,*) bsn%name, prog
-        write (2601,*) hyd_hdr_time, hyd_hdr 
+        write (2601,*) hyd_hdr_time, " unit", hyd_hdr 
         write (2601,*) hyd_hdr_units
         write (9000,*) "ROUTING_UNITS             ru_mon.txt"
         if (pco%csvout == "y") then 
@@ -527,7 +527,7 @@
         if (pco%ru%y == "y") then
           open (2602,file="ru_yr.txt", recl = 1500)
           write (2602,*) bsn%name, prog
-          write (2602,*) hyd_hdr_time, hyd_hdr 
+          write (2602,*) hyd_hdr_time, " unit", hyd_hdr 
           write (2602,*) hyd_hdr_units
           write (9000,*) "ROUTING_UNITS             ru_yr.txt"
           if (pco%csvout == "y") then 
@@ -542,7 +542,7 @@
         if (pco%ru%a == "y") then 
         open (2603,file="ru_aa.txt",recl = 1500) 
         write (2603,*) bsn%name, prog
-        write (2603,*) hyd_hdr_time, hyd_hdr 
+        write (2603,*) hyd_hdr_time, " unit", hyd_hdr 
         write (2603,*) hyd_hdr_units
         write (9000,*) "ROUTING_UNITS             ru_aa.txt"
          if (pco%csvout == "y") then 
