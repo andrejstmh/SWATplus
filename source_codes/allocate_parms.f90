@@ -12,6 +12,7 @@
       use time_module
       use hydrograph_module
       use constituent_mass_module
+      use channel_velocity_module, only : grwway_vel
       
 !! initialize variables    
       mhyd = 1  !!added for jaehak vars
@@ -50,6 +51,7 @@
       allocate (bz_perc(mhru))
       allocate (plqm(mhru))
       allocate (itb(mhru))
+      allocate(grwway_vel(mhru))
       
       if (time%step > 0) allocate (hhqday(mhru,time%step))
       
