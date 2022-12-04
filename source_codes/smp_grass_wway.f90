@@ -166,7 +166,7 @@
 
 !! Calculate total fraction of sediment and surface runoff transported
       if (sedyld(j) < .0001) sedyld(j) = .0001
-	sed_frac =  sedout/sedyld(j)
+	sed_frac =  sedout/(sedyld(j)* hru(ihru)%km)
 
 
 	surq_frac = 1 - surq_remove/100

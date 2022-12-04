@@ -5,6 +5,7 @@
       use reservoir_module
       use hydrograph_module, only : res, resz, ob, ht2, wbody
       use climate_module
+      use water_body_module
       
       implicit none      
       
@@ -46,10 +47,12 @@
       !! new inputs thetn, thetap, conc_pmin, conc_nmin
       !! Ikenberry wetland eqs modified - not function of area - fraction of difference in concentrations
       iwst = ob(iob)%wst
-      nitrok = (conc_n - res_nut(inut)%conc_nmin) * Theta(nsetlr, res_nut(inut)%theta_n, wst(iwst)%weat%tave)
+      !nitrok = (conc_n - res_nut(inut)%conc_nmin) * Theta(nsetlr, res_nut(inut)%theta_n, wst(iwst)%weat%tave)
+      nitrok = nsetlr * res_wat_d(jres)%area_ha * 10000. / (wbody%flo + ht2%flo) 
       nitrok = amin1 (nitrok, 1.)
       nitrok = amax1 (nitrok, 0.)
-      phosk = (conc_p - res_nut(inut)%conc_pmin) * Theta(psetlr, res_nut(inut)%theta_p, wst(iwst)%weat%tave)
+      !phosk = (conc_p - res_nut(inut)%conc_pmin) * Theta(psetlr, res_nut(inut)%theta_p, wst(iwst)%weat%tave)
+      phosk  = psetlr * res_wat_d(jres)%area_ha * 10000. / (wbody%flo + ht2%flo)      
       phosk = amin1 (phosk, 1.)
       phosk = amax1 (phosk, 0.)
 
@@ -94,6 +97,13 @@
       ht2%chla = wbody%chla * ht2%flo / (wbody%flo + ht2%flo)
       ht2%nh3 = wbody%nh3 * ht2%flo / (wbody%flo + ht2%flo)
       ht2%no2 = wbody%no2 * ht2%flo / (wbody%flo + ht2%flo)
+      wbody%orgn = wbody%orgn - ht2%orgn
+      wbody%sedp = wbody%sedp - ht2%sedp
+      wbody%no3 = wbody%no3 - ht2%no3
+      wbody%nh3 = wbody%nh3 - ht2%nh3
+      wbody%no2 = wbody%no2 - ht2%no2
+      wbody%solp = wbody%solp - ht2%solp
+      wbody%chla = wbody%chla - ht2%chla
 
       return
       end subroutine res_nutrient

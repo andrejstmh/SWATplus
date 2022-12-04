@@ -35,7 +35,9 @@
       real :: conc              !kg/mm      |concentration of pesticide in flow
       real :: zdb1              !mm         |kd - flow factor for pesticide transport
       real :: kd                !(mg/kg)/(mg/L) |koc * carbon
-
+      real :: revapmn, gwqmn
+      
+      
       !! set pointers to aquifer database and weather station
       iaq = ob(icmd)%num
       iaqdb = ob(icmd)%props
@@ -51,47 +53,71 @@
 
       !convert from m^3 to mm
       aqu_d(iaq)%rchrg = ob(icmd)%hin%flo / (10. * ob(icmd)%area_ha)
+      call debugprint(iaq, "gw_seep",aqu_d(iaq)%rchrg)
       
       !! lag recharge from bottom of soil to water table ** disabled
       aqu_d(iaq)%rchrg = (1. - aqu_prm(iaq)%delay_e) * aqu_d(iaq)%rchrg + aqu_prm(iaq)%delay_e * aqu_prm(iaq)%rchrg_prev
       
       aqu_prm(iaq)%rchrg_prev = aqu_d(iaq)%rchrg
+
+      aqu_d(iaq)%seep = aqu_d(iaq)%rchrg * aqu_prm(iaq)%seep
+      
       
       !! add recharge to aquifer storage
-      aqu_d(iaq)%stor = aqu_d(iaq)%stor + aqu_d(iaq)%rchrg
+      aqu_d(iaq)%stor = aqu_d(iaq)%stor + aqu_d(iaq)%rchrg - aqu_d(iaq)%seep
       
       !! compute groundwater depth from surface
       aqu_d(iaq)%dep_wt = aqudb(iaqdb)%dep_bot - (aqu_d(iaq)%stor / (1000. * aqu_prm(iaq)%spyld))
       aqu_d(iaq)%dep_wt = amax1 (0., aqu_d(iaq)%dep_wt)
+      
+      revapmn = (aqudb(iaqdb)%dep_bot - aqu_prm(iaq)%revap_min)*(1000. * aqu_prm(iaq)%spyld)
+      gwqmn = (aqudb(iaqdb)%dep_bot - aqu_prm(iaq)%flo_min)*(1000. * aqu_prm(iaq)%spyld)
 
+      
       !! compute flow and substract from storage
-      if (aqu_d(iaq)%dep_wt <= aqu_prm(iaq)%flo_min) then
-        aqu_d(iaq)%flo = aqu_d(iaq)%flo * aqu_prm(iaq)%alpha_e + aqu_d(iaq)%rchrg * (1. - aqu_prm(iaq)%alpha_e)
-        aqu_d(iaq)%flo = Max (0., aqu_d(iaq)%flo)
-        aqu_d(iaq)%flo = Min (aqu_d(iaq)%stor, aqu_d(iaq)%flo)
-        aqu_d(iaq)%stor = aqu_d(iaq)%stor - aqu_d(iaq)%flo
+      if (aqu_d(iaq)%stor >= gwqmn) then
+        aqu_d(iaq)%flo = aqu_d(iaq)%flo * aqu_prm(iaq)%alpha_e + (aqu_d(iaq)%rchrg - aqu_d(iaq)%seep) * (1. - aqu_prm(iaq)%alpha_e)
       else
         aqu_d(iaq)%flo = 0.
       endif
+ 
+!! compute revap to soil profile/plant roots     
+      aqu_d(iaq)%revap = wst(iwst)%weat%pet * aqu_prm(iaq)%revap_co
+      if (aqu_d(iaq)%stor < revapmn) then
+        aqu_d(iaq)%revap = 0.
+      else
+        aqu_d(iaq)%stor = aqu_d(iaq)%stor  - aqu_d(iaq)%revap
+        if (aqu_d(iaq)%stor < revapmn) then
+          aqu_d(iaq)%revap = aqu_d(iaq)%stor + aqu_d(iaq)%revap - revapmn
+          aqu_d(iaq)%stor = revapmn
+        end if
+      end if
 
+!! remove ground water flow from shallow aquifer storage
+      if (aqu_d(iaq)%stor >= gwqmn) then
+        aqu_d(iaq)%stor = aqu_d(iaq)%stor - aqu_d(iaq)%flo
+        if (aqu_d(iaq)%stor < gwqmn) then
+          aqu_d(iaq)%flo = aqu_d(iaq)%stor + aqu_d(iaq)%flo - gwqmn
+          aqu_d(iaq)%stor = gwqmn
+        end if
+       else
+        aqu_d(iaq)%flo = 0.
+       end if
+      
+      
+      
       !! set hydrograph flow from aquifer- convert mm to m3
       ob(icmd)%hd(1)%flo = 10. * aqu_d(iaq)%flo * ob(icmd)%area_ha
       
-      !! compute seepage through aquifer and subtract from storage
-      aqu_d(iaq)%seep = aqu_d(iaq)%rchrg * aqu_prm(iaq)%seep
-      aqu_d(iaq)%seep = amin1 (aqu_d(iaq)%seep, aqu_d(iaq)%stor)
       ob(icmd)%hd(2)%flo = 10. * aqu_d(iaq)%seep * ob(icmd)%area_ha
       
-      aqu_d(iaq)%stor = aqu_d(iaq)%stor - aqu_d(iaq)%seep
-      
-      !! compute revap (deep root uptake from aquifer) and subtract from storage
-      if (aqu_d(iaq)%dep_wt < aqu_prm(iaq)%revap_min) then
-        aqu_d(iaq)%revap = wst(iwst)%weat%pet * aqu_prm(iaq)%revap_co
-        aqu_d(iaq)%revap = amin1 (aqu_d(iaq)%revap, aqu_d(iaq)%stor)
-        aqu_d(iaq)%stor = aqu_d(iaq)%stor - aqu_d(iaq)%revap
-      else
-        aqu_d(iaq)%revap = 0.
-      end if
+      call debugprint(iaq, "gw_flo",aqu_d(iaq)%flo)
+      call debugprint(iaq, "gw_stor",aqu_d(iaq)%stor)
+      call debugprint(iaq, "gw_seep",aqu_d(iaq)%seep)
+      call debugprint(iaq, "gw_revap",aqu_d(iaq)%revap)
+      call debugprint(iaq, "gw_rchrg",aqu_d(iaq)%rchrg)
+
+
 
       !! compute nitrate recharge into the aquifer
       aqu_d(iaq)%rchrg_n = ob(icmd)%hin%no3 ! kg N
@@ -115,8 +141,10 @@
       ! todo:revapno3
       !revapno3 = conc * revap -- dont include nitrate uptake by plant
       
-      !todo:Half-life of NO3 
-      
+      !Half-life of NO3 
+      aqu_d(iaq)%nloss = aqu_d(iaq)%no3 * (1.0-aqu_prm(iaq)%nloss)
+      aqu_d(iaq)%no3 = aqu_d(iaq)%no3 * aqu_prm(iaq)%nloss
+
       !! compute nitrate seepage out of aquifer
       aqu_d(iaq)%seepno3 = conc_no3 * aqu_d(iaq)%seep
       aqu_d(iaq)%seepno3 = amin1(aqu_d(iaq)%seepno3, aqu_d(iaq)%no3)

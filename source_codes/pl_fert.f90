@@ -67,16 +67,24 @@
 
         soil1(j)%mn(l)%no3 = soil1(j)%mn(l)%no3 + xx * frt_kg *          &
             (1. - fertdb(ifrt)%fnh3n) * fertdb(ifrt)%fminn
+        call debugprint(l, 'soilno3_fert', xx * frt_kg *          &
+            (1. - fertdb(ifrt)%fnh3n) * fertdb(ifrt)%fminn)
 
         if (bsn_cc%cswat == 0) then
-        soil1(j)%tot(l)%n = soil1(j)%tot(l)%n + rtof * xx * frt_kg *   &
+        soil1(j)%rsd(l)%n = soil1(j)%rsd(l)%n + rtof * xx * frt_kg *   &
                        fertdb(ifrt)%forgn
+        call debugprint(l, 'rsdn_fert', rtof * xx * frt_kg * fertdb(ifrt)%forgn)        
         soil1(j)%hact(l)%n = soil1(j)%hact(l)%n + (1. - rtof) * xx * &
             frt_kg * fertdb(ifrt)%forgn
-        soil1(j)%tot(l)%p = soil1(j)%tot(l)%p + rtof * xx * frt_kg *   &
+        call debugprint(l, 'hactn_fert', (1. - rtof) * xx * &
+            frt_kg * fertdb(ifrt)%forgn)        
+        soil1(j)%rsd(l)%p = soil1(j)%rsd(l)%p + rtof * xx * frt_kg *   &
                        fertdb(ifrt)%forgp
+        call debugprint(l, 'rsdp_fert', rtof * xx * frt_kg * fertdb(ifrt)%forgp)
         soil1(j)%hsta(l)%p = soil1(j)%hsta(l)%p + (1. - rtof)*xx*frt_kg *  &
                        fertdb(ifrt)%forgp
+        call debugprint(l, 'hstap_fert', (1. - rtof) * xx * &
+            frt_kg * fertdb(ifrt)%forgp)        
         end if
 	  if (bsn_cc%cswat == 1) then
 	  soil1(j)%man(l)%c = soil1(j)%man(l)%c + xx * frt_kg *            &
@@ -164,6 +172,7 @@
 
         soil1(j)%mp(l)%lab = soil1(j)%mp(l)%lab + xx * frt_kg *          & 
             fertdb(ifrt)%fminp
+        call debugprint(l, 'solp_fert',  xx * frt_kg * fertdb(ifrt)%fminp)
 
       end do 
 

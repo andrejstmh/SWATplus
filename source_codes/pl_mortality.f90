@@ -36,7 +36,11 @@
         !! add dead material to residue
         rto1 = 1. - rto
         rto1 = amax1 (0., rto1)
-        rsd1(j)%tot(ipl) = rsd1(j)%tot(ipl) + rto1 * pl_mass(j)%tot(ipl)
+        !rsd1(j)%tot(ipl) = rsd1(j)%tot(ipl) + rto1 * pl_mass(j)%tot(ipl)
+        call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), rto1 * pl_mass(j)%tot(ipl) )
+        call debugprint(1, 'rsnd_mortality', rto1 * pl_mass(j)%tot(ipl)%n)
+        
+        
       end if
 
       return

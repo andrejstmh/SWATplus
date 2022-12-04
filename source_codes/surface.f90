@@ -64,6 +64,7 @@
 
       if (qday > 1.e-6) then
         !! compute peak rate - qp_cms in m3/s  
+        call debugprint(1, 'sedim_qday', qday)
         call ero_pkq 
       end if  
 

@@ -1,4 +1,4 @@
-      subroutine mgt_operatn
+      subroutine mgt_operatn(end_year)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine performs all management operations             
@@ -28,14 +28,19 @@
       use mgt_operations_module
       use hru_module, only : hru, yr_skip, phubase, ihru, ipl
       use plant_module
+      use plant_data_module
       use time_module
       
       implicit none
-
+      integer, intent (in) :: end_year
+      integer :: dorm_flag
       integer :: j           !none          |HRU number
       real :: aphu           !heat units    |fraction of total heat units accumulated 
       integer :: isched      !              |
-
+      integer :: icom              !         |  
+      
+      dorm_flag = end_year
+      
       j = ihru
       isched = hru(j)%mgt_ops
       if (sched(isched)%num_ops < 1) return
@@ -48,23 +53,53 @@
           if (yr_skip(j) == 1) exit
         end do
 
+        mgt%op2 = 0
+        icom = pcom(j)%pcomdb
+        if (icom > 0) then
+          if (pcom(j)%npl > 1) then
+            do ipl = 1, pcom(j)%npl
+              if (mgt%op_char == pcomdb(icom)%pl(ipl)%cpnm) then
+                mgt%op2 = ipl
+                exit
+              end if
+            end do
+          end if
+        end if
+        
+        
+        
+        
         ipl = Max(mgt%op2, 1)
         if (pcom(j)%plcur(ipl)%gro == "n") then
           aphu = phubase(j)
         else
           aphu = pcom(j)%plcur(ipl)%phuacc
         end if 
-        !if (dorm_flag == 1) aphu = 999.
+        if (dorm_flag == 1) aphu = 999.
         do while (mgt%husc > 0. .and. aphu > mgt%husc)
           call mgt_sched (isched)
           if (sched(isched)%num_ops == 1) exit
+          
+            mgt%op2 = 0
+            icom = pcom(j)%pcomdb
+            if (icom > 0) then
+              if (pcom(j)%npl > 1) then
+                do ipl = 1, pcom(j)%npl
+                  if (mgt%op_char == pcomdb(icom)%pl(ipl)%cpnm) then
+                    mgt%op2 = ipl
+                    exit
+                  end if
+                end do
+              end if
+            end if          
+          
           ipl = Max(mgt%op2, 1)
           if (pcom(j)%plcur(ipl)%gro == "n") then
             aphu = phubase(j)
           else
             aphu = pcom(j)%plcur(ipl)%phuacc
           end if
-          !if (dorm_flag == 1) aphu = 999.
+          if (dorm_flag == 1) aphu = 999.
           if (mgt%op == "skip") then
 	        call mgt_sched (isched)
           end if

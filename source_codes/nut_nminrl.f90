@@ -70,7 +70,7 @@
       real :: sut           !none          |soil water factor
       real :: nactfr        !none          |nitrogen active pool fraction. The fraction
                             !              |of organic nitrogen in the active pool. 
-
+      type(organic_mass) :: fresh_org_rm
       j = ihru
       nactfr = .02
       !zero transformations for summing layers
@@ -139,14 +139,16 @@
           soil1(j)%hact(1)%c = soil1(j)%hact(1)%c + decr * rsd1(j)%tot(ipl)%c
           
           !! mineralization of residue n and p
-          rmn1 = decr * rsd1(j)%tot(ipl)%n 
+          rmn1 = 0.0 * decr * rsd1(j)%tot(ipl)%n 
           rsd1(j)%tot(ipl)%n = Max(1.e-6, rsd1(j)%tot(ipl)%n)
           rsd1(j)%tot(ipl)%n = rsd1(j)%tot(ipl)%n - rmn1
           soil1(j)%mn(1)%no3 = soil1(j)%mn(1)%no3 + .8 * rmn1
+          !call debugprint(1, 'soilno3_rmn1', .8 * rmn1)
+          !call debugprint(1, 'hactn_rmn1', .2 * rmn1)
           soil1(j)%hact(1)%n = soil1(j)%hact(1)%n + .2 * rmn1
           
           rsd1(j)%tot(ipl)%p = Max(1.e-6, rsd1(j)%tot(ipl)%p)
-          rmp = decr * rsd1(j)%tot(ipl)%p
+          rmp = 0.0 * decr * rsd1(j)%tot(ipl)%p
           rsd1(j)%tot(ipl)%p = rsd1(j)%tot(ipl)%p - rmp
           soil1(j)%mp(1)%lab = soil1(j)%mp(1)%lab + .8 * rmp
           soil1(j)%hact(1)%p = soil1(j)%hact(1)%p + .2 * rmp
@@ -195,6 +197,8 @@
           endif
           soil1(j)%hsta(k)%n = Max(1.e-6, soil1(j)%hsta(k)%n + rwn)
           soil1(j)%hact(k)%n = Max(1.e-6, soil1(j)%hact(k)%n - rwn)
+          call debugprint(k, 'hstan_rwn', +rwn)
+          call debugprint(k, 'hactn_rwn', -rwn)
           hnb_d(j)%act_sta_n = hnb_d(j)%act_sta_n + rwn
 
           !! compute humus mineralization on active organic n
@@ -211,8 +215,12 @@
           !! move mineralized nutrients between pools
           soil1(j)%hact(k)%n = Max(1.e-6, soil1(j)%hact(k)%n - hmn)
           soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + hmn
+          call debugprint(k, 'soilno3_hmn', hmn)
+          call debugprint(k, 'hactn_hmn', -hmn)
           soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p - hmp
           soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + hmp
+          call debugprint(k, 'solp_hmp', hmp)
+          call debugprint(k, 'hstap_hmp', -hmp)
           
           hnb_d(j)%act_nit_n = hnb_d(j)%act_nit_n + hmn
           hnb_d(j)%org_lab_p = hnb_d(j)%org_lab_p + hmp
@@ -249,20 +257,31 @@
             end if
             decr = Max(bsn_prm%decr_min, decr)
             decr = Min(decr, 1.)
-            rmn1 = decr * (soil1(j)%str(k)%n + soil1(j)%lig(k)%n + soil1(j)%meta(k)%n)
-            rmp = decr * (soil1(j)%str(k)%p + soil1(j)%lig(k)%p + soil1(j)%meta(k)%p)
-
+            !rmn1 = decr * soil1(j)%rsd.n (soil1(j)%str(k)%n + soil1(j)%lig(k)%n + soil1(j)%meta(k)%n)
+            !rmp = decr * (soil1(j)%str(k)%p + soil1(j)%lig(k)%p + soil1(j)%meta(k)%p)
+            
+            fresh_org_rm = decr * soil1(j)%rsd(k)
+            
             soil1(j)%str(k)%n = soil1(j)%str(k)%n * (1. - decr)
             soil1(j)%lig(k)%n = soil1(j)%lig(k)%n * (1. - decr)
             soil1(j)%meta(k)%n = soil1(j)%meta(k)%n * (1. - decr)
             soil1(j)%str(k)%p = soil1(j)%str(k)%p * (1. - decr)
             soil1(j)%lig(k)%p = soil1(j)%lig(k)%p * (1. - decr)
             soil1(j)%meta(k)%p = soil1(j)%meta(k)%p * (1. - decr)
-
-         !   soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * rmn1
-         !   soil1(j)%hact(k)%n = soil1(j)%hact(k)%n + .2 * rmn1
-         !   soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + .8 * rmp
-         !   soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p + .2 * rmp
+            
+            soil1(j)%rsd(k) = soil1(j)%rsd(k) - fresh_org_rm
+            call debugprint(k, 'rsdn_rmn1', -fresh_org_rm%n)        
+            call debugprint(k, 'rsdp_rmp', -fresh_org_rm%p) 
+            
+            soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 + .8 * fresh_org_rm.n
+            call debugprint(k, 'soilno3_rmn1', .8 * fresh_org_rm.n)          
+            
+            soil1(j)%hact(k)%n = soil1(j)%hact(k)%n + .2 * fresh_org_rm.n
+            call debugprint(k, 'hactn_rmn1', .2 * fresh_org_rm.n)          
+            soil1(j)%mp(k)%lab = soil1(j)%mp(k)%lab + .8 * fresh_org_rm.p
+            call debugprint(k, 'solp_rmp', .8 * fresh_org_rm.p)            
+            soil1(j)%hsta(k)%p = soil1(j)%hsta(k)%p + .2 * fresh_org_rm.p
+            call debugprint(k, 'hstap_rmp', .2 * fresh_org_rm.p)          
             
          !   hnb_d(j)%rsd_nitorg_n = hnb_d(j)%rsd_nitorg_n + rmn1
          !   hnb_d(j)%rsd_laborg_p = hnb_d(j)%rsd_laborg_p + rmp
@@ -271,11 +290,12 @@
           wdn = 0.   
 	      if (i_sep(j) /= k .or. sep(isep)%opt  /= 1) then
 	        if (sut >= bsn_prm%sdnco) then
-	          wdn = soil1(j)%mn(k)%no3 * (1.-Exp(-bsn_prm%cdn * cdg * soil1(j)%cbn(k) / 100.))
+	          wdn = soil1(j)%mn(k)%no3 * (1.-Exp(-bsn_prm%cdn * cdg * soil1(j)%cbn(k)))
 	        else
 	          wdn = 0.
 	        endif
 	        soil1(j)%mn(k)%no3 = soil1(j)%mn(k)%no3 - wdn
+            call debugprint(k, 'soilno3_wdn', -wdn)
           end if
           hnb_d(j)%denit = hnb_d(j)%denit + wdn
 

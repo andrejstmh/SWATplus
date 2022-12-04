@@ -40,12 +40,14 @@
       
       !! lai decline for temperature based perennials - use annual base zero phu's
       if (pldb(idp)%typ == "perennial" .and. pldb(idp)%trig == "temp_gro") then
-        if (wst(iwst)%weat%phubase0 > pldb(idp)%dlai .and. wst(iwst)%weat%phubase0 < 1.) then
+        !if (wst(iwst)%weat%phubase0 > pldb(idp)%dlai .and. wst(iwst)%weat%phubase0 < 1.) then
+        if (pcom(j)%plcur(ipl)%phuacc >= pldb(idp)%dlai .and. pcom(j)%plcur(ipl)%phuacc < 1.) then
           iob = hru(j)%obj_no
           iwst = ob(iob)%wst
           lai_init = pcom(j)%plg(ipl)%lai
           !! logistic decline rate - Strauch and Volk
-          rto = (1. - wst(iwst)%weat%phubase0) / (1. - pldb(idp)%dlai)
+          !rto = (1. - wst(iwst)%weat%phubase0) / (1. - pldb(idp)%dlai)
+          rto = (1. - pcom(j)%plcur(ipl)%phuacc) / (1. - pldb(idp)%dlai)
           pcom(j)%plg(ipl)%lai = (pcom(j)%plg(ipl)%olai - pldb(idp)%alai_min) /   &
                 (1. + Exp((rto - .5) * (-12))) + pldb(idp)%alai_min
           !rto = (1. - pcom(j)%plcur(ipl)%phuacc) / (1. - pcom(j)%plg(ipl)%dphu)
@@ -55,11 +57,17 @@
           lai_drop = lai_init - pcom(j)%plg(ipl)%lai
           lai_drop = amax1 (0., lai_drop)
           leaf_drop = lai_drop * pl_mass(j)%leaf(ipl)
-          rsd1(j)%tot(ipl) = rsd1(j)%tot(ipl) + leaf_drop
-          if (j==1 .and. rsd1(j)%tot(ipl)%n > 100) then
-            iob = 1
+          if (leaf_drop%m > pl_mass(j)%leaf(ipl)%m) then 
+              leaf_drop = pl_mass(j)%leaf(ipl)
           end if
+          
+          !rsd1(j)%tot(ipl) = rsd1(j)%tot(ipl) + leaf_drop
+          call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), leaf_drop)
+          call debugprint(1, 'rsdn_leafdrop', pl_mass(j)%leaf(ipl)%n)          
+          call debugprint(1, 'rsdp_leafdrop', pl_mass(j)%leaf(ipl)%p)          
           pl_mass(j)%leaf(ipl) = pl_mass(j)%leaf(ipl) - leaf_drop
+          pl_mass(j)%tot(ipl) = pl_mass(j)%tot(ipl) - leaf_drop
+          pl_mass(j)%ab_gr(ipl) = pl_mass(j)%ab_gr(ipl) - leaf_drop
         end if
       end if
       

@@ -53,7 +53,7 @@
         real :: cbn = 0.        !percent    |organic carbon in aquifer - currently static
         real :: orgn = 0.       !kg         |organic nitrogen in aquifer - currently static
         real :: rchrg_n = 0.    !kg/NO3-N   |nitrate NO3-N flowing into aquifer from another object  
-        real :: nloss = 0.      !kg/ha      |nitrate NO3-N loss
+        real :: nloss = 0.      !kg NO3-N   |nitrate NO3-N loss
         real :: no3gw           !kg N       |nitrate loading to reach in groundwater
         real :: seepno3 = 0.    !kg         |seepage of no3 to next object
         real :: flo_cha = 0.    !mm H2O     |surface runoff flowing into channels

@@ -272,7 +272,7 @@
         inflpcp = Max(0., inflpcp)
          
         !! perform management operations
-        if (yr_skip(j) == 0) call mgt_operatn   
+        if (yr_skip(j) == 0) call mgt_operatn (0)  
         
         !! add irrigation to subdaily effective precip
         if (time%step > 0) then
@@ -315,8 +315,12 @@
 	      call cbn_zhang2
 	    end if
 
-        call nut_nitvol  
-        call nut_pminrl
+        call nut_nitvol
+        if (bsn_cc%sol_P_model == 1)  then
+            call nut_pminrl
+        else
+            call nut_pminrl2
+        end if
         
         !! compute biozone processes in septic HRUs
         !! if 1) current is septic hru and 2) soil temperature is above zero
@@ -375,10 +379,11 @@
         end do
         
         !! compute total surface residue
-        rsd1(j)%tot_com = orgz
-        do ipl = 1, pcom(j)%npl
-          rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
-        end do
+        call update_total_surface_residue(rsd1(j))
+        !rsd1(j)%tot_com = orgz
+        !do ipl = 1, pcom(j)%npl
+        !  rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
+        !end do
         
         !! compute actual ET for day in HRU
         etday = ep_day + es_day + canev
@@ -500,10 +505,25 @@
         end if
       
       ! update total residue on surface
-      rsd1(j)%tot_com = orgz
-      do ipl = 1, pcom(j)%npl
-        rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
-      end do
+      call update_total_surface_residue(rsd1(j))
+      !rsd1(j)%tot_com = orgz
+      !do ipl = 1, pcom(j)%npl
+      !  rsd1(j)%tot_com = rsd1(j)%tot_com + rsd1(j)%tot(ipl)
+      !end do
+      !call debugprint(1,'soil_rsd1n', rsd1(j)%tot(1)%n)
+      !call debugprint(1,'soil_rsdn', soil1(j)%rsd(1)%n)
+      !rsd1(j)%tot(1)=soil1(j)%rsd(1)
+      call debugprint(1,'flow_qtile',qtile)
+      call debugprint(1,'flow_surq',surfq(j))
+      call debugprint(1,'flow_sedyld',sedyld(j))
+      call debugprint(1,'flow_sedorgn',sedorgn(j))
+      call debugprint(1,'flow_sedorgp',sedorgp(j))
+      call debugprint(1,'flow_sedminpa',sedminpa(j))
+      call debugprint(1,'flow_sedminps',sedminps(j))
+      call debugprint(1,'et_es',es_day)
+      call debugprint(1,'et_ep',ep_day)
+      call debugprint(1,'et_canev',canev)
+      
 
       ! compute outflow objects (flow to channels, reservoirs, or landscape)
       ! if flow from hru is directly routed

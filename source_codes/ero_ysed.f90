@@ -52,9 +52,9 @@
 
       !! compute sediment yield with musle
       sedyld(j) = (10. * surfq(j) * qp_cms * hru(j)%area_ha) ** .56 * cklsp(j)
-      qp_cms = qp_cms * 3.6 / hru(j)%km !cms--> mm/h
-      sedyld(j) = 1.586 * rock * (surfq(j) * qp_cms) ** .56 * (hru(j)%area_ha) ** 0.12 * &
-                 usle_cfac(j) * soil(j)%ly(1)%usle_k * hru(j)%lumv%usle_p * hru(j)%lumv%usle_ls
+      !qp_cms = qp_cms * 3.6 / hru(j)%km !cms--> mm/h
+      !sedyld(j) = 1.586 * rock * (surfq(j) * qp_cms) ** .56 * (hru(j)%area_ha) ** 0.12 * &
+      !           usle_cfac(j) * soil(j)%ly(1)%usle_k * hru(j)%lumv%usle_p * hru(j)%lumv%usle_ls
       !sedyld(j) = (surfq(j) * qp_cms) ** .56 * cklsp(j)
 
       if (sedyld(j) < 0.) sedyld(j) = 0.
@@ -77,6 +77,8 @@
 
       !! compute erosion with usle (written to output for comparison)
       usle = 1.292 * usle_ei * cklsp(j) / 11.8
+
+      call debugprint(1, 'sedim_ysed', sedyld(j))
 
       return
       end subroutine ero_ysed

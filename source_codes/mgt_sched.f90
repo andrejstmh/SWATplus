@@ -139,7 +139,7 @@
                       pcom(j)%plstr(ipl)%sum_a
                 end if 
               end if
-              pcom(j)%plcur(ipl)%phuacc = 0.
+              !pcom(j)%plcur(ipl)%phuacc = 0.
               end if
             end do
           
@@ -170,6 +170,8 @@
                 pcom(j)%days_harv = 1       !reset days since last harvest   
                           
                 !harvest specific type
+                call debugprint(1, 'pl_m@yield', pl_mass(j)%tot(ipl)%m)                
+                call debugprint(1, 'pl_n@yield',pl_mass(j)%tot(ipl)%n)
                 select case (harvop_db(iharvop)%typ)
                 case ("biomass")    
                   call mgt_harvbiomass (j, ipl, iharvop)
@@ -179,7 +181,8 @@
                 case ("tree")
                 case ("tuber")
                 end select
-            
+                call debugprint(1, 'pl_yield',pl_yield%m)
+                call debugprint(1, 'pl_nyield', pl_yield%n)
                 call mgt_killop (j, ipl)
 
                 !! sum yield and num. of harvest to calc ave yields

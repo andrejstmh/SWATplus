@@ -15,7 +15,7 @@
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Debug|x64">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" BufferedIO="true" IgnoreStandardIncludePath="true" Diagnostics="diagnosticsShowAll" WarnInterfaces="true" FloatingPointExceptionHandling="fpe0" Traceback="true" RuntimeChecks="rtChecksAll" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebug"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" BufferedIO="true" Preprocess="preprocessYes" IgnoreStandardIncludePath="true" PreprocessorDefinitions="DEBUG" FPPDefinesOnly="true" Diagnostics="diagnosticsShowAll" WarnInterfaces="true" FloatingPointExceptionHandling="fpe0" Traceback="true" RuntimeChecks="rtChecksAll" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebug"/>
 				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" GenerateDebugInformation="true" SubSystem="subSystemConsole"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
@@ -35,7 +35,7 @@
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|x64">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Optimization="optimizeFull" BufferedIO="true" IgnoreStandardIncludePath="true" FloatingPointExceptionHandling="fpe0" RuntimeChecks="rtChecksNone" RuntimeLibrary="rtMultiThreadedDebug"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Optimization="optimizeFull" BufferedIO="true" Preprocess="preprocessYes" IgnoreStandardIncludePath="true" PreprocessorDefinitions="RELEASE" FloatingPointExceptionHandling="fpe0" RuntimeChecks="rtChecksNone" RuntimeLibrary="rtMultiThreadedDebug"/>
 				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" SubSystem="subSystemConsole"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
@@ -198,6 +198,7 @@
 		<File RelativePath="..\constit_hyd_mult.f90"/>
 		<File RelativePath="..\constituent_mass_module.f90"/>
 		<File RelativePath="..\curno.f90"/>
+		<File RelativePath="..\debugprint.f90"/>
 		<File RelativePath="..\define_unit_elements.f90"/>
 		<File RelativePath="..\dr_db_read.f90"/>
 		<File RelativePath="..\dr_module.f90"/>

@@ -21,6 +21,8 @@
       !call header_cs
 
       call header_write
+     ! debug output file      
+      !open(7743, file="test.txt",recl=800)
            
 	  return
       

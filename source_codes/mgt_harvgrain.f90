@@ -48,6 +48,9 @@
       !! add seed mass from harveff to slow humus pool of soil - to preserve balances
       harveff1 = 1. - harveff
       soil1(j)%hact(1) = harveff1 * pl_mass(j)%seed(ipl) + soil1(j)%hact(1)
+      call debugprint(1, 'hactn_harveff', harveff1 * pl_mass(j)%seed(ipl)%n)
+      !call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), harveff1 * pl_mass(j)%seed(ipl) )
+      !call debugprint(1, 'rsdn_harveff', harveff1 * pl_mass(j)%seed(ipl)%n)
       
       !! zero seed mass
       pl_mass(j)%seed(ipl) = plt_mass_z

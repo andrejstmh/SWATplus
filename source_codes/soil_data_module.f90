@@ -58,6 +58,10 @@
         real :: ec = 0.             !! dS/m           |electrical conductivity of soil layer
         real :: cal = 0.            !! %              |soil CaCo3
         real :: ph = 0.             !!                |soil Ph
+        real :: p_org = 0.          !!                |
+        real :: n_org = 0.          !!                |
+        real :: labp = 0.           !!                |
+        real :: no3 = 0.            !!                |
       end type soilayer_db
       
       type soil_profile_db

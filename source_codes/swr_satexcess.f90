@@ -79,6 +79,8 @@
       if (j1 < soil(j)%nly) then
         if (soil(j)%phys(j1)%st - soil(j)%phys(j1)%ul > 1.e-4) then
           sepday = (soil(j)%phys(j1)%st - soil(j)%phys(j1)%ul)
+          call debugprint(j1, 'soilw_sep-',-sepday)
+          call debugprint(j1+1, 'soilw_sep+',sepday)
           soil(j)%phys(j1)%st = soil(j)%phys(j1)%ul
           soil(j)%phys(j1+1)%st = soil(j)%phys(j1+1)%st + sepday
         end if
@@ -86,12 +88,15 @@
 
         if (soil(j)%phys(j1)%st - soil(j)%phys(j1)%ul > 1.e-4) then
           ul_excess = soil(j)%phys(j1)%st - soil(j)%phys(j1)%ul
+          call debugprint(j1, 'soilw_sep-',-ul_excess)
           soil(j)%phys(j1)%st = soil(j)%phys(j1)%ul
           nn = soil(j)%nly
           do ly = nn - 1, 1, -1
+            call debugprint(ly, 'soilw_sep+',ul_excess)
             soil(j)%phys(ly)%st = soil(j)%phys(ly)%st + ul_excess
             if (soil(j)%phys(ly)%st > soil(j)%phys(ly)%ul) then
               ul_excess = soil(j)%phys(ly)%st - soil(j)%phys(ly)%ul
+              call debugprint(ly, 'soilw_sep-',-ul_excess)
               soil(j)%phys(ly)%st = soil(j)%phys(ly)%ul
             else
               ul_excess = 0.

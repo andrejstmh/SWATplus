@@ -5,7 +5,7 @@
 
       use basin_module
       use organic_mineral_mass_module
-      use hru_module, only : hru, ihru, ipl
+      use hru_module, only :  ipl !, hru, ihru
       use soil_module
       use plant_module
       use constituent_mass_module
@@ -27,10 +27,14 @@
       !! allocate dead roots, N, P to soil layers
 	  do ly = 1, soil(j)%nly
 	      soil1(j)%rsd(ly) = soil(j)%ly(ly)%rtfr * pl_mass(j)%root(ipl) + soil1(j)%rsd(ly)
+          call debugprint(ly, 'rsdn_kill', soil(j)%ly(ly)%rtfr * pl_mass(j)%root(ipl)%n)          
       end do
       
       !! add above ground mass to residue pool
-      rsd1(j)%tot(1) = pl_mass(j)%ab_gr(ipl) + rsd1(j)%tot(1)
+      !rsd1(j)%tot(1) = pl_mass(j)%ab_gr(ipl) + rsd1(j)%tot(1)
+      !soil1(j)%rsd(1) = pl_mass(j)%ab_gr(ipl) + soil1(j)%rsd(1)
+      call update_plant_mass_surface_residue(ipl, rsd1(j), soil1(j), pl_mass(j)%ab_gr(ipl))
+      call debugprint(1, 'rsdn_kill', pl_mass(j)%ab_gr(ipl)%n)          
 
       !! zero all plant mass
       pl_mass(j)%tot(ipl) = plt_mass_z

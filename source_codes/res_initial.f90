@@ -67,7 +67,7 @@
         !! initialize org-min in reservoir
         init = res_init(i)%org_min
         res(ires) = om_init_water(init)
-        call res_convert_mass (res(ires), res_ob(ires)%pvol)
+        !call res_convert_mass (res(ires), res_ob(ires)%pvol)
         
         !! set initial reservoir org-min to reset for soft calibration
         res_om_init(ires) = res(ires)

@@ -61,6 +61,8 @@
       if (atmodep_cont%timestep == "aa") then
         hnb_d(j)%no3atmo = .01 * atmodep(iadep)%no3_rf * w%precip + atmodep(iadep)%no3_dry / 365.
         soil1(j)%mn(1)%no3 = hnb_d(j)%no3atmo + soil1(j)%mn(1)%no3
+        call debugprint(1, 'soilno3_atmodep', hnb_d(j)%no3atmo)
+        
         hnb_d(j)%nh4atmo = .01 * atmodep(iadep)%nh4_rf * w%precip + atmodep(iadep)%nh4_dry / 365.
         soil1(j)%mn(1)%nh4 = soil1(j)%mn(1)%nh4 + hnb_d(j)%nh4atmo
       endif

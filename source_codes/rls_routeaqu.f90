@@ -27,6 +27,7 @@
       lyr = soil(j)%nly
       soil(j)%phys(lyr)%st = soil(j)%phys(lyr)%st + ob(iob)%hin_til%flo
       soil1(j)%mn(lyr)%no3 = soil1(j)%mn(lyr)%no3 + ob(iob)%hin_til%no3
+      call debugprint(lyr, 'routeaqu', ob(iob)%hin_til%no3)
 
       return
       end subroutine rls_routeaqu

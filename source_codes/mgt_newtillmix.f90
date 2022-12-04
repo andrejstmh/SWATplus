@@ -31,7 +31,7 @@
       use hru_module, only: tillage_days, tillage_depth, tillage_switch
       use soil_module
       use constituent_mass_module
-      use plant_module, only: pcom
+      !use plant_module, only: pcom
       
       implicit none
 
@@ -47,7 +47,7 @@
       real :: dtil                     !mm             |depth of mixing
       real :: frac_mixed               !               |
       real :: frac_non_mixed           !               |
-      real :: maxmix                   !none           | maximum mixing eff to preserve specified minimum residue cover
+      !real :: maxmix                   !none           | maximum mixing eff to preserve specified minimum residue cover
       !!by zhang
       !!=============   
       real :: smix(22+cs_db%num_pests+12)         !varies         |amount of substance in soil profile
@@ -62,7 +62,6 @@
       real :: frac_dep(soil(jj)%nly)    !              |fraction of soil layer in tillage depth
       type(organic_mass) :: residue_mixed
       integer :: ipl
-      
       npmx = cs_db%num_pests
 
       frac_mixed = 0.
@@ -107,7 +106,7 @@
       end do
 
       smix = 0.
-
+      residue_mixed = orgz
       if (dtil > 0.) then
     ! added by Armen 09/10/2010 next line only
     if (dtil < 10.0) dtil = 11.0
@@ -116,7 +115,7 @@
           if (soil(jj)%phys(l)%d <= dtil) then
             !! msm = mass of soil mixed for the layer
             !! msn = mass of soil not mixed for the layer		
-            sol_msm(l) = emix * sol_mass(l)	
+            sol_msm(l) = emix * sol_mass(l)
             sol_msn(l) = sol_mass(l) - sol_msm(l)
             frac_dep(l) = soil(jj)%phys(l)%thick / dtil
           else if (soil(jj)%phys(l)%d > dtil .and. soil(jj)%phys(l-1)%d < dtil) then 
@@ -152,7 +151,7 @@
           smix(17) = smix(17) + soil(jj)%phys(l)%clay * frac_dep(l)
           smix(18) = smix(18) + soil(jj)%phys(l)%silt * frac_dep(l)
           smix(19) = smix(19) + soil(jj)%phys(l)%sand * frac_dep(l)
-
+          residue_mixed = residue_mixed + frac_mixed * soil1(jj)%rsd(l)
             !!by zhang
             !!============== 
             if (bsn_cc%cswat == 2) then         
@@ -162,22 +161,22 @@
 	        smix(20+npmx+4) = smix(20+npmx+4) + soil1(jj)%meta(l)%c * frac_mixed
 	        smix(20+npmx+5) = smix(20+npmx+5) + soil1(jj)%meta(l)%m * frac_mixed
 	        smix(20+npmx+6) = smix(20+npmx+6) + soil1(jj)%lig(l)%m * frac_mixed
-	        smix(20+npmx+7) = smix(20+npmx+7) + soil1(jj)%str(l)%m * frac_mixed  
+	        smix(20+npmx+7) = smix(20+npmx+7) + soil1(jj)%str(l)%m * frac_mixed
 	        
 	        smix(20+npmx+8) = smix(20+npmx+8) + soil1(jj)%str(l)%n * frac_mixed
 	        smix(20+npmx+9) = smix(20+npmx+9) + soil1(jj)%meta(l)%n * frac_mixed
 	        smix(20+npmx+10) = smix(20+npmx+10) +soil1(jj)%microb(l)%n* frac_mixed
 	        smix(20+npmx+11) = smix(20+npmx+11) + soil1(jj)%hact(l)%n * frac_mixed
-	        smix(20+npmx+12) = smix(20+npmx+12) + soil1(jj)%hsta(l)%n * frac_mixed  
+	        smix(20+npmx+12) = smix(20+npmx+12) + soil1(jj)%hsta(l)%n * frac_mixed
 	      end if
             !!by zhang 	
             !!=============
         end do
      
           !! sand, silt and clay are % so divide by tillage depth
-          smix(17) = smix(17) / dtil
-          smix(18) = smix(18) / dtil
-          smix(19) = smix(19) / dtil
+          !smix(17) = smix(17) / dtil
+          !smix(18) = smix(18) / dtil
+          !smix(19) = smix(19) / dtil
 
           
           do l = 1, soil(jj)%nly
@@ -185,6 +184,13 @@
             ! reconstitute each soil layer 
             frac_non_mixed = sol_msn(l) / sol_mass(l)
             
+            call debugprint(l, 'soilno3_till', soil1(jj)%mn(l)%no3 * (frac_non_mixed - 1.) + smix(1) * frac_dep(l))
+            call debugprint(l, 'hactn_till', soil1(jj)%hact(l)%n * (frac_non_mixed - 1.) + smix(6) * frac_dep(l))
+            call debugprint(l, 'hstan_till', soil1(jj)%hsta(l)%n * (frac_non_mixed - 1.) + smix(2) * frac_dep(l))
+            call debugprint(l, 'hstap_till', soil1(jj)%hsta(l)%p * (frac_non_mixed - 1.) + smix(5) * frac_dep(l))
+            call debugprint(l, 'solp_till', soil1(jj)%mp(l)%lab * (frac_non_mixed - 1.) + smix(4) * frac_dep(l))
+            call debugprint(l, 'actp_till', soil1(jj)%mp(l)%act * (frac_non_mixed - 1.) + smix(7) * frac_dep(l))
+            call debugprint(l, 'stap_till', soil1(jj)%mp(l)%sta * (frac_non_mixed - 1.) + smix(10) * frac_dep(l))
             soil1(jj)%mn(l)%no3 = soil1(jj)%mn(l)%no3 * frac_non_mixed + smix(1) * frac_dep(l)
             soil1(jj)%hsta(l)%n = soil1(jj)%hsta(l)%n * frac_non_mixed + smix(2) * frac_dep(l)
             soil1(jj)%mn(l)%nh4 = soil1(jj)%mn(l)%nh4 * frac_non_mixed + smix(3) * frac_dep(l)
@@ -201,10 +207,24 @@
             soil1(jj)%man(l)%p = soil1(jj)%man(l)%p * frac_non_mixed + smix(14) * frac_dep(l)
             soil1(jj)%tot(l)%c = soil1(jj)%tot(l)%c * frac_non_mixed + smix(15) * frac_dep(l)
             
-            soil(jj)%phys(l)%clay = soil(jj)%phys(l)%clay * frac_non_mixed + smix(17) * frac_mixed
-            soil(jj)%phys(l)%silt = soil(jj)%phys(l)%silt * frac_non_mixed + smix(18) * frac_mixed
-            soil(jj)%phys(l)%sand = soil(jj)%phys(l)%sand * frac_non_mixed + smix(19) * frac_mixed
-
+            
+            soil(jj)%phys(l)%clay = soil(jj)%phys(l)%clay * frac_non_mixed + smix(17) * (1-frac_non_mixed)
+            soil(jj)%phys(l)%silt = soil(jj)%phys(l)%silt * frac_non_mixed + smix(18) * (1-frac_non_mixed)
+            soil(jj)%phys(l)%sand = soil(jj)%phys(l)%sand * frac_non_mixed + smix(19) * (1-frac_non_mixed)
+            
+            ! mixing of fresh residue into lower layers
+            call debugprint(l, 'rsdn_till', soil1(jj)%rsd(l)%n * (frac_non_mixed - 1.) + residue_mixed%n * frac_dep(l))        
+            call debugprint(l, 'rsdp_till', soil1(jj)%rsd(l)%p * (frac_non_mixed - 1.) + residue_mixed%p * frac_dep(l))        
+            soil1(jj)%rsd(l) = frac_non_mixed*soil1(jj)%rsd(l) + frac_dep(l) * residue_mixed
+            ! mixing of fresh residue into lower layers (plants)
+            if (l == 1) then
+                rsd1(jj)%tot_com = frac_non_mixed* rsd1(jj)%tot_com ! + residue_mixed * frac_dep(l)
+                !soil1(jj)%rsd(l) = rsd1(jj)%tot_com
+                do ipl = 1, SIZE(rsd1(jj)%tot)
+                    rsd1(jj)%tot(ipl) = frac_non_mixed * rsd1(jj)%tot(ipl) + frac_dep(l) * rsd1(jj)%tot(ipl)
+                end do
+            end if
+            
             do k = 1, npmx
               cs_soil(jj)%ly(l)%pest(k) = cs_soil(jj)%ly(l)%pest(k) * frac_non_mixed + smix(20+k) * frac_dep(l)
             end do
@@ -233,17 +253,17 @@
         !frac_non_mixed = sol_msn(1) / sol_mass(1)
         !rsd1(jj)%tot(1) =  frac_non_mixed * rsd1(jj)%tot(1)
         !residue_mixed = (1 - frac_non_mixed) * rsd1(jj)%tot(1)
-        do ipl = 1, pcom(jj)%npl
-            residue_mixed = rsd1(jj)%tot(ipl)
-            do l = 1, soil(jj)%nly
-                if (l == 1) then
-                    rsd1(jj)%tot(ipl) =  frac_dep(l) * residue_mixed
-                else 
-                    ! mix residue to slow humus (hs)
-                    soil1(jj)%hs(l) = soil1(jj)%hs(l) + frac_dep(l) * residue_mixed
-                endif
-            end do
-        end do
+        !do ipl = 1, pcom(jj)%npl
+        !    !residue_mixed = rsd1(jj)%tot(ipl)
+        !    do l = 1, soil(jj)%nly
+        !        if (l == 1) then
+        !            rsd1(jj)%tot(ipl) =  frac_dep(l) * residue_mixed
+        !        else 
+        !            ! mix residue to slow humus (hs)
+        !            soil1(jj)%hs(l) = soil1(jj)%hs(l) + frac_dep(l) * residue_mixed
+        !        endif
+        !    end do
+        !end do
         
           
         if (bsn_cc%cswat == 1) then

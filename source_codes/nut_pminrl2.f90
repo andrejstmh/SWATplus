@@ -57,7 +57,7 @@
 	    !!PSP = -0.045*log (% clay) + 0.001*(Solution P, mg kg-1) - 0.035*(% Organic C) + 0.43
 	    if (soil(j)%phys(l)%clay > 0.) then
 	      bsn_prm%psp = -0.045 * log(soil(j)%phys(l)%clay)+ (0.001 * solp) 
-	      bsn_prm%psp = bsn_prm%psp - (0.035  * soil1(j)%tot(l)%c) + 0.43
+	      bsn_prm%psp = bsn_prm%psp - (0.035  * soil1(j)%cbn(l)) + 0.43
 	    else
 	      bsn_prm%psp = 0.4
 	    end if    		
@@ -157,6 +157,13 @@
 		  if (soil1(j)%mp(l)%act < 0.) soil1(j)%mp(l)%act = 0.
 		  soil1(j)%mp(l)%lab = soil1(j)%mp(l)%lab - rmp1
 		  if (soil1(j)%mp(l)%lab < 0.) soil1(j)%mp(l)%lab = 0.
+          
+          
+          call debugprint(l, "stap_roc", roc)
+          call debugprint(l, "actp_roc", -roc)
+          call debugprint(l, "actp_rmp1", rmp1)
+          call debugprint(l, "solp_rmp1", -rmp1)
+      
 	   end if
 
 !! Add water soluble P pool assume 1:5 ratio based on sharpley 2005 et al

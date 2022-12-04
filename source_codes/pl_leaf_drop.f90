@@ -135,6 +135,7 @@
           rsd1(j)%meta%c = rsd1(j)%meta%c + 0.42 * LMF * resnew
 
           !update no3 and nh3 in soil
+          call debugprint(1, 'leafdrop', sf*soil1(j)%mn(1)%no3)
           soil1(j)%mn(1)%no3 = soil1(j)%mn(1)%no3 * (1-sf)
           soil1(j)%mn(1)%nh4 = soil1(j)%mn(1)%nh4 * (1-sf)
         end if

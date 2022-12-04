@@ -22,6 +22,7 @@
       real :: frac_hum_slow             !0-1        |fraction of humus in slow pool - CENTURY
       real :: frac_hum_passive          !0-1        |fraction of humus in passive pool - CENTURY
       real :: actp, solp, ssp, zdst
+      real :: dg, norg, porg, labp, no3
 
       nly = soil(ihru)%nly
 
@@ -33,33 +34,52 @@
       soil1(ihru)%cbn(1) = amax1(.001, soildb(isol)%ly(1)%cbn)    !! assume 0.001% carbon if zero
       !! calculate percent carbon for lower layers using exponential decrease
       do ly = 2, nly
-        dep_frac = Exp(-solt_db(isolt)%exp_co * soil(ihru)%phys(ly)%d)
-        soil1(ihru)%cbn(ly) = soil1(ihru)%cbn(1) * dep_frac
+        !dep_frac = Exp(-solt_db(isolt)%exp_co * soil(ihru)%phys(ly)%d)
+        !soil1(ihru)%cbn(ly) = soil1(ihru)%cbn(1) * dep_frac        
+        soil1(ihru)%cbn(ly) = amax1(.001, soildb(isol)%ly(ly-1)%cbn)
       end do
 
       !! calculate initial nutrient contents of layers, profile and
       !! average in soil for the entire watershed
 
       do ly = 1, nly
-        soil(ihru)%phys(ly)%conv_wt = soil(ihru)%phys(ly)%bd * soil(ihru)%phys(ly)%thick / 100.    ! mg/kg => kg/ha
-        wt1 = soil(ihru)%phys(ly)%conv_wt
+        wt1 = soil(ihru)%phys(ly)%bd * soil(ihru)%phys(ly)%thick / 100.    ! mg/kg => kg/ha
+        soil(ihru)%phys(ly)%conv_wt = 1.e6 * wt1                           ! kg/kg => kg/ha
+
+        if (ly==1) then
+            labp = soildb(isol)%ly(1)%labp
+            no3 = soildb(isol)%ly(1)%no3
+        else
+            labp = soildb(isol)%ly(ly-1)%labp
+            no3 = soildb(isol)%ly(ly-1)%no3
+        end if
+        
+        
         
         !! set initial mineral pools - no3
         dep_frac = Exp(-solt_db(isolt)%exp_co * soil(ihru)%phys(ly)%d)
-        if (solt_db(isolt)%nitrate > 1.e-9) then
-          soil1(ihru)%mn(ly)%no3 = solt_db(isolt)%nitrate * dep_frac
-        else
-          soil1(ihru)%mn(ly)%no3 = 7. * dep_frac
+        if (no3 > 0.0001) then
+            soil1(ihru)%mn(ly)%no3 = no3
+        else 
+            if (solt_db(isolt)%nitrate > 1.e-9) then
+              soil1(ihru)%mn(ly)%no3 = solt_db(isolt)%nitrate * dep_frac
+            else
+              soil1(ihru)%mn(ly)%no3 = 7. * dep_frac
+            end if
         end if
         soil1(ihru)%mn(ly)%no3 =  soil1(ihru)%mn(ly)%no3 * wt1      !! mg/kg => kg/ha
 
         !set initial labile P pool
-        if (solt_db(isolt)%lab_p > 1.e-9) then
-          soil1(ihru)%mp(ly)%lab = solt_db(isolt)%lab_p * dep_frac
+        if (labp > 0.0001) then
+            soil1(ihru)%mp(ly)%lab = labp
         else
-          !! assume initial concentration of 5 mg/kg
-          soil1(ihru)%mp(ly)%lab = 5. * dep_frac
-        end if
+            if (solt_db(isolt)%lab_p > 1.e-9) then
+              soil1(ihru)%mp(ly)%lab = solt_db(isolt)%lab_p * dep_frac
+            else
+              !! assume initial concentration of 5 mg/kg
+              soil1(ihru)%mp(ly)%lab = 5. * dep_frac
+            end if
+        end if 
         soil1(ihru)%mp(ly)%lab = soil1(ihru)%mp(ly)%lab * wt1   !! mg/kg => kg/ha
 
         !! set active mineral P pool based on dynamic PSP MJW
@@ -70,7 +90,7 @@
 	      !! PSP = -0.045*log (% clay) + 0.001*(Solution P, mg kg-1) - 0.035*(% Organic C) + 0.43
 	      if (soil(ihru)%phys(ly)%clay > 0.) then
             bsn_prm%psp = -0.045 * log(soil(ihru)%phys(ly)%clay) + (0.001 * solp) 
-            bsn_prm%psp = bsn_prm%psp - (0.035 * soil1(ihru)%tot(ly)%c) + 0.43 
+            bsn_prm%psp = bsn_prm%psp - (0.035 * soil1(ihru)%cbn(ly)) + 0.43 
           else
             bsn_prm%psp = 0.4
           endif   		
@@ -121,13 +141,32 @@
         soil1(ihru)%hact(ly)%c = frac_hum_active * soil1(ihru)%tot(ly)%c
         soil1(ihru)%hact(ly)%n = soil1(ihru)%hact(ly)%c / 10.   !solt_db(isolt)%hum_c_n        !assume 10:1 C:N ratio
         soil1(ihru)%hact(ly)%p = soil1(ihru)%hact(ly)%c / 80.   !solt_db(isolt)%hum_c_p        !assume 80:1 C:P ratio
-            
+        
+        
         !initialize stable humus pool
         soil1(ihru)%hsta(ly)%m = (1. - frac_hum_active) * soil1(ihru)%tot(ly)%m
         soil1(ihru)%hsta(ly)%c = (1. - frac_hum_active) * soil1(ihru)%tot(ly)%c
         soil1(ihru)%hsta(ly)%n = soil1(ihru)%hsta(ly)%c / 10.   !solt_db(isolt)%hum_c_n        !assume 10:1 C:N ratio
         soil1(ihru)%hsta(ly)%p = soil1(ihru)%hsta(ly)%c / 80.   !solt_db(isolt)%hum_c_p        !assume 80:1 C:P ratio
-        
+
+        ! initialization as in soil_chem.f from SWAT
+        if (ly==1) then
+            norg = soildb(isol)%ly(1)%n_org
+            porg = soildb(isol)%ly(1)%p_org
+        else
+            norg = soildb(isol)%ly(ly-1)%n_org
+            porg = soildb(isol)%ly(ly-1)%p_org
+        end if
+        if (norg > 0.0001) then
+            wt1 = soil(ihru)%phys(ly)%conv_wt /1.e6
+            soil1(ihru)%hact(ly)%n = frac_hum_active * norg * wt1
+            soil1(ihru)%hsta(ly)%n = (1.-frac_hum_active) * norg * wt1
+        end if 
+        if (porg > 0.0001) then
+            wt1 = soil(ihru)%phys(ly)%conv_wt /1.e6
+            soil1(ihru)%hsta(ly)%p = porg * wt1
+        end if 
+                    
         !set root and incorporated residue pool to zero
         soil1(ihru)%rsd(ly) = orgz
  
